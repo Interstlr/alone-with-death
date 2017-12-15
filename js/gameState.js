@@ -56,3 +56,13 @@ function checkCollisionEnemies(enemies) {
     }
 }
 
+
+/*
+function copyObject(initialObject) {
+    const obj = {};
+
+    return obj;
+}
+
+*/
+

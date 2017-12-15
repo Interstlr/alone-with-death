@@ -77,10 +77,9 @@ function setup() {
     sounds.awp.setVolume(0.3);
     sounds.awpReload.setVolume(0.3);
 
-
     setStandartPlayerKit();
 
-    itemsGenerator = new Generation(map.map, jsonItems);
+    itemsGenerator = new Generation(map.map, jsonItems, player);
 
     //itemsGenerator.putAk47OnMap(200, 200);
     //itemsGenerator.putM4A1OnMap(300,200);
@@ -142,7 +141,7 @@ function draw() {
     updateSounds();
 
     itemsGenerator.generateItems();
-    itemsGenerator.update();
+    itemsGenerator.updateItems();
 
     printTechData( {
         'xPlayer': player.pos.x, 

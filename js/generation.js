@@ -1,9 +1,10 @@
 class Generation {
-    constructor(map, jsonItems) {
+    constructor(map, jsonItems, player) {
         this.map = map;
         this.jsonItems = jsonItems;
         this.items = [];
         this.chance = 100;
+        this.player = player;
     }
 
     generateEnemy(chance) {
@@ -11,7 +12,7 @@ class Generation {
     }
 
     //generate ammo, weapons, aid in map
-    generateItems(chance) {
+    generateItems() {
         let randItemID = randInt(0, 0);
         if(randInt(0, this.chance) == 0) {
             this.addThing(
@@ -29,40 +30,33 @@ class Generation {
         }
     }
 
-    update() {
+    updateItems(playerPos) {
         for(let i = 0, len = this.items.length; i < len; i++) {
-            console.log(this.items[i]);
             this.items[i].update();
-            if(distantionFromAtoB({x: player.pos.x + INVENTORY_THING_SIZE / 2, y:player.pos.y + INVENTORY_THING_SIZE / 2},this.items[i].pos) < INVENTORY_THING_SIZE * 2){
-                //put thing in inventory and remove it from map
-                if(player.putThingInInventory(this.items[i])){
-                    this.items.splice(i, 1);
-                }
+
+            if(this.isIntersects(this.player.pos, this.items[i].pos)) {
+                this.player.putThingInInventory(this.items[i]);
+                this.items.splice(i, 1);
                 len--;
             }
         }
     }
-    
-    distantionFromAtoB(a,b) {
-        return Math.sqrt(((a.x - b.x) * (a.x - b.x)) + ((a.y - b.y) * (a.y - b.y))); 
+
+    isIntersects(playerPos, itemPos) {
+        let d = dist(itemPos.x, itemPos.y, playerPos.x, playerPos.y);
+        if(d < 50) {
+            return true;
+        }
+        return false;
     }
 
     addThing(posX, posY, randItemID) {
 
-        let item = this.jsonItems.contents[randItemID];
+        const item = JSON.parse(JSON.stringify(this.jsonItems.contents[randItemID]));
         item.pos.x = posX;
         item.pos.y = posY;
 
         this.items.push(new Thing(item));
-        /*
-        this.items.push(new Thing({
-            name: 'medicineKit',
-            value: 50,
-            pos: {x: xStart, y: yStart},
-            imagePos: {x: 240, y: 0},
-            size: {width: 60, height: 60},
-        }));
-        */
     }
     
     addGLOCK17(xStart, yStart) {
