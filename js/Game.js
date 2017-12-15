@@ -4,6 +4,7 @@ let techData;
 let enemies;
 
 let jsonMap;
+let jsonItems;
 let images;
 let blood;
 let spritesBlood; 
@@ -22,7 +23,8 @@ let gameIsPaused = true;
 let keyIsPressed = false;
 
 function preload() {
-    jsonMap = loadJSON('/js/mapJSON.json');
+    jsonMap = loadJSON(MAP_JSON_PATH);
+    jsonItems = loadJSON(ITEMS_JSON_PATH);
     images = loadImage('../img/terrainSet.png');
     spritesBlood = loadImage('../img/blood_spot.png');
     gunSpriteSheet = loadImage('../img/gunSpriteSheet.png');
@@ -78,16 +80,17 @@ function setup() {
 
     setStandartPlayerKit();
 
-    itemsGenerator = new Generation(map.map);
+    itemsGenerator = new Generation(map.map, jsonItems);
 
-    itemsGenerator.putAWPOnMap(100, 200);
-    itemsGenerator.putAWPAmmoOnMap(100, 100);
-    itemsGenerator.putAk47OnMap(200, 200);
-    itemsGenerator.putAk47AmmoOnMap(200,100);
-    itemsGenerator.putM4A1AmmoOnMap(300,100);
-    itemsGenerator.putM4A1OnMap(300,200);
-    itemsGenerator.putMedicineKitOnMap(400, 400);
-    itemsGenerator.putMedicineKitOnMap(500, 400);
+    //itemsGenerator.putAk47OnMap(200, 200);
+    //itemsGenerator.putM4A1OnMap(300,200);
+
+    
+    //itemsGenerator.putAWPAmmoOnMap(100, 100);
+    //itemsGenerator.putAk47AmmoOnMap(200,100);
+    //itemsGenerator.putM4A1AmmoOnMap(300,100);
+    //itemsGenerator.putMedicineKitOnMap(400, 400);
+    //itemsGenerator.putMedicineKitOnMap(500, 400);
 }
 
 function draw() {
@@ -137,6 +140,8 @@ function draw() {
     });
 
     updateSounds();
+
+    itemsGenerator.generateItems();
     itemsGenerator.update();
 
     printTechData( {

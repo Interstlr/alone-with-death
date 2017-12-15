@@ -1,7 +1,9 @@
 class Generation {
-    constructor(map) {
+    constructor(map, jsonItems) {
         this.map = map;
+        this.jsonItems = jsonItems;
         this.items = [];
+        this.chance = 100;
     }
 
     generateEnemy(chance) {
@@ -10,11 +12,26 @@ class Generation {
 
     //generate ammo, weapons, aid in map
     generateItems(chance) {
-        
+        let randItemID = randInt(0, 0);
+        if(randInt(0, this.chance) == 0) {
+            this.addThing(
+                randInt(TILE_W, 700),
+                randInt(TILE_H, 700),
+                randItemID
+            );
+
+            /*
+                не удалять
+                randInt(TILE_W, MAP_SIZE_X * TILE_W - TILE_W),
+                randInt(TILE_H, MAP_SIZE_Y * TILE_H - TILE_H),
+            );
+            */
+        }
     }
 
     update() {
         for(let i = 0, len = this.items.length; i < len; i++) {
+            console.log(this.items[i]);
             this.items[i].update();
             if(distantionFromAtoB({x: player.pos.x + INVENTORY_THING_SIZE / 2, y:player.pos.y + INVENTORY_THING_SIZE / 2},this.items[i].pos) < INVENTORY_THING_SIZE * 2){
                 //put thing in inventory and remove it from map
@@ -30,7 +47,14 @@ class Generation {
         return Math.sqrt(((a.x - b.x) * (a.x - b.x)) + ((a.y - b.y) * (a.y - b.y))); 
     }
 
-    putMedicineKitOnMap(xStart, yStart) {
+    addThing(posX, posY, randItemID) {
+
+        let item = this.jsonItems.contents[randItemID];
+        item.pos.x = posX;
+        item.pos.y = posY;
+
+        this.items.push(new Thing(item));
+        /*
         this.items.push(new Thing({
             name: 'medicineKit',
             value: 50,
@@ -38,50 +62,10 @@ class Generation {
             imagePos: {x: 240, y: 0},
             size: {width: 60, height: 60},
         }));
+        */
     }
     
-    putPistolAmmoOnMap(xStart, yStart) {
-        this.items.push(new Thing({
-            name: 'glock17Ammo',
-            value: 20,
-            pos: {x:xStart, y:yStart},
-            imagePos: {x: 0, y: 0},
-            size: {width: MEDICINE_KIT_WIDTH, height: MEDICINE_KIT_HEIGHT},
-            imgPath: ITEMS_SPRITE,
-        }));
-    }
-    
-    putAk47AmmoOnMap(xStart, yStart) {
-        this.items.push(new Thing({
-            name: 'ak47Ammo',
-            value: 30,
-            pos: {x:xStart, y:yStart},
-            imagePos: {x: 120, y: 0},
-            size: {width: MEDICINE_KIT_WIDTH, height: MEDICINE_KIT_HEIGHT},
-        }));
-    }
-    
-    putM4A1AmmoOnMap(xStart, yStart) {
-        this.items.push(new Thing({
-            name: 'm4a1Ammo',
-            value: 20,
-            pos: {x:xStart, y:yStart},
-            imagePos: {x: 60, y: 0},
-            size: {width: MEDICINE_KIT_WIDTH, height: MEDICINE_KIT_HEIGHT},
-        }));
-    }
-    
-    putAWPAmmoOnMap(xStart, yStart) {
-        this.items.push(new Thing({
-            name: 'awpAmmo',
-            value: 5,
-            pos: {x:xStart, y:yStart},
-            imagePos: {x: 180, y: 0},
-            size: {width: MEDICINE_KIT_WIDTH, height: MEDICINE_KIT_HEIGHT},
-        }));
-    }
-    
-    putPistolOnMap(xStart, yStart) {
+    addGLOCK17(xStart, yStart) {
         this.items.push(new Weapon({	//pistol
             name: 'glock17',
             kindBullets: 'glock17Ammo',
@@ -94,7 +78,7 @@ class Generation {
         }));
     }
     
-    putAk47OnMap(xStart, yStart) {
+    addAK47(xStart, yStart) {
         this.items.push(new Weapon({	//pistol
             name: 'ak47',
             kindBullets: 'ak47Ammo',
@@ -107,7 +91,7 @@ class Generation {
         }));
     }
     
-    putM4A1OnMap(xStart, yStart) {
+    addM4A1s(xStart, yStart) {
         this.items.push(new Weapon({	//pistol
             name: 'm4a1',
             kindBullets: 'm4a1Ammo',
@@ -120,7 +104,7 @@ class Generation {
         }));
     }
     
-    putAWPOnMap(xStart, yStart) {
+    addAWP(xStart, yStart) {
         this.items.push(new Weapon({	//pistol
             name: 'awp',
             kindBullets: 'awpAmmo',

@@ -6,6 +6,7 @@ class Thing {
         this.imagePos = kit.imagePos;
         this.size = kit.size;
         this.img = loadImage(ITEMS_SPRITE);
+        this.itemType = kit.itemType;
         this.count = 1;
     }
     

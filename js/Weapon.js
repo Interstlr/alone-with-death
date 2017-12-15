@@ -38,8 +38,6 @@ class Weapon {
     
     makeShot(player) {
         if(this.bulletsHolder > 0 && this.canShoot && !this.reloadIsNow) {
-
-            
             
             this.playGunShotSound(player.currentObjInHand.name);
              //delay between shots

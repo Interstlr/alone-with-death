@@ -35,8 +35,12 @@ const MEDICINE_KIT_HEIGHT = 60;
 const AMMO_WIDTH = 60;
 const AMMO_HEIGHT = 60;
 
+//paths
 const ITEMS_SPRITE = '../img/itemsSheet.png'; 
 const GUN_SPRITE_SHEET = '../img/gunSpriteSheet.png';
-const INVENTORY_THING_SIZE = 100;
+const ITEMS_JSON_PATH = '/js/itemsJSON.json';
+const MAP_JSON_PATH = '/js/mapJSON.json';
 
+
+const INVENTORY_THING_SIZE = 100;
 const ITEM_SIZE = 60;
