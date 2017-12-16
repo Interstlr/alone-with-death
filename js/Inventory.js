@@ -98,7 +98,7 @@ class Inventory {
                     INVENTORY_THING_SIZE,
                     INVENTORY_THING_SIZE
                 );
-                    
+                
                 if(currentThing instanceof Weapon) {
                     fill('#fff');
                     text(currentThing.bulletAmount + currentThing.bulletCurrentMagazine, item.x + 25, item.y + 55);
@@ -108,11 +108,11 @@ class Inventory {
                 }
             }
         }.bind(this));
-
-        if(player.currentObjInHand instanceof Weapon) {
+        if(player.currentWeaponInHand instanceof Weapon) {
             fill('#fff');
             textSize(30);
-            text(player.currentObjInHand.bulletAmount + '/' + player.currentObjInHand.bulletCurrentMagazine, WIN_WIDTH_HALF/2 + 80,280);
+            
+            text(player.currentWeaponInHand.bulletCurrentMagazine + '/' + player.currentWeaponInHand.bulletAmount, WIN_WIDTH_HALF/2 + 80,280);
         }
 
 		pop();
