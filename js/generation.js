@@ -99,25 +99,26 @@ class Generation {
         }
     }
 
-    updateEnemies(map) {
+    updateEnemies(map, player) {
         for(let i = 0; i < this.enemies.length; i++) {
-            let damageValue = this.enemies[i].update(this.player.pos, map);
-            this.player.healthBar.value -= damageValue;
+            let damageValue = this.enemies[i].update(player.pos, map);
+            player.healthBar.value -= damageValue;
             //check player hp value
-            if(this.player.getHealthValue() <= 0) {
+            if(player.getHealthValue() <= 0) {
             } else {
-                this.player.healthBar.w -= damageValue;
+                player.healthBar.w -= damageValue;
             }
 
             //check if bullet hit an enemy
-            if(this.player.currentWeaponInHand instanceof Weapon) {
-                let bullets = this.player.currentWeaponInHand.bullets.getBullets();
+            if(player.currentWeaponInHand instanceof Weapon) {
+                let bullets = player.currentWeaponInHand.bullets.getBullets();
+                console.log(bullets.lenght);
                 for(let j = 0; j < bullets.lenght; j++) {
-                    console.log(bullets[j]);
-                    if(this.isIntersects(bullets.pos, this.enemies.pos)) {
+                    console.log('s');
+                    if(this.isIntersects({x : bullets[j].x, y : bullets[j].y}, this.enemies[i].pos)) {
                         console.log('HIT');
                         bullets.splice(j, 1);
-                        this.enemies[i].hp -= this.player.currentWeaponInHand.damage;
+                        this.enemies[i].hp -= player.currentWeaponInHand.damage;
                         blood.createBloodSpot(this.enemies[i].pos.x, this.enemies[i].pos.y);
                     }
                 }

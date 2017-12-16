@@ -121,7 +121,7 @@ function draw() {
     itemsGenerator.updateItems();
 
     itemsGenerator.generateEnemy();
-    itemsGenerator.updateEnemies(map.map);
+    itemsGenerator.updateEnemies(map.map, player);
 
     printTechData( {
         'xPlayer': player.pos.x, 
