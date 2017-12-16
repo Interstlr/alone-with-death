@@ -100,7 +100,7 @@ class Generation {
     }
 
     updateEnemies(map, player) {
-        for(let i = 0; i < this.enemies.length; i++) {
+        for(let i = 0, len = this.enemies.length; i < len; i++) {
             let damageValue = this.enemies[i].update(player.pos, map);
             player.healthBar.value -= damageValue;
             //check player hp value
@@ -111,21 +111,20 @@ class Generation {
 
             //check if bullet hit an enemy
             if(player.currentWeaponInHand instanceof Weapon) {
-                let bullets = player.currentWeaponInHand.bullets.getBullets();
-                console.log(bullets.lenght);
-                for(let j = 0; j < bullets.lenght; j++) {
-                    console.log('s');
+                let bullets = player.currentWeaponInHand.bullets.bulletsList;
+                for(let j = 0, lenBullets = bullets.length; j < lenBullets; j++) {
                     if(this.isIntersects({x : bullets[j].x, y : bullets[j].y}, this.enemies[i].pos)) {
-                        console.log('HIT');
                         bullets.splice(j, 1);
                         this.enemies[i].hp -= player.currentWeaponInHand.damage;
                         blood.createBloodSpot(this.enemies[i].pos.x, this.enemies[i].pos.y);
+                        lenBullets--;
                     }
                 }
             }
 
             if(this.enemies[i].hp <= 0){
-                obj.splice(index, 1);
+                this.enemies.splice(i, 1);
+                len--;
             }
         }
     }
