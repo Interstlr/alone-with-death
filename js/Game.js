@@ -102,6 +102,7 @@ function setup() {
     itemsGenerator.addWeapon(400, 200, 3);
     itemsGenerator.addThing(500, 200, 0);
     itemsGenerator.addThing(600, 200, 0);
+    
 }
 
 function draw() {
@@ -117,8 +118,6 @@ function draw() {
 
     blood.update();
 
-    updateSounds();
-
     itemsGenerator.generateItem();
     itemsGenerator.updateItems();
 
@@ -133,23 +132,6 @@ function draw() {
     });
 
     player.update(map);
-}
-
-/*
-function distantionFromAtoB(a,b) {
-    return Math.sqrt(Math.pow(a.x - b.x,2) + Math.pow(a.y - b.y,2)); 
-}
-
-*/
-
-function updateSounds() {
-    soundsQueue.forEach(function(item,index,obj){
-        console.log(item)
-        if( item && !item.isPlaying()){
-            item.play();
-            obj.splice(index,1);
-        }
-    });
 }
 
 function setStandartPlayerKit() {
