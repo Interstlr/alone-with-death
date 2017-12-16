@@ -228,7 +228,7 @@ class Player {
 		this.currentWeaponInHand = this.inventory.getItem(index);
 		if(this.currentWeaponInHand) {
 			this.changePlayerSkin(this.currentWeaponInHand.name);
-			if(this.currentWeaponInHand.name == 'adiKit') {
+			if(this.currentWeaponInHand.name == 'aidKit') {
 				if((this.healthBar.w + this.currentWeaponInHand.value) > 150) {
 					this.healthBar.w = 150;
 					this.healthBar.value = 150;
