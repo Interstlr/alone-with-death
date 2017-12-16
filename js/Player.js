@@ -57,13 +57,13 @@ class Player {
 		
 		pop();
 
-		if(this.currentObjInHand instanceof Weapon) {
+		if(this.currentWeaponInHand instanceof Weapon) {
 			
 			//if reload, update circle animation
-			if(this.currentObjInHand.reload) {
-				this.currentObjInHand.updateRecharge(this.pos);
+			if(this.currentWeaponInHand.reload) {
+				this.currentWeaponInHand.updateRecharge(this.pos);
 			}
-			this.queueBullets = player.currentObjInHand.bullets;
+			this.queueBullets = player.currentWeaponInHand.bullets;
 		}
 
 		if(this.queueBullets){
@@ -74,7 +74,7 @@ class Player {
 
 		//update inventory
 		this.inventory.update({
-			'currentThingInHand':this.currentObjInHand,
+			'currentThingInHand':this.currentWeaponInHand,
 			'pos': this.pos
 		});
 
@@ -139,8 +139,8 @@ class Player {
 
 		//fire
 		if(keyIsDown(32) || mouseIsPressed) {
-			if(this.currentObjInHand instanceof Weapon){
-				this.currentObjInHand.makeShot(this);
+			if(this.currentWeaponInHand instanceof Weapon){
+				this.currentWeaponInHand.makeShot(this);
 			}
 		}
 
@@ -170,8 +170,8 @@ class Player {
 
 		//R - recharge
 		if(keyIsDown(82)){
-			if(this.currentObjInHand instanceof Weapon){
-				this.currentObjInHand.initRecharge(this.currentObjInHand.name);
+			if(this.currentWeaponInHand instanceof Weapon){
+				this.currentWeaponInHand.initRecharge(this.currentWeaponInHand.name);
 			}
 		}
 
@@ -225,23 +225,23 @@ class Player {
 	}
 
 	processingCurrentInventorySbj(index) {
-		this.currentObjInHand = this.inventory.getItem(index);
-		if(this.currentObjInHand) {
-			this.changePlayerSkin(this.currentObjInHand.name);
-			if(this.currentObjInHand.name == 'adiKit') {
-				if((this.healthBar.w + this.currentObjInHand.value) > 150) {
+		this.currentWeaponInHand = this.inventory.getItem(index);
+		if(this.currentWeaponInHand) {
+			this.changePlayerSkin(this.currentWeaponInHand.name);
+			if(this.currentWeaponInHand.name == 'adiKit') {
+				if((this.healthBar.w + this.currentWeaponInHand.value) > 150) {
 					this.healthBar.w = 150;
 					this.healthBar.value = 150;
 				}else {
-					this.healthBar.w += this.currentObjInHand.value;
-					this.healthBar.value += this.currentObjInHand.value;
+					this.healthBar.w += this.currentWeaponInHand.value;
+					this.healthBar.value += this.currentWeaponInHand.value;
 				}
 				if(keyIsPressed){
-					console.log(this.currentObjInHand.count ) 
-					if(this.currentObjInHand.count == 1){
+					console.log(this.currentWeaponInHand.count ) 
+					if(this.currentWeaponInHand.count == 1){
 						this.inventory.removeItem(index);
 					}else {
-						this.currentObjInHand.count--;
+						this.currentWeaponInHand.count--;
 					}
 					keyIsPressed = false;
 				}

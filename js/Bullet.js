@@ -26,7 +26,7 @@ class Bullet {
                 if(map[objTile.objTileY][objTile.objTileX]) {
                     if(map[objTile.objTileY][objTile.objTileX].spriteID == 9) {
                         obj.splice(index, 1);
-                        map[objTile.objTileY][objTile.objTileX].healthValue -= player.currentObjInHand.damage;
+                        map[objTile.objTileY][objTile.objTileX].healthValue -= player.currentWeaponInHand.damage;
                     } else {
                         item.x += item.vx * dt;
                         item.y += item.vy * dt;

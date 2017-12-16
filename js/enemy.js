@@ -10,16 +10,16 @@ class Enemy {
         this.damageToWall = 2;
     }
 
-    update(playerX, playerY, map) {
-        if(this.isIntersects(playerX, playerY)) {
+    update(playerPos, map) {
+        if(this.isIntersects(playerPos.x, playerPos.y)) {
             this.damage = 0.5;
         } else {
             this.damage = 0;
         }
 
         fill(this.color);
-        let dx = playerX - this.pos.x;
-        let dy = playerY - this.pos.y;
+        let dx = playerPos.x - this.pos.x;
+        let dy = playerPos.y - this.pos.y;
 
         let moveX = 0;
         let moveY = 0;
@@ -37,10 +37,9 @@ class Enemy {
             this.pos.y -= 1;
         }
         ellipse(this.pos.x, this.pos.y, this.r, this.r);
-
-        let collTile = handleCollisionWalls(this.pos, map.map);
+        let collTile = handleCollisionWalls(this.pos, map);
         if(collTile.isCollide) {
-            map.map[collTile.tileY][collTile.tileX].healthValue -= this.damageToWall;
+            map[collTile.tileY][collTile.tileX].healthValue -= this.damageToWall;
         }
 
         return this.damage;
@@ -51,8 +50,8 @@ class Enemy {
         this.color = color(random(255), random(255), random(255));
     }
 
-    isIntersects(playerX, playerY) {
-        let d = dist(this.pos.x, this.pos.y, playerX, playerY);
+    isIntersects(playerPos) {
+        let d = dist(this.pos.x, this.pos.y, playerPos.x, playerPos.y);
         if(d < 50) {
             return true;
         }

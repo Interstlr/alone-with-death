@@ -42,7 +42,7 @@ class Weapon {
     makeShot(player) {
         if(this.bulletCurrentMagazine > 0 && this.canShoot && !this.reloadIsNow) {
             
-            this.playGunShotSound(player.currentObjInHand.name);
+            this.playGunShotSound(player.currentWeaponInHand.name);
              //delay between shots
             this.canShoot = false;
             setTimeout(this.allowShoot.bind(this), this.timeBetweenShots);
@@ -73,7 +73,7 @@ class Weapon {
             });
         }
         if(this.bulletCurrentMagazine <= 0 && this.bulletAmount > 0 && !this.reloadIsNow) {  //update bullets holder
-            this.initRecharge(player.currentObjInHand.name);
+            this.initRecharge(player.currentWeaponInHand.name);
         }
     }
     

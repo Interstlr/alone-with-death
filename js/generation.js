@@ -1,23 +1,34 @@
 class Generation {
-    constructor(map, jsonItems, jsonWeapon, player) {
+    constructor(map, jsonItems, jsonWeapon, player, enemies) {
         this.map = map;
         this.jsonItems = jsonItems;
         this.jsonWeapon = jsonWeapon;
         this.items = [];
-        this.chanceItems = 2;  //larger value lower chance
-        this.chanceWeapon = 0;
-        this.generalChance = 100;
         this.player = player;
+        this.enemies = enemies;
         this.mapMaxSize = {x: MAP_SIZE_X * TILE_W - 100, y: MAP_SIZE_Y * TILE_W - 100};
         this.generatedWeaponNames = [];
+
+        this.chanceItems = 2; //larger value lower chance
+        this.chanceWeapon = 10;
+        this.generalChance = 100;
+
+        this.generalChanceZombie = 2;
+        this.chanceZombieNormal = 3;
+        this.chanceFastZombie = 5;
+        this.chanceFatZombie = 8;
     }
 
-    generateEnemy(chance) {
-
+    generateEnemy() {
+        if(randInt(0, this.generalChanceZombie) == 0) {
+            if(randInt(0, this.chanceZombieNormal) == 0) {
+                this.addEnemy();
+            }
+        }
     }
 
     //generate ammo, weapons, aid in map
-    generate() {
+    generateItem() {
         if(randInt(0, this.generalChance) == 0) {
             //generate ammo, aid kit,
             if(randInt(0, this.chanceItems) == 0) {
@@ -68,7 +79,15 @@ class Generation {
         this.items.push(new Weapon(item));
     }
 
-    update() {
+    addEnemy() {
+        this.enemies.push(new Enemy(
+            randInt(TILE_W, MAP_SIZE_X * TILE_W - TILE_W),
+            randInt(TILE_H, MAP_SIZE_Y * TILE_H - TILE_H),
+            ENTITY_DIAMETR / 2)
+        );
+    }
+
+    updateItems() {
         for(let i = 0, len = this.items.length; i < len; i++) {
             this.items[i].update();
 
@@ -80,9 +99,39 @@ class Generation {
         }
     }
 
+    updateEnemies(map) {
+        for(let i = 0; i < this.enemies.length; i++) {
+            let damageValue = this.enemies[i].update(this.player.pos, map);
+            this.player.healthBar.value -= damageValue;
+            //check player hp value
+            if(this.player.getHealthValue() <= 0) {
+            } else {
+                this.player.healthBar.w -= damageValue;
+            }
+
+            //check if bullet hit an enemy
+            if(this.player.currentWeaponInHand instanceof Weapon) {
+                let bullets = this.player.currentWeaponInHand.bullets.getBullets();
+                for(let j = 0; j < bullets.lenght; j++) {
+                    console.log(bullets[j]);
+                    if(this.isIntersects(bullets.pos, this.enemies.pos)) {
+                        console.log('HIT');
+                        bullets.splice(j, 1);
+                        this.enemies[i].hp -= this.player.currentWeaponInHand.damage;
+                        blood.createBloodSpot(this.enemies[i].pos.x, this.enemies[i].pos.y);
+                    }
+                }
+            }
+
+            if(this.enemies[i].hp <= 0){
+                obj.splice(index, 1);
+            }
+        }
+    }
+
     isIntersects(playerPos, itemPos) {
         let d = dist(itemPos.x, itemPos.y, playerPos.x, playerPos.y);
-        if(d < 30) {
+        if(d < 50) {
             return true;
         }
         return false;

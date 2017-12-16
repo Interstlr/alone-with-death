@@ -67,7 +67,8 @@ function setup() {
         'x': 0,
         'y': 0
     });
-    itemsGenerator = new Generation(map.map, jsonItems, jsonWeapon, player);
+
+    itemsGenerator = new Generation(map.map, jsonItems, jsonWeapon, player, enemies);
 
     map.imagesSet = images;
     map.createMap(jsonMap);
@@ -112,43 +113,15 @@ function draw() {
 
     blood.update();
 
-    if(randInt(0, 500) == 0) {
-        enemies.push(new Enemy(randInt(TILE_W, MAP_SIZE_X * TILE_W - TILE_W), randInt(TILE_H, MAP_SIZE_Y * TILE_H - TILE_H), ENTITY_DIAMETR / 2));
-    }
-
     checkCollisionEnemies(enemies);
-
-    //update enemies
-    enemies.forEach(function(itemEnemy, index, obj) {
-        let damageValue = itemEnemy.update(player.pos.x, player.pos.y, map);
-        player.healthBar.value -= damageValue;
-        //check player hp value
-        if(player.getHealthValue() <= 0) {
-        } else {
-            player.healthBar.w -= damageValue;
-        }
-
-        //check if bullet hit an enemy
-        if(player.currentObjInHand instanceof Weapon) {
-            let bullets = player.currentObjInHand.bullets.getBullets();
-            bullets.forEach(function(itemBullet, indexBullet, objBullets) {
-                if(distantionFromAtoB(itemBullet,itemEnemy.pos) < (itemEnemy.r - itemBullet.bulletsLength*2)){
-                    objBullets.splice(indexBullet, 1);
-                    itemEnemy.hp -= player.currentObjInHand.damage;
-                    blood.createBloodSpot(itemEnemy.pos.x, itemEnemy.pos.y);
-                }
-            });
-        }
-
-        if(itemEnemy.hp <= 0){
-            obj.splice(index, 1);
-        }
-    });
 
     updateSounds();
 
-    itemsGenerator.generate();
-    itemsGenerator.update();
+    itemsGenerator.generateItem();
+    itemsGenerator.updateItems();
+
+    itemsGenerator.generateEnemy();
+    itemsGenerator.updateEnemies(map.map);
 
     printTechData( {
         'xPlayer': player.pos.x, 
@@ -181,7 +154,7 @@ function setStandartPlayerKit() {
     item.pos.x = 0;
     item.pos.y = 0;
     player.putThingInInventory(new Weapon(item));
-    player.currentObjInHand = player.inventory.getItem(0);
+    player.currentWeaponInHand = player.inventory.getItem(0);
 
     itemsGenerator.generatedWeaponNames.push(item.name);
 }

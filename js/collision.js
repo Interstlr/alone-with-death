@@ -1,5 +1,4 @@
 function handleCollisionWalls(objPos, map) {
-
     const objTile = determineObjectTilePos(objPos, map);
     return handleCollision(
         objPos, 
