@@ -8,16 +8,12 @@ class Enemy {
         this.hp = 100;
         this.damage = 0.5;
         this.damageToWall = 2;
+
+        this.isOnScreen = false;
     }
 
     update(playerPos, map) {
-        if(this.isIntersects(playerPos.x, playerPos.y)) {
-            this.damage = 0.5;
-        } else {
-            this.damage = 0;
-        }
 
-        fill(this.color);
         let dx = playerPos.x - this.pos.x;
         let dy = playerPos.y - this.pos.y;
 
@@ -36,14 +32,31 @@ class Enemy {
         } else if(dy < 0) {
             this.pos.y -= 1;
         }
+
+        this.checkCollidingWalls(map);
+
+        if(this.isOnScreen) {
+            this.render();
+
+            if(this.isIntersects(playerPos.x, playerPos.y)) {
+                this.damage = 0.5;
+            } else {
+                this.damage = 0;
+            }
+        }
+    }
+
+    render() {
+        fill(this.color);
         ellipse(this.pos.x, this.pos.y, this.r, this.r);
+    }
+
+    checkCollidingWalls(map) {
         let collTile = handleCollisionWalls(this.pos, map);
+        
         if(collTile.isCollide) {
             map[collTile.tileY][collTile.tileX].healthValue -= this.damageToWall;
         }
-
-        return this.damage;
-        
     }
 
     changeColor() {

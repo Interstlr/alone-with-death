@@ -68,10 +68,14 @@ function setup() {
         'y': 0
     });
 
-    itemsGenerator = new Generation(map.map, jsonItems, jsonWeapon, player, enemies);
-
     map.imagesSet = images;
     map.createMap(jsonMap);
+
+    itemsGenerator = new Generation(map.map, jsonItems, jsonWeapon, player, enemies);
+    itemsGenerator.findEnemiesOnScreen(enemies, player.pos);
+    setInterval(function() {
+        itemsGenerator.findEnemiesOnScreen(enemies, player.pos);
+    }.bind(this), 2000);
 
     blood = new Blood();
 
@@ -133,9 +137,12 @@ function draw() {
     player.update(map);
 }
 
+/*
 function distantionFromAtoB(a,b) {
     return Math.sqrt(Math.pow(a.x - b.x,2) + Math.pow(a.y - b.y,2)); 
 }
+
+*/
 
 function updateSounds() {
     soundsQueue.forEach(function(item,index,obj){

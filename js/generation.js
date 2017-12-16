@@ -100,13 +100,20 @@ class Generation {
     }
 
     updateEnemies(map, player) {
+
+        this.findEnemiesOnScreen(this.enemies, player.pos);
+
         for(let i = 0, len = this.enemies.length; i < len; i++) {
-            let damageValue = this.enemies[i].update(player.pos, map);
-            player.healthBar.value -= damageValue;
+
+            this.enemies[i].update(player.pos, map);
+
+            const damage = this.enemies[i].damageValue;
+            player.healthBar.value -= this.enemies[i].damage;
+
             //check player hp value
             if(player.getHealthValue() <= 0) {
             } else {
-                player.healthBar.w -= damageValue;
+                player.healthBar.w -= damage;
             }
 
             //check if bullet hit an enemy
@@ -135,6 +142,49 @@ class Generation {
             return true;
         }
         return false;
+    }
+
+    findEnemiesOnScreen(enemiesList, playerPos) {
+
+        let renderBorderUp = playerPos.y - WIN_HEIGHT_HALF - TILE_H;
+        let renderBorderDown = playerPos.y + WIN_HEIGHT_HALF + TILE_H;
+        let renderBorderLeft = playerPos.x - WIN_WIDTH_HALF - TILE_W;
+        let renderBorderRight = playerPos.x + WIN_WIDTH_HALF + TILE_W;
+        
+        for(let i = 0, len = enemiesList.length; i < len; i++) {
+            if(this.isEnemyOnScreen(
+                enemiesList[i].pos,
+                renderBorderUp,
+                renderBorderDown,
+                renderBorderLeft,
+                renderBorderRight
+            )) {
+                enemiesList[i].isOnScreen = true;
+            } else {
+                enemiesList[i].isOnScreen = false;
+            }
+        }
+    }
+
+    isEnemyOnScreen(enemyPos, renderBorderUp, renderBorderDown, renderBorderLeft, renderBorderRight) {
+
+        if(enemyPos.y < renderBorderUp) {
+            return false;
+        }
+
+        if(enemyPos.y > renderBorderDown) {
+            return false;
+        }
+
+        if(enemyPos.x < renderBorderLeft) {
+            return false;
+        }
+
+        if(enemyPos.x > renderBorderRight) {
+            return false;
+        }
+
+        return true;
     }
 }
 
