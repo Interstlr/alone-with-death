@@ -6,7 +6,7 @@ class Enemy {
         this.color = color(255);
 
         this.hp = 100;
-        this.damage = 0.5;
+        this.damage = 0;
         this.damageToWall = 2;
 
         this.isOnScreen = false;
@@ -38,7 +38,7 @@ class Enemy {
         if(this.isOnScreen) {
             this.render();
 
-            if(this.isIntersects(playerPos.x, playerPos.y)) {
+            if(this.isIntersects(playerPos)) {
                 this.damage = 0.5;
             } else {
                 this.damage = 0;

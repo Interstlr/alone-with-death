@@ -13,7 +13,7 @@ class Generation {
         this.chanceWeapon = 10;
         this.generalChance = 100;
 
-        this.generalChanceZombie = 2;
+        this.generalChanceZombie = 30;
         this.chanceZombieNormal = 3;
         this.chanceFastZombie = 5;
         this.chanceFatZombie = 8;
@@ -56,8 +56,6 @@ class Generation {
                         randInt(TILE_H, this.mapMaxSize.y),
                         randItemID
                     );
-
-                    console.log(this.generatedWeaponNames);
                 }
             }
         }
@@ -107,9 +105,8 @@ class Generation {
 
             this.enemies[i].update(player.pos, map);
 
-            const damage = this.enemies[i].damageValue;
-            player.healthBar.value -= this.enemies[i].damage;
-
+            const damage = this.enemies[i].damage;
+            player.healthBar.value -= damage;
             //check player hp value
             if(player.getHealthValue() <= 0) {
             } else {
@@ -121,8 +118,13 @@ class Generation {
                 let bullets = player.currentWeaponInHand.bullets.bulletsList;
                 for(let j = 0, lenBullets = bullets.length; j < lenBullets; j++) {
                     if(this.isIntersects({x : bullets[j].x, y : bullets[j].y}, this.enemies[i].pos)) {
-                        bullets.splice(j, 1);
-                        this.enemies[i].hp -= player.currentWeaponInHand.damage;
+
+                        this.enemies[i].hp -= bullets[j].penetrationCapacity;
+                        bullets[j].penetrationCapacity -= this.enemies[i].hp;
+                        if(bullets[j].penetrationCapacity <= 0) {
+                            bullets.splice(j, 1);
+                        }
+
                         blood.createBloodSpot(this.enemies[i].pos.x, this.enemies[i].pos.y);
                         lenBullets--;
                     }
