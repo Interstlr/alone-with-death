@@ -17,6 +17,8 @@ class Generation {
         this.chanceZombieNormal = 3;
         this.chanceFastZombie = 5;
         this.chanceFatZombie = 8;
+
+        this.enemiesOnScreen = [];
     }
 
     generateEnemy() {
@@ -101,8 +103,6 @@ class Generation {
 
     updateEnemies(map, player) {
 
-        this.findEnemiesOnScreen(this.enemies, player.pos);
-
         for(let i = 0, len = this.enemies.length; i < len; i++) {
 
             this.enemies[i].update(player.pos, map);
@@ -134,6 +134,8 @@ class Generation {
                 len--;
             }
         }
+
+        checkCollisionEnemies(this.enemiesOnScreen);
     }
 
     isIntersects(playerPos, itemPos) {
@@ -146,10 +148,12 @@ class Generation {
 
     findEnemiesOnScreen(enemiesList, playerPos) {
 
-        let renderBorderUp = playerPos.y - WIN_HEIGHT_HALF - TILE_H;
-        let renderBorderDown = playerPos.y + WIN_HEIGHT_HALF + TILE_H;
-        let renderBorderLeft = playerPos.x - WIN_WIDTH_HALF - TILE_W;
-        let renderBorderRight = playerPos.x + WIN_WIDTH_HALF + TILE_W;
+        this.enemiesOnScreen.length = 0;
+
+        let renderBorderUp = playerPos.y - WIN_HEIGHT;
+        let renderBorderDown = playerPos.y + WIN_HEIGHT;
+        let renderBorderLeft = playerPos.x - WIN_WIDTH;
+        let renderBorderRight = playerPos.x + WIN_WIDTH;
         
         for(let i = 0, len = enemiesList.length; i < len; i++) {
             if(this.isEnemyOnScreen(
@@ -160,6 +164,7 @@ class Generation {
                 renderBorderRight
             )) {
                 enemiesList[i].isOnScreen = true;
+                this.enemiesOnScreen.push(enemiesList[i]);
             } else {
                 enemiesList[i].isOnScreen = false;
             }

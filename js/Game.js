@@ -117,8 +117,6 @@ function draw() {
 
     blood.update();
 
-    checkCollisionEnemies(enemies);
-
     updateSounds();
 
     itemsGenerator.generateItem();
