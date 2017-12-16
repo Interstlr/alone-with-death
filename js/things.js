@@ -11,16 +11,20 @@ class Thing {
     }
     
     update() {
+
+        push();
+        imageMode(CENTER);
         image(this.img,
             this.pos.x,
             this.pos.y,
-            60,
-            60,
+            this.size.w,
+            this.size.h,
             this.imagePos.x, 
             this.imagePos.y,
             60,
             60,
         );
+        pop();
     }
 
     addThing() {

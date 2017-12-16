@@ -40,7 +40,7 @@ const ITEMS_SPRITE = '../img/itemsSheet.png';
 const GUN_SPRITE_SHEET = '../img/gunSpriteSheet.png';
 const ITEMS_JSON_PATH = '/js/itemsJSON.json';
 const MAP_JSON_PATH = '/js/mapJSON.json';
-
+const WEAPON_JSON_PATH = '/js/weaponJSON.json';
 
 const INVENTORY_THING_SIZE = 100;
 const ITEM_SIZE = 60;

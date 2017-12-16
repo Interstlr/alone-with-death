@@ -1,10 +1,15 @@
 class Generation {
-    constructor(map, jsonItems, player) {
+    constructor(map, jsonItems, jsonWeapon, player) {
         this.map = map;
         this.jsonItems = jsonItems;
+        this.jsonWeapon = jsonWeapon;
         this.items = [];
-        this.chance = 100;
+        this.chanceItems = 2;  //larger value lower chance
+        this.chanceWeapon = 0;
+        this.generalChance = 100;
         this.player = player;
+        this.mapMaxSize = {x: MAP_SIZE_X * TILE_W - 100, y: MAP_SIZE_Y * TILE_W - 100};
+        this.generatedWeaponNames = [];
     }
 
     generateEnemy(chance) {
@@ -12,25 +17,58 @@ class Generation {
     }
 
     //generate ammo, weapons, aid in map
-    generateItems() {
-        let randItemID = randInt(0, 0);
-        if(randInt(0, this.chance) == 0) {
-            this.addThing(
-                randInt(TILE_W, 700),
-                randInt(TILE_H, 700),
-                randItemID
-            );
+    generate() {
+        if(randInt(0, this.generalChance) == 0) {
+            //generate ammo, aid kit,
+            if(randInt(0, this.chanceItems) == 0) {
+                let randItemID = randInt(0, 4);
+                this.addThing(
+                    randInt(TILE_W, this.mapMaxSize.x),
+                    randInt(TILE_H, this.mapMaxSize.y),
+                    randItemID
+                );
+            }
 
-            /*
-                не удалять
-                randInt(TILE_W, MAP_SIZE_X * TILE_W - TILE_W),
-                randInt(TILE_H, MAP_SIZE_Y * TILE_H - TILE_H),
-            );
-            */
+            //generate weapon
+            if(randInt(0, this.chanceWeapon) == 0) {
+                let randItemID = randInt(0, 3);
+                let weaponName = JSON.parse(JSON.stringify(this.jsonWeapon.contents[randItemID])).name;
+                if(this.generatedWeaponNames.indexOf(weaponName) >= 0) {
+                    return;
+                } else {
+                    this.generatedWeaponNames.push(weaponName);
+
+                    this.addWeapon(
+                        randInt(TILE_W, this.mapMaxSize.x),
+                        randInt(TILE_H, this.mapMaxSize.y),
+                        randItemID
+                    );
+
+                    console.log(this.generatedWeaponNames);
+                }
+            }
         }
     }
 
-    updateItems(playerPos) {
+    addThing(posX, posY, randItemID) {
+
+        const item = JSON.parse(JSON.stringify(this.jsonItems.contents[randItemID]));
+        item.pos.x = posX;
+        item.pos.y = posY;
+
+        this.items.push(new Thing(item));
+    }
+
+    addWeapon(posX, posY, randItemID) {
+
+        const item = JSON.parse(JSON.stringify(this.jsonWeapon.contents[randItemID]));
+        item.pos.x = posX;
+        item.pos.y = posY;
+
+        this.items.push(new Weapon(item));
+    }
+
+    update() {
         for(let i = 0, len = this.items.length; i < len; i++) {
             this.items[i].update();
 
@@ -44,71 +82,10 @@ class Generation {
 
     isIntersects(playerPos, itemPos) {
         let d = dist(itemPos.x, itemPos.y, playerPos.x, playerPos.y);
-        if(d < 50) {
+        if(d < 30) {
             return true;
         }
         return false;
-    }
-
-    addThing(posX, posY, randItemID) {
-
-        const item = JSON.parse(JSON.stringify(this.jsonItems.contents[randItemID]));
-        item.pos.x = posX;
-        item.pos.y = posY;
-
-        this.items.push(new Thing(item));
-    }
-    
-    addGLOCK17(xStart, yStart) {
-        this.items.push(new Weapon({	//pistol
-            name: 'glock17',
-            kindBullets: 'glock17Ammo',
-            damage: 40,
-            countBullets: 72,
-            countBulletsInHolder: 10,
-            imagePos: {x: 0, y: 0},
-            pos: {x: xStart, y: yStart},
-            timeBetweenShots: 1200
-        }));
-    }
-    
-    addAK47(xStart, yStart) {
-        this.items.push(new Weapon({	//pistol
-            name: 'ak47',
-            kindBullets: 'ak47Ammo',
-            damage: 100,
-            countBullets: 60,
-            countBulletsInHolder: 30,
-            imagePos: {x: 100, y: 0},
-            pos: {x: xStart, y: yStart},
-            timeBetweenShots: 140
-        }));
-    }
-    
-    addM4A1s(xStart, yStart) {
-        this.items.push(new Weapon({	//pistol
-            name: 'm4a1',
-            kindBullets: 'm4a1Ammo',
-            damage: 80,
-            countBullets: 40,
-            countBulletsInHolder: 20,
-            imagePos: {x: 200, y: 0},
-            pos: {x: xStart, y: yStart},
-            timeBetweenShots: 140
-        }));
-    }
-    
-    addAWP(xStart, yStart) {
-        this.items.push(new Weapon({	//pistol
-            name: 'awp',
-            kindBullets: 'awpAmmo',
-            damage: 600,
-            countBullets: 10,
-            countBulletsInHolder: 1,
-            imagePos: {x: 300, y: 0},
-            pos: {x: xStart, y: yStart},
-            timeBetweenShots: 2800
-        }));
     }
 }
 

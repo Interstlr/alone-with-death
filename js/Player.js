@@ -193,7 +193,6 @@ class Player {
 	}
 
 	changePlayerSkin(weaponName) {
-		console.log('skin: ' + weaponName);
 		//if(currentObjectInHand instanceof Weapon || currentObjectInHand  instanceof Thing)
 		switch(weaponName) {
 			case 'glock17': 
@@ -213,8 +212,8 @@ class Player {
 				break;
 			case 'awp':
 				this.currentSprite = this.playerSprites[3];
-				this.bodySpriteCurrentWidth = 165;
-				this.bodySpriteCurrentX = 30;
+				this.bodySpriteCurrentWidth = 167;
+				this.bodySpriteCurrentX = 29;
 				break;
 			default:
 				this.currentSprite = this.playerSprites[0];
@@ -229,7 +228,7 @@ class Player {
 		this.currentObjInHand = this.inventory.getItem(index);
 		if(this.currentObjInHand) {
 			this.changePlayerSkin(this.currentObjInHand.name);
-			if(this.currentObjInHand.name == 'medicineKit') {
+			if(this.currentObjInHand.name == 'adiKit') {
 				if((this.healthBar.w + this.currentObjInHand.value) > 150) {
 					this.healthBar.w = 150;
 					this.healthBar.value = 150;

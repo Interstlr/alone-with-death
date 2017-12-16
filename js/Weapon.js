@@ -1,15 +1,15 @@
 class Weapon {
     constructor(weapon) {
         this.name = weapon.name;
-        this.kindBullets = weapon.kindBullets;
+        this.bulletType = weapon.bulletType;
         this.damage = weapon.damage;
         this.img = loadImage(GUN_SPRITE_SHEET);
         this.pos = weapon.pos;
         this.imagePos = weapon.imagePos;
 
-        this.bulletsCount = weapon.countBullets;
-        this.countBulletsInHolder = weapon.countBulletsInHolder;
-        this.bulletsHolder = weapon.countBulletsInHolder;
+        this.bulletAmount = weapon.bulletAmount;
+        this.bulletMagazineCapacity = weapon.bulletMagazineCapacity;
+        this.bulletCurrentMagazine = weapon.bulletMagazineCapacity;
 
         this.reloadIsNow = false;
         this.reload = 0;
@@ -20,31 +20,34 @@ class Weapon {
 
         this.bullets = new Bullet();
 
-        this.sizeW = weapon.w | INVENTORY_THING_SIZE;
-        this.sizeH = weapon.h | INVENTORY_THING_SIZE;
+        this.size = weapon.size;
     }
 
     update() {
+        push();
+        imageMode(CENTER);
         image(this.img,
             this.pos.x,
             this.pos.y,
-            this.sizeW,
-            this.sizeH,
+            this.size.w,
+            this.size.h,
             this.imagePos.x, 
             this.imagePos.y,
             INVENTORY_THING_SIZE,
-            INVENTORY_THING_SIZE);
+            INVENTORY_THING_SIZE
+        );
+        pop();
     }
     
     makeShot(player) {
-        if(this.bulletsHolder > 0 && this.canShoot && !this.reloadIsNow) {
+        if(this.bulletCurrentMagazine > 0 && this.canShoot && !this.reloadIsNow) {
             
             this.playGunShotSound(player.currentObjInHand.name);
              //delay between shots
             this.canShoot = false;
             setTimeout(this.allowShoot.bind(this), this.timeBetweenShots);
 
-            this.bulletsHolder--;
+            this.bulletCurrentMagazine--;
             
 
             //player property
@@ -66,10 +69,10 @@ class Weapon {
                 v: 1800,            //bullet speed
                 bulletsLength: 10,  //bullet lenght
                 bulletsColor: BULLET_COLOR, //color
-                lifeTime: 30,
+                lifeTime: 35,
             });
         }
-        if(this.bulletsHolder == 0 && this.bulletsCount > 0 &&  !this.reloadIsNow) {  //update bullets holder
+        if(this.bulletCurrentMagazine <= 0 && this.bulletAmount > 0 && !this.reloadIsNow) {  //update bullets holder
             this.initRecharge(player.currentObjInHand.name);
         }
     }
@@ -83,19 +86,19 @@ class Weapon {
         } 
     }
     recharge() {
-        if(this.bulletsCount > this.countBulletsInHolder) {
-            if(this.bulletsHolder) {
-                this.bulletsCount -= this.countBulletsInHolder - this.bulletsHolder;
-                this.bulletsHolder = this.countBulletsInHolder;
+        if(this.bulletAmount > this.bulletMagazineCapacity) {
+            if(this.bulletCurrentMagazine) {
+                this.bulletAmount -= this.bulletMagazineCapacity - this.bulletCurrentMagazine;
+                this.bulletCurrentMagazine = this.bulletMagazineCapacity;
             }
             else{
-                this.bulletsCount -= this.countBulletsInHolder;
-                this.bulletsHolder = this.countBulletsInHolder;
+                this.bulletAmount -= this.bulletMagazineCapacity;
+                this.bulletCurrentMagazine = this.bulletMagazineCapacity;
             }
         }
         else {
-            this.bulletsHolder = this.bulletsCount;
-            this.bulletsCount = 0;
+            this.bulletCurrentMagazine = this.bulletAmount;
+            this.bulletAmount = 0;
         }
         this.reloadIsNow = false;
         this.reload = 0;

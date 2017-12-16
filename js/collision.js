@@ -1,7 +1,6 @@
 function handleCollisionWalls(objPos, map) {
 
     const objTile = determineObjectTilePos(objPos, map);
-    
     return handleCollision(
         objPos, 
         map, 
@@ -15,11 +14,24 @@ function handleCollisionWalls(objPos, map) {
 }
 
 function handleCollision(objPos, map, objTileX, objTileY, lW, rW, uH, dH) {
+
     //check and handle wall collisions 
     //up
     let collidingTile = {
         isCollide : false,
     };
+    
+    //ckeck if out of map borders
+    if(objTileY < 0 ||
+        objTileY >= MAP_SIZE_Y - 1 ||
+        objTileX < 0 ||
+        objTileX >= MAP_SIZE_X - 1
+    ) {
+        return collidingTile;
+    }
+
+    //collision logic
+    
     if(map[uH][objTileX].spriteID == 9) {
         if(objPos.y <= map[uH][objTileX].pos.y + TILE_H + 10) {
             objPos.y = map[uH][objTileX].pos.y + TILE_H + 10;

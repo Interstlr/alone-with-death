@@ -13,7 +13,6 @@ class Inventory {
     }
 
     pushItem(itemToAdd) {
-
         let added = false;
         let addGunToGun = false;
         this.inventoryCeil.forEach(function(item, index, obj) {
@@ -22,8 +21,8 @@ class Inventory {
             }
             if(!item.empty){
                 if(this.inventoryThings[index] instanceof Weapon && itemToAdd instanceof Thing) {
-                    if(itemToAdd.name == this.inventoryThings[index].kindBullets){
-                        this.inventoryThings[index].bulletsCount += itemToAdd.value;
+                    if(itemToAdd.name == this.inventoryThings[index].bulletType){
+                        this.inventoryThings[index].bulletAmount += itemToAdd.value;
                         added = true;
                     }
                 }else if(this.inventoryThings[index] instanceof Thing && itemToAdd instanceof Thing) {
@@ -38,7 +37,7 @@ class Inventory {
                     }
                 }
             }else {
-                if(itemToAdd.name == 'medicineKit' || itemToAdd instanceof Weapon ){
+                if(itemToAdd.name == 'aidKit' || itemToAdd instanceof Weapon ){
                     this.inventoryThings[index] = itemToAdd;
                     this.inventoryCeil[index].empty = false;
                     added = true;
@@ -89,10 +88,11 @@ class Inventory {
             
             if(!item.empty && currentThing) {
                 //shwo gun sprite in inventory panel
-                image(currentThing.img,item.x + 10, 
+                image(currentThing.img,
+                    item.x + 15, 
                     item.y + 5, 
-                    this.ceilSize*2/3, 
-                    this.ceilSize*2/3,
+                    40, 
+                    40,
                     currentThing.imagePos.x,
                     currentThing.imagePos.y,
                     INVENTORY_THING_SIZE,
@@ -101,7 +101,7 @@ class Inventory {
                     
                 if(currentThing instanceof Weapon) {
                     fill('#fff');
-                    text(currentThing.bulletsCount + currentThing.bulletsHolder, item.x + 25, item.y + 55);
+                    text(currentThing.bulletAmount + currentThing.bulletCurrentMagazine, item.x + 25, item.y + 55);
                 }else {
                     fill('#fff');
                     text(currentThing.count, item.x + 25, item.y + 55);
@@ -112,7 +112,7 @@ class Inventory {
         if(player.currentObjInHand instanceof Weapon) {
             fill('#fff');
             textSize(30);
-            text(player.currentObjInHand.bulletsCount + '/' + player.currentObjInHand.bulletsHolder,WIN_WIDTH_HALF/2 + 80,280);
+            text(player.currentObjInHand.bulletAmount + '/' + player.currentObjInHand.bulletCurrentMagazine, WIN_WIDTH_HALF/2 + 80,280);
         }
 
 		pop();

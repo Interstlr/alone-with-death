@@ -5,6 +5,8 @@ let enemies;
 
 let jsonMap;
 let jsonItems;
+let jsonWeapon;
+
 let images;
 let blood;
 let spritesBlood; 
@@ -22,9 +24,13 @@ let things = [];    //things as medicine kit, ammo, weapons, etc. on the map
 let gameIsPaused = true;
 let keyIsPressed = false;
 
+let fpsValue;
+
 function preload() {
     jsonMap = loadJSON(MAP_JSON_PATH);
     jsonItems = loadJSON(ITEMS_JSON_PATH);
+    jsonWeapon = loadJSON(WEAPON_JSON_PATH);
+
     images = loadImage('../img/terrainSet.png');
     spritesBlood = loadImage('../img/blood_spot.png');
     gunSpriteSheet = loadImage('../img/gunSpriteSheet.png');
@@ -55,11 +61,13 @@ function setup() {
     enemies = [];
     frameRate(60);
     createCanvas(WIN_WIDTH, WIN_HEIGHT);
+
     player = new Player(ENTITY_DIAMETR / 2, {'x': 2500, 'y': 1700}, playerSprites);
     map = new Map({
         'x': 0,
         'y': 0
     });
+    itemsGenerator = new Generation(map.map, jsonItems, jsonWeapon, player);
 
     map.imagesSet = images;
     map.createMap(jsonMap);
@@ -79,17 +87,16 @@ function setup() {
 
     setStandartPlayerKit();
 
-    itemsGenerator = new Generation(map.map, jsonItems, player);
+    //set fps update time
+    setInterval(function() {
+        fpsValue = frameRate().toFixed(0);
+    }.bind(this), 500);
 
-    //itemsGenerator.putAk47OnMap(200, 200);
-    //itemsGenerator.putM4A1OnMap(300,200);
-
-    
-    //itemsGenerator.putAWPAmmoOnMap(100, 100);
-    //itemsGenerator.putAk47AmmoOnMap(200,100);
-    //itemsGenerator.putM4A1AmmoOnMap(300,100);
-    //itemsGenerator.putMedicineKitOnMap(400, 400);
-    //itemsGenerator.putMedicineKitOnMap(500, 400);
+    itemsGenerator.addWeapon(200, 200, 1);
+    itemsGenerator.addWeapon(300, 200, 2);
+    itemsGenerator.addWeapon(400, 200, 3);
+    itemsGenerator.addThing(500, 200, 0);
+    itemsGenerator.addThing(600, 200, 0);
 }
 
 function draw() {
@@ -140,13 +147,13 @@ function draw() {
 
     updateSounds();
 
-    itemsGenerator.generateItems();
-    itemsGenerator.updateItems();
+    itemsGenerator.generate();
+    itemsGenerator.update();
 
     printTechData( {
         'xPlayer': player.pos.x, 
         'yPlayer': player.pos.y,
-        'frameRate': frameRate().toFixed(0),
+        'frameRate': fpsValue,
         'enemiesNum': enemies.length
     });
 
@@ -154,8 +161,7 @@ function draw() {
 }
 
 function distantionFromAtoB(a,b) {
-    return Math.sqrt(Math.pow(a.x - b.x,2) 
-         + Math.pow(a.y - b.y,2)) ; 
+    return Math.sqrt(Math.pow(a.x - b.x,2) + Math.pow(a.y - b.y,2)); 
 }
 
 function updateSounds() {
@@ -170,17 +176,14 @@ function updateSounds() {
 
 function setStandartPlayerKit() {
     //set standart inventory of player
-    player.putThingInInventory(new Weapon({	//pistol
-        name: 'glock17',
-        kindBullets: 'glock17Ammo',
-        damage: 20,
-        countBullets: 72,
-        countBulletsInHolder: 10,
-        imagePos: {x: 0, y: 0},
-        pos: {x: 0, y: 0},
-        timeBetweenShots: 1200
-    }));
+    //glock17
+    const item = JSON.parse(JSON.stringify(jsonWeapon.contents[0]));
+    item.pos.x = 0;
+    item.pos.y = 0;
+    player.putThingInInventory(new Weapon(item));
     player.currentObjInHand = player.inventory.getItem(0);
+
+    itemsGenerator.generatedWeaponNames.push(item.name);
 }
 
 function keyPressed() {
