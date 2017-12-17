@@ -136,6 +136,7 @@ class Generation {
             if(this.enemies[i].hp <= 0){
                 this.enemies.splice(i, 1);
                 len--;
+                player.score.increaseScore();
             }
         }
 
