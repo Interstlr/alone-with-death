@@ -21,8 +21,6 @@ class Enemy {
 
         let moveX = 0;
         let moveY = 0;
-
-        
        
         // if(dy >= 0) {
         //     moveY = this.pos.y * 2;
@@ -126,7 +124,7 @@ class Enemy {
     }
 
     checkCollidingWalls(map) {
-        let collTile = handleCollisionWalls(this.pos, map);
+        let collTile = handleCollisionWalls(this.pos, map, 25);
         
         if(collTile.isCollide) {
             map[collTile.tileY][collTile.tileX].healthValue -= this.damageToWall;

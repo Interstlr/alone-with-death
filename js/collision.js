@@ -1,4 +1,4 @@
-function handleCollisionWalls(objPos, map) {
+function handleCollisionWalls(objPos, map, maxDistArg) {
     const objTile = determineObjectTilePos(objPos, map);
     return handleCollision(
         objPos, 
@@ -8,11 +8,12 @@ function handleCollisionWalls(objPos, map) {
         objTile.lW, 
         objTile.rW, 
         objTile.uH, 
-        objTile.dH
+        objTile.dH,
+        maxDistArg
     );
 }
 
-function handleCollision(objPos, map, objTileX, objTileY, lW, rW, uH, dH) {
+function handleCollision(objPos, map, objTileX, objTileY, lW, rW, uH, dH, maxDistArg) {
 
     //check and handle wall collisions 
     //up
@@ -30,10 +31,16 @@ function handleCollision(objPos, map, objTileX, objTileY, lW, rW, uH, dH) {
     }
 
     //collision logic
+    let maxDist;
+    if(maxDistArg == undefined) {
+        maxDist = 10;
+    } else {
+        maxDist = maxDistArg
+    }
     
     if(map[uH][objTileX].hasOwnProperty('solid')) {
-        if(objPos.y <= map[uH][objTileX].pos.y + TILE_H + 10) {
-            objPos.y = map[uH][objTileX].pos.y + TILE_H + 10;
+        if(objPos.y <= map[uH][objTileX].pos.y + TILE_H + maxDist) {
+            objPos.y = map[uH][objTileX].pos.y + TILE_H + maxDist;
             collidingTile.isCollide = true;
             collidingTile.tileX = objTileX;
             collidingTile.tileY = uH;
@@ -41,8 +48,8 @@ function handleCollision(objPos, map, objTileX, objTileY, lW, rW, uH, dH) {
     }
     //right
     if(map[objTileY][rW].hasOwnProperty('solid')) {
-        if(objPos.x >= map[objTileY][rW].pos.x - 10) {
-            objPos.x = map[objTileY][rW].pos.x - 10;
+        if(objPos.x >= map[objTileY][rW].pos.x - maxDist) {
+            objPos.x = map[objTileY][rW].pos.x - maxDist;
             collidingTile.isCollide = true;
             collidingTile.tileX = rW;
             collidingTile.tileY = objTileY;
@@ -50,8 +57,8 @@ function handleCollision(objPos, map, objTileX, objTileY, lW, rW, uH, dH) {
     }
     //down
     if(map[dH][objTileX].hasOwnProperty('solid')) {
-        if(objPos.y >= map[dH][objTileX].pos.y - 10) {
-            objPos.y = map[dH][objTileX].pos.y - 10;
+        if(objPos.y >= map[dH][objTileX].pos.y - maxDist) {
+            objPos.y = map[dH][objTileX].pos.y - maxDist;
             collidingTile.isCollide = true;
             collidingTile.tileX = objTileX;
             collidingTile.tileY = dH;
@@ -59,8 +66,8 @@ function handleCollision(objPos, map, objTileX, objTileY, lW, rW, uH, dH) {
     }
     //left
     if(map[objTileY][lW].hasOwnProperty('solid')) {
-        if(objPos.x <= map[objTileY][lW].pos.x + TILE_W + 10) {
-            objPos.x = map[objTileY][lW].pos.x + TILE_W + 10;
+        if(objPos.x <= map[objTileY][lW].pos.x + TILE_W + maxDist) {
+            objPos.x = map[objTileY][lW].pos.x + TILE_W + maxDist;
             collidingTile.isCollide = true;
             collidingTile.tileX = lW;
             collidingTile.tileY = objTileY;
