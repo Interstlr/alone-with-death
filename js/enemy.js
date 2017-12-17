@@ -30,7 +30,7 @@ class Enemy {
 
         let dx = playerPos.x - this.pos.x;
         let dy = playerPos.y - this.pos.y;
-        if((Math.abs(dx) <= 100)) {
+        if(this.pos.x <= 400 || playerPos.x <= 400 ||  (Math.abs(dx) <= 100)) {
             if(dx > 0) {    
                 this.pos.x += 1;
             } else if(dx < 0) {
@@ -54,7 +54,7 @@ class Enemy {
 
             let currentX = this.pos.x;
             for(let k = 0; k < 15; k++) {
-                if(Math.abs( playerPos.x - currentX ) < 100) { 
+                if(currentX < 400 || playerPos.x < 400 || Math.abs( playerPos.x - currentX ) < 100) { 
                     break;
                  }
                 resultY = arrY[0];
@@ -70,7 +70,6 @@ class Enemy {
                         if(s != 0) {
                             difference += arrY[j] / s;
                         }
-                   
                     }
                     for(let m = 0; m < i; m++) {
                         let findX = currentX;
