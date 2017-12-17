@@ -14,14 +14,14 @@ class Animation {
     renderMove(x, y, playerPos) {
         push();
         imageMode(CENTER);
-        angleMode(DEGREES);
+        // angleMode(DEGREES);
         translate(x, y);
 
-        let angle = atan2(y - playerPos.y, x - playerPos.x) / Math.PI * 180;
-        angle = (angle < 0) ? angle + 360 : angle;
+        let angle = atan2(y - playerPos.y, x - playerPos.x) //*  180 / Math.PI;
+        // angle = (angle < 0) ? angle + 360 : angle;
         
         
-        rotate(angle);
+        rotate(angle + Math.PI);
         
         image(this.imagesSet[this.spriteIndex], 0, 0, this.width, this.height);
         pop();

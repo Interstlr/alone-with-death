@@ -16,7 +16,6 @@ class Score {
         textSize(30);
         text('score: ' + this.value, WIN_WIDTH_HALF/2 + 80, -WIN_HEIGHT_HALF + 50);
         text('kills:' + this.kills, WIN_WIDTH_HALF/2 + 80, -WIN_HEIGHT_HALF + 100);
-        console.log( this.value )
 		pop();
 	}
 }
