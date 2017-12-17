@@ -90,9 +90,8 @@ class Enemy {
         }else {
             this.pos.x = this.moveQueue[0].x;
             this.pos.y = this.moveQueue[0].y;
-            this.moveQueue.splice(0,1);
+            this.moveQueue.splice(0, 1);
         }
-
       
         // this.pos.y = resultY;
         // console.log('x: ' + this.pos.x + ' y:' + resultY);
@@ -101,12 +100,11 @@ class Enemy {
         // } else{
         //     this.pos.y -= 1;
         // }
-
        
         this.checkCollidingWalls(map);
 
         if(this.isOnScreen) {
-            this.animation.renderMove(this.pos.x, this.pos.y, 50, 50);
+            this.animation.renderMove(this.pos.x, this.pos.y, playerPos);
             //this.render();
 
             if(this.isIntersects(playerPos)) {

@@ -11,10 +11,19 @@ class Animation {
         this.spritesMoveLength = this.imagesSet.length;
     }   
 
-    renderMove(x, y, w, h) {
+    renderMove(x, y, playerPos) {
         push();
         imageMode(CENTER);
-        image(this.imagesSet[this.spriteIndex], x, y, this.width, this.height);
+        angleMode(DEGREES);
+        translate(x, y);
+
+        let angle = atan2(y - playerPos.y, x - playerPos.x) / Math.PI * 180;
+        angle = (angle < 0) ? angle + 360 : angle;
+        
+        
+        rotate(angle);
+        
+        image(this.imagesSet[this.spriteIndex], 0, 0, this.width, this.height);
         pop();
 
         this.tickCount++;
