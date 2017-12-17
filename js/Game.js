@@ -11,7 +11,6 @@ let images;
 let blood;
 let spritesBlood; 
 let playerSprites = [];
-let playerSpritesIdle = [];
 let gunSpriteSheet;
 let zimbieSprites = [];
 
@@ -64,6 +63,7 @@ function preload() {
     playerSprites[1] = loadImage('../img/player/survivor-ak47.png');
     playerSprites[2] = loadImage('../img/player/survivor-m4a1.png');
     playerSprites[3] = loadImage('../img/player/survivor-awp.png');
+
 }
 
 function setup() {

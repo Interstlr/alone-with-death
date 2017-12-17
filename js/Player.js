@@ -1,5 +1,5 @@
 class Player {
-    constructor(radius, windowDimentions, playerSprites, spritesSetIdle) {
+    constructor(radius, windowDimentions, playerSprites) {
 		this.r = radius;
 		this.rHand = (radius / 4) | 0;
 		this.pos = {'x': windowDimentions.x / 2, 'y': windowDimentions.y / 2};
@@ -24,38 +24,24 @@ class Player {
 		this.score = new Score();
 
 		this.playerSprites = playerSprites;
-		this.currentSprite = this.playerSprites[0];
+		this.currentSprite = playerSprites[0];
 		
 		this.bodySpriteCurrentWidth = 115;
 		this.bodySpriteCurrentX = 0;
 
-		//this.animationIdle = new Animation(spritesSetIdle); 
+		//this.animationIdle = new Animation(playerSprites); 
+		//this.currentWeaponNumber = 0;
 	}
 
 	update(map) {
-		fill(PLAYER_COLOR);
-
+		
 		push();
 
-		ellipseMode(CENTER);
+		imageMode(CENTER);
 		translate(this.pos.x, this.pos.y);
 		rotate(atan2(mouseY - WIN_HEIGHT_HALF, mouseX - WIN_WIDTH_HALF));
 
-		// if(this.currentObjInHand instanceof Weapon){
-		
-		// 	if(this.currentObjInHand){
-		// 		this.currentObjInHand.update();
-		// 	}
-		// }
-
-		imageMode(CENTER);
-		//angleMode(DEGREES);
-		//ellipse(0, -35, this.rHand, this.rHand); //left hand
-		//ellipse(0, 35, this.rHand, this.rHand);
-		rotate(-0.1);
 		image(this.currentSprite, this.bodySpriteCurrentX, 0, this.bodySpriteCurrentWidth, 115);
-		//ellipse(0, 0, this.r, this.r); //body
-		 //right hand
 		
 		pop();
 
@@ -174,7 +160,6 @@ class Player {
 		if(keyIsDown(53)){
 			this.processingCurrentInventorySbj(4);
 		}	
-		
 
 		//R - recharge
 		if(keyIsDown(82)){
@@ -204,29 +189,30 @@ class Player {
 		//if(currentObjectInHand instanceof Weapon || currentObjectInHand  instanceof Thing)
 		switch(weaponName) {
 			case 'glock17': 
-				this.currentSprite = this.playerSprites[0];
 				this.bodySpriteCurrentWidth = 115;
 				this.bodySpriteCurrentX = 0;
+				this.currentSprite = playerSprites[0];
 				break;
 			case 'ak47':
-				this.currentSprite = this.playerSprites[1];
 				this.bodySpriteCurrentWidth = 150;
 				this.bodySpriteCurrentX = 20;
+				this.currentSprite = playerSprites[1];
 				break;
 			case 'm4a1': 
-				this.currentSprite = this.playerSprites[2];
 				this.bodySpriteCurrentWidth = 150;
 				this.bodySpriteCurrentX = 20;
+				this.currentSprite = playerSprites[2];
 				break;
 			case 'awp':
 				this.currentSprite = this.playerSprites[3];
 				this.bodySpriteCurrentWidth = 167;
 				this.bodySpriteCurrentX = 29;
+				this.currentSprite = playerSprites[3];
 				break;
 			default:
-				this.currentSprite = this.playerSprites[0];
 				this.bodySpriteCurrentWidth = 115;
 				this.bodySpriteCurrentX = 0;
+				this.currentSprite = playerSprites[0];
 				break;
 		}
 	
