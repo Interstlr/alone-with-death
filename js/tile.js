@@ -3,7 +3,19 @@ class Tile {
         this.pos = {'x': x, 'y': y};
         this.imgPos = {'x': imgX, 'y': imgY};
         this.spriteID = spriteID;
-        this.healthValue = 1000;
+
+        switch(spriteID) {
+            case 17: 
+                this.healthValue = Infinity;
+                this.solid = true;
+                break;
+            case 9: 
+                this.healthValue = 1000;
+                this.solid = true;
+                break;
+            default:
+                break;
+        }
     }
 
     update() {
@@ -11,6 +23,7 @@ class Tile {
             this.imgPos.x = 100;
             this.imgPos.y = 200;
             this.spriteID = 10;
+            delete this.solid; 
         }
 
         image(images,

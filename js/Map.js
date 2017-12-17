@@ -41,6 +41,9 @@ class Map {
                         imgX = 0;
                         imgY = 300;
                         break;
+                    case 17: //infinite wall
+                        imgX = 0;
+                        imgY = 400;
                 }
 
                 tmpMap[i][j] = new Tile(tileX, tileY, imgX, imgY, json.layers[0].data[jsonIndex]);

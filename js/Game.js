@@ -72,7 +72,6 @@ function setup() {
     map.createMap(jsonMap);
 
     itemsGenerator = new Generation(map.map, jsonItems, jsonWeapon, player, enemies);
-    itemsGenerator.findEnemiesOnScreen(enemies, player.pos);
     setInterval(function() {
         itemsGenerator.findEnemiesOnScreen(enemies, player.pos);
     }.bind(this), 2000);

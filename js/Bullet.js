@@ -16,7 +16,7 @@ class Bullet {
     }
 
     update(dt, map) {
-        this.bulletsList.forEach(function(item, index, obj) {
+        this.bulletsList.forEach(function(item, index, bulletsList) {
 
             const objTile = determineObjectTilePos({x: item.x, y: item.y}, map);
 
@@ -24,8 +24,8 @@ class Bullet {
             //bullet coll. with a wall
             if(map[objTile.objTileY]){  
                 if(map[objTile.objTileY][objTile.objTileX]) {
-                    if(map[objTile.objTileY][objTile.objTileX].spriteID == 9) {
-                        obj.splice(index, 1);
+                    if(map[objTile.objTileY][objTile.objTileX].hasOwnProperty('solid')) {
+                        bulletsList.splice(index, 1);
                         map[objTile.objTileY][objTile.objTileX].healthValue -= player.currentWeaponInHand.damage;
                     } else {
                         item.x += item.vx * dt;
@@ -34,13 +34,13 @@ class Bullet {
                         item.lifeTime -= 1;
             
                         if(item.lifeTime <= 0) {
-                            obj.splice(index, 1);
+                            bulletsList.splice(index, 1);
                         }
                     }
                 }
             }
              else {
-                obj.splice(index, 1);
+                bulletsList.splice(index, 1);
             }
         });
     }
