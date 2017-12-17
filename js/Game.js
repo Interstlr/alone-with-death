@@ -23,8 +23,11 @@ let soundsQueue = [];
 
 let things = [];    //things as medicine kit, ammo, weapons, etc. on the map
 
+let gameOver = false;
 let gameIsPaused = true;
 let keyIsPressed = false;
+
+
 
 let fpsValue;
 
@@ -112,9 +115,16 @@ function setup() {
 }
 
 function draw() {
+    if(gameOver) {
+        gameIsPaused = true;
+        $('.gameOverMenu').show();
+        // $('.gameScore').text('score:' + player.score.value);
+    }
     if(gameIsPaused) {
         return;
     }
+
+    
 
     camera(player.pos.x - WIN_WIDTH_HALF, player.pos.y - WIN_HEIGHT_HALF);
 

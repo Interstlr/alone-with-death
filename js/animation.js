@@ -17,9 +17,7 @@ class Animation {
         // angleMode(DEGREES);
         translate(x, y);
 
-        let angle = atan2(y - playerPos.y, x - playerPos.x) //*  180 / Math.PI;
-        // angle = (angle < 0) ? angle + 360 : angle;
-        
+        let angle = atan2(y - playerPos.y, x - playerPos.x);
         
         rotate(angle + Math.PI);
         

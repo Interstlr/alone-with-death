@@ -2,6 +2,7 @@ $(document).ready(function(){
     $('.pauseMenu').hide();
     $('.pauseIndicator').hide();
     $('.startMenu').show();
+    $('.gameOverMenu').hide();
 });
 
 $('.startBtn').click(function(){
@@ -15,6 +16,12 @@ $('.resumeBtn').click(function(){
     gameIsPaused = false;
 });
 
+$('.restartBtn').click(function(){
+    $('.gameOverMenu').hide();
+    window.location.reload();
+});
+
+
 $(this).keydown(function(e){
     // alert(e.keyCode);
     if(e.keyCode == 27) {
@@ -23,3 +30,5 @@ $(this).keydown(function(e){
         $('.pauseIndicator').toggle();
     }
 });
+
+$("html,body").on("contextmenu", false);

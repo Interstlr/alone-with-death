@@ -88,6 +88,10 @@ class Player {
 		this.controller();
 		
 		handleCollisionWalls(this.pos, map.map);
+
+		if(this.healthBar.w <= 1) {
+			gameOver = true;
+		}
 	}
 
 	focusCamera() {
