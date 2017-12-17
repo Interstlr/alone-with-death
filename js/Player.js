@@ -21,7 +21,9 @@ class Player {
 		//this.coldBar = new ColdBar(COLD_BAR_COLOR);
 		this.enduranceBar = new EnduranceBar(ENDURANCE_BAR_COLOR);
 
-		//this.currentSprite = this.playerSprites[0];
+		this.score = new Score();
+
+		this.playerSprites = playerSprites;
 		
 		this.bodySpriteCurrentWidth = 115;
 		this.bodySpriteCurrentX = 0;
@@ -71,6 +73,8 @@ class Player {
 			'currentThingInHand':this.currentWeaponInHand,
 			'pos': this.pos
 		});
+
+		this.score.update(this.pos);
 
 		//state bars
 		this.updateStateBars();
