@@ -38,6 +38,7 @@ function handleCollision(objPos, map, objTileX, objTileY, lW, rW, uH, dH, maxDis
         maxDist = maxDistArg
     }
     
+    //up
     if(map[uH][objTileX].hasOwnProperty('solid')) {
         if(objPos.y <= map[uH][objTileX].pos.y + TILE_H + maxDist) {
             objPos.y = map[uH][objTileX].pos.y + TILE_H + maxDist;
