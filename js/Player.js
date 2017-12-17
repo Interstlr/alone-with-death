@@ -146,7 +146,7 @@ class Player {
 
 		//inventory
 		
-			//1
+		//1
 		if(keyIsDown(49)){
 			this.processingCurrentInventorySbj(0);
 		}
