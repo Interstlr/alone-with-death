@@ -1,5 +1,5 @@
 class Player {
-    constructor(radius, windowDimentions, playerSprites) {
+    constructor(radius, windowDimentions, playerSprites, spritesSetIdle) {
 		this.r = radius;
 		this.rHand = (radius / 4) | 0;
 		this.pos = {'x': windowDimentions.x / 2, 'y': windowDimentions.y / 2};
@@ -26,8 +26,8 @@ class Player {
 		
 		this.bodySpriteCurrentWidth = 115;
 		this.bodySpriteCurrentX = 0;
-		
-		
+
+		//this.animationIdle = new Animation(spritesSetIdle); 
 	}
 
 	update(map) {

@@ -11,7 +11,9 @@ let images;
 let blood;
 let spritesBlood; 
 let playerSprites = [];
+let playerSpritesIdle = [];
 let gunSpriteSheet;
+let zimbieSprites = [];
 
 let itemsGenerator;
 let itemsSpriteSheet;
@@ -50,6 +52,11 @@ function preload() {
     //sounds.music.track1 = loadSound('../audio/Resident_Evil_movie_soundtrack_2008.mp3');
     //sounds.music.track2 = loadSound('../audio/Resident_Evil_Corp_Umbrella.mp3');
 
+    zimbieSprites[0] = [];
+    for(let i = 0; i < 16; i++) {
+        zimbieSprites[0][i] = loadImage('../img/enemy/zombieNormal/skeleton-move_' + i + '.png');
+    }
+
     playerSprites[0] = loadImage('../img/player/survivor-glock.png');
     playerSprites[1] = loadImage('../img/player/survivor-ak47.png');
     playerSprites[2] = loadImage('../img/player/survivor-m4a1.png');
@@ -71,7 +78,7 @@ function setup() {
     map.imagesSet = images;
     map.createMap(jsonMap);
 
-    itemsGenerator = new Generation(map.map, jsonItems, jsonWeapon, player, enemies);
+    itemsGenerator = new Generation(map.map, jsonItems, jsonWeapon, player, enemies, zimbieSprites[0]);
     setInterval(function() {
         itemsGenerator.findEnemiesOnScreen(enemies, player.pos);
     }.bind(this), 2000);

@@ -1,5 +1,5 @@
 class Generation {
-    constructor(map, jsonItems, jsonWeapon, player, enemies) {
+    constructor(map, jsonItems, jsonWeapon, player, enemies, enemySpritesMove) {
         this.map = map;
         this.jsonItems = jsonItems;
         this.jsonWeapon = jsonWeapon;
@@ -8,12 +8,13 @@ class Generation {
         this.enemies = enemies;
         this.mapMaxSize = {x: MAP_SIZE_X * TILE_W - 100, y: MAP_SIZE_Y * TILE_W - 100};
         this.generatedWeaponNames = [];
+        this.enemySpritesMove = enemySpritesMove;
 
         this.chanceItems = 2; //larger value lower chance
         this.chanceWeapon = 10;
         this.generalChance = 100;
 
-        this.generalChanceZombie = 30;
+        this.generalChanceZombie = 15;
         this.chanceZombieNormal = 3;
         this.chanceFastZombie = 5;
         this.chanceFatZombie = 8;
@@ -83,8 +84,9 @@ class Generation {
         this.enemies.push(new Enemy(
             randInt(TILE_W, MAP_SIZE_X * TILE_W - TILE_W),
             randInt(TILE_H, MAP_SIZE_Y * TILE_H - TILE_H),
-            ENTITY_DIAMETR / 2)
-        );
+            ENTITY_DIAMETR / 2,
+            this.enemySpritesMove
+        ));
     }
 
     updateItems() {
