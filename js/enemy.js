@@ -1,9 +1,10 @@
 class Enemy {
-    constructor(x, y, r) {
+    constructor(x, y, r, spritesMove) {
         this.r = r;
         this.pos = createVector(x, y);
         this.moveSpeed = 2;
         this.color = color(255);
+        this.animation = new Animation(spritesMove);
 
         this.hp = 100;
         this.damage = 0;
@@ -36,7 +37,8 @@ class Enemy {
         this.checkCollidingWalls(map);
 
         if(this.isOnScreen) {
-            this.render();
+            this.animation.renderMove(this.pos.x, this.pos.y, 50, 50);
+            //this.render();
 
             if(this.isIntersects(playerPos)) {
                 this.damage = 0.5;
