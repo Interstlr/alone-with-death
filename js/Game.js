@@ -56,21 +56,11 @@ function preload() {
         zimbieSprites[0][i] = loadImage('../img/enemy/zombieNormal/skeleton-move_' + i + '.png');
     }
 
-    playerSprites[0] = [];
-    playerSprites[1] = [];
-    playerSprites[2] = [];
-    playerSprites[3] = [];
-    for(let i = 0; i < 20; i++) {
-        //load glock17 sprites
-        playerSprites[0][i] = loadImage('../img/player/glock17/idle/survivor-idle_handgun_' + i + '.png');
-        //load ak47 sprites
-        playerSprites[1][i] = loadImage('../img/player/ak47/idle/survivor-idle_rifle_' + i + '.png');
-        //load m4a1 sprites
-        playerSprites[2][i] = loadImage('../img/player/m4a1/idle/survivor-idle_shotgun_' + i + '.png');
-        //load awp sprites
-        playerSprites[3][i] = loadImage('../img/player/awp/idle/survivor-idle_shotgun_' + i + '.png');
-        
-    }
+    playerSprites[0] = loadImage('../img/player/survivor-glock.png');
+    playerSprites[1] = loadImage('../img/player/survivor-ak47.png');
+    playerSprites[2] = loadImage('../img/player/survivor-m4a1.png');
+    playerSprites[3] = loadImage('../img/player/survivor-awp.png');
+
 }
 
 function setup() {

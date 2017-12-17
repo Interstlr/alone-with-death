@@ -4,6 +4,7 @@ class Animation {
         this.spriteIndex = 0;
         this.tickCount = 0;
         this.ticksPerSprite = 2;
+        this.ticksPerSpritePlayer = 10;
         
         this.width = 110;
         this.height = 130;
@@ -38,12 +39,11 @@ class Animation {
         //push();
         imageMode(CENTER);
         rotate(-0.1);
-        console.log(this.imagesSet[curWeapon][this.spriteIndex]);
-        image(this.imagesSet[curWeapon][this.spriteIndex], playerPos.x, playerPos.y, bodySpriteCurW, bodySpriteCurH);
+        image(this.imagesSet[curWeapon][this.spriteIndex], bodySpriteCurX, bodySpriteCurY, bodySpriteCurW, bodySpriteCurH);
         //pop();
 
         this.tickCount++;
-        if(this.tickCount > this.ticksPerSprite) {
+        if(this.tickCount > this.ticksPerSpritePlayer) {
             this.spriteIndex++;
             if(this.spriteIndex >= this.spritesMoveLength) this.spriteIndex = 0;
             this.tickCount = 0;

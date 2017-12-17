@@ -24,32 +24,24 @@ class Player {
 		this.score = new Score();
 
 		this.playerSprites = playerSprites;
+		this.currentSprite = playerSprites[0];
 		
 		this.bodySpriteCurrentWidth = 115;
 		this.bodySpriteCurrentX = 0;
 
-		this.animationIdle = new Animation(playerSprites); 
-		this.currentWeaponNumber = 0;
+		//this.animationIdle = new Animation(playerSprites); 
+		//this.currentWeaponNumber = 0;
 	}
 
 	update(map) {
-		fill(PLAYER_COLOR);
-
+		
 		push();
 
-		ellipseMode(CENTER);
+		imageMode(CENTER);
 		translate(this.pos.x, this.pos.y);
 		rotate(atan2(mouseY - WIN_HEIGHT_HALF, mouseX - WIN_WIDTH_HALF));
 
-		this.animationIdle.renderPlayer(
-			this.currentWeaponNumber,
-			this.pos,
-			this.bodySpriteCurrentX, 
-			0, 
-			this.bodySpriteCurrentWidth, 
-			115
-		);
-		//image(this.currentSprite, this.bodySpriteCurrentX, 0, this.bodySpriteCurrentWidth, 115);
+		image(this.currentSprite, this.bodySpriteCurrentX, 0, this.bodySpriteCurrentWidth, 115);
 		
 		pop();
 
@@ -164,7 +156,6 @@ class Player {
 		if(keyIsDown(53)){
 			this.processingCurrentInventorySbj(4);
 		}	
-		
 
 		//R - recharge
 		if(keyIsDown(82)){
@@ -196,28 +187,28 @@ class Player {
 			case 'glock17': 
 				this.bodySpriteCurrentWidth = 115;
 				this.bodySpriteCurrentX = 0;
-				this.currentWeaponNumber = 0;
+				this.currentSprite = playerSprites[0];
 				break;
 			case 'ak47':
 				this.bodySpriteCurrentWidth = 150;
 				this.bodySpriteCurrentX = 20;
-				this.currentWeaponNumber = 1;
+				this.currentSprite = playerSprites[1];
 				break;
 			case 'm4a1': 
 				this.bodySpriteCurrentWidth = 150;
 				this.bodySpriteCurrentX = 20;
-				this.currentWeaponNumber = 2;
+				this.currentSprite = playerSprites[2];
 				break;
 			case 'awp':
 				this.currentSprite = this.playerSprites[3];
 				this.bodySpriteCurrentWidth = 167;
 				this.bodySpriteCurrentX = 29;
-				this.currentWeaponNumber = 3;
+				this.currentSprite = playerSprites[3];
 				break;
 			default:
 				this.bodySpriteCurrentWidth = 115;
 				this.bodySpriteCurrentX = 0;
-				this.currentWeaponNumber = 0;
+				this.currentSprite = playerSprites[0];
 				break;
 		}
 	
