@@ -70,7 +70,7 @@ class Weapon {
                 bulletsLength: 10,  //bullet lenght
                 bulletsColor: BULLET_COLOR, //color
                 lifeTime: 35,
-                penetrationCapacity: player.currentWeaponInHand.damage / 2 
+                penetrationCapacity: player.currentWeaponInHand.damage / 2
             });
         }
         if(this.bulletCurrentMagazine <= 0 && this.bulletAmount > 0 && !this.reloadIsNow) {  //update bullets holder

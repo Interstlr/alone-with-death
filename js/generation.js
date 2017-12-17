@@ -171,7 +171,7 @@ class Generation {
                 enemiesList[i].isOnScreen = false;
             }
         }
-    }
+    }s
 
     isEnemyOnScreen(enemyPos, renderBorderUp, renderBorderDown, renderBorderLeft, renderBorderRight) {
 
