@@ -11,8 +11,8 @@ class Player {
 
 		this.queueBullets = null;
 
-		this.playerSpeed = 8;
-		this.boostedPlayerSpeed = this.playerSpeed * 4;
+		this.playerSpeed = 6;
+		this.boostedPlayerSpeed = this.playerSpeed * 1.5;
 
 		this.barsX = 10;
 		this.barsY = 200;
@@ -177,7 +177,7 @@ class Player {
 				this.blockRunning = true;
 			}
 		} else {
-			this.playerSpeed = this.boostedPlayerSpeed / 4;
+			this.playerSpeed = this.boostedPlayerSpeed / 1.5;
 		}
 	}
 
