@@ -30,7 +30,7 @@ class Tile {
             this.pos.x,
             this.pos.y, 
             TILE_W, 
-            TILE_H, 
+            TILE_H + 2, 
             this.imgPos.x, 
             this.imgPos.y, 
             TILE_W, 
