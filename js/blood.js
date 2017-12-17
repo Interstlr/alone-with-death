@@ -1,5 +1,5 @@
 class BloodItem {
-    constructor(posX, posY, ) {
+    constructor(posX, posY) {
         this.x = posX;
         this.y = posY;
         this.lifeTime = 500;
