@@ -2,12 +2,12 @@ class Inventory {
     constructor() {
         this.inventoryThings = [];
         this.inventoryCeil = [
-            {x:-150,y:225,empty: true},
-            {x:-90,y:225,empty: true},
-            {x:-30,y:225,empty: true},
-            {x:30,y:225,empty: true},
-            {x:90,y:225,empty: true},
-            {x:150,y:225,empty: true}
+            {x: -150, y: WIN_HEIGHT_HALF - 150, empty: true},
+            {x: -90, y: WIN_HEIGHT_HALF - 150, empty: true},
+            {x: -30, y: WIN_HEIGHT_HALF - 150, empty: true},
+            {x: 30, y: WIN_HEIGHT_HALF - 150, empty: true},
+            {x: 90, y: WIN_HEIGHT_HALF - 150, empty: true},
+            {x: 150, y: WIN_HEIGHT_HALF - 150, empty: true}
         ];
         this.ceilSize = 60;
     }
@@ -76,6 +76,7 @@ class Inventory {
         strokeWeight(2);
         stroke('rgba(35, 35, 35, 1)');
         fill(50, 0.5); 
+
         this.inventoryCeil.forEach(function(item, index, object) {
             let currentThing = this.inventoryThings[index];
             if(obj.currentThingInHand == currentThing && currentThing) {
@@ -112,7 +113,7 @@ class Inventory {
             fill('#fff');
             textSize(30);
             
-            text(player.currentWeaponInHand.bulletCurrentMagazine + '/' + player.currentWeaponInHand.bulletAmount, WIN_WIDTH_HALF/2 + 80,280);
+            text(player.currentWeaponInHand.bulletCurrentMagazine + '/' + player.currentWeaponInHand.bulletAmount, WIN_WIDTH_HALF/2 + 80,WIN_HEIGHT_HALF - 120);
         }
 
 		pop();
