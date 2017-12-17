@@ -74,7 +74,7 @@ class Inventory {
 		translate(obj.pos.x, obj.pos.y);
         colorMode(HSL);
         strokeWeight(2);
-        stroke('rgba(35, 35, 35, 1)');
+        //stroke('rgba(35, 35, 35, 1)');
         fill(50, 0.5); 
 
         this.inventoryCeil.forEach(function(item, index, object) {
@@ -102,9 +102,11 @@ class Inventory {
                 
                 if(currentThing instanceof Weapon) {
                     fill('#fff');
+                    textFont(ammoFont);
                     text(currentThing.bulletAmount + currentThing.bulletCurrentMagazine, item.x + 25, item.y + 55);
                 }else {
                     fill('#fff');
+                    textFont(ammoFont);
                     text(currentThing.count, item.x + 25, item.y + 55);
                 }
             }
@@ -112,7 +114,7 @@ class Inventory {
         if(player.currentWeaponInHand instanceof Weapon) {
             fill('#fff');
             textSize(30);
-            
+            textFont(ammoFont);
             text(player.currentWeaponInHand.bulletCurrentMagazine + '/' + player.currentWeaponInHand.bulletAmount, WIN_WIDTH_HALF/2 + 80,WIN_HEIGHT_HALF - 120);
         }
 

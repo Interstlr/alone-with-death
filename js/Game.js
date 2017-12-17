@@ -26,6 +26,8 @@ let gameOver = false;
 let gameIsPaused = true;
 let keyIsPressed = false;
 
+let scoreFont;
+let ammoFont;
 
 
 let fpsValue;
@@ -34,6 +36,9 @@ function preload() {
     jsonMap = loadJSON(MAP_JSON_PATH);
     jsonItems = loadJSON(ITEMS_JSON_PATH);
     jsonWeapon = loadJSON(WEAPON_JSON_PATH);
+
+    scoreFont = loadFont('../fonts/SquadaOne-Regular.ttf');
+    ammoFont = loadFont('../fonts/SquadaOne-Regular.ttf');
 
     images = loadImage('../img/terrainSet.png');
     spritesBlood = loadImage('../img/blood_spot.png');

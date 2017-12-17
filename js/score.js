@@ -13,9 +13,10 @@ class Score {
         push();
         translate(pos.x, pos.y);
         fill('#fff');
-        textSize(30);
-        text('score: ' + this.value, WIN_WIDTH_HALF/2 + 80, -WIN_HEIGHT_HALF + 50);
-        text('kills:' + this.kills, WIN_WIDTH_HALF/2 + 80, -WIN_HEIGHT_HALF + 100);
+        textSize(26);
+        textFont(scoreFont);
+        text('score: ' + this.value, WIN_WIDTH_HALF/2 - 100, -WIN_HEIGHT_HALF + 40);
+        text('kills: ' + this.kills, WIN_WIDTH_HALF/2 + 80, -WIN_HEIGHT_HALF + 40);
 		pop();
 	}
 }
