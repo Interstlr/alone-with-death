@@ -37,7 +37,7 @@ class Inventory {
                     }
                 }
             }else {
-                if(itemToAdd.name == 'aidKit' || itemToAdd instanceof Weapon ){
+                if(itemToAdd.itemType == ('aid') || itemToAdd instanceof Weapon ){
                     this.inventoryThings[index] = itemToAdd;
                     this.inventoryCeil[index].empty = false;
                     added = true;

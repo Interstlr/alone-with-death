@@ -79,7 +79,7 @@ class Weapon {
     }
     
     initRecharge(gunName) {
-        if(!this.reloadIsNow){
+        if(!this.reloadIsNow && this.bulletAmount && this.bulletCurrentMagazine != this.bulletMagazineCapacity){
             this.playGunReloadSound(gunName);
             this.reload = -Math.PI / 2; 
             this.reloadIsNow = true;
@@ -88,17 +88,13 @@ class Weapon {
     }
     recharge() {
         if(this.bulletAmount > this.bulletMagazineCapacity) {
-            if(this.bulletCurrentMagazine) {
-                this.bulletAmount -= this.bulletMagazineCapacity - this.bulletCurrentMagazine;
-                this.bulletCurrentMagazine = this.bulletMagazineCapacity;
-            }
-            else{
-                this.bulletAmount -= this.bulletMagazineCapacity;
-                this.bulletCurrentMagazine = this.bulletMagazineCapacity;
-            }
-        }
-        else {
-            this.bulletCurrentMagazine = this.bulletAmount;
+            this.bulletAmount += this.bulletCurrentMagazine - this.bulletMagazineCapacity;
+            this.bulletCurrentMagazine = this.bulletMagazineCapacity;
+        } else if(this.bulletAmount + this.bulletCurrentMagazine > this.bulletMagazineCapacity){
+            this.bulletAmount = (this.bulletAmount + this.bulletCurrentMagazine) % this.bulletMagazineCapacity;
+            this.bulletCurrentMagazine = this.bulletMagazineCapacity;
+        } else {
+            this.bulletCurrentMagazine += this.bulletAmount;
             this.bulletAmount = 0;
         }
         this.reloadIsNow = false;

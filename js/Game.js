@@ -115,7 +115,7 @@ function setup() {
     itemsGenerator.addWeapon(300, 200, 2);
     itemsGenerator.addWeapon(400, 200, 3);
     itemsGenerator.addThing(500, 200, 0);
-    itemsGenerator.addThing(600, 200, 0);
+    itemsGenerator.addThing(600, 200, 1);
     
 }
 

@@ -222,16 +222,16 @@ class Player {
 		this.currentWeaponInHand = this.inventory.getItem(index);
 		if(this.currentWeaponInHand) {
 			this.changePlayerSkin(this.currentWeaponInHand.name);
-			if(this.currentWeaponInHand.name == 'aidKit') {
-				if((this.healthBar.w + this.currentWeaponInHand.value) > 150) {
+			if(this.currentWeaponInHand.itemType == 'aid') {
+				console.log((this.healthBar.w + this.currentWeaponInHand.value))
+				if(keyIsPressed){
+				if((this.healthBar.w + this.currentWeaponInHand.value) < 150) {
+					this.healthBar.w = (this.healthBar.w + this.currentWeaponInHand.value) % 150;
+					this.healthBar.value = this.healthBar.w;
+				}else {
 					this.healthBar.w = 150;
 					this.healthBar.value = 150;
-				}else {
-					this.healthBar.w += this.currentWeaponInHand.value;
-					this.healthBar.value += this.currentWeaponInHand.value;
 				}
-				if(keyIsPressed){
-					console.log(this.currentWeaponInHand.count ) 
 					if(this.currentWeaponInHand.count == 1){
 						this.inventory.removeItem(index);
 					}else {

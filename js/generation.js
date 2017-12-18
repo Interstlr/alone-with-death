@@ -35,7 +35,7 @@ class Generation {
         if(randInt(0, this.generalChance) == 0) {
             //generate ammo, aid kit,
             if(randInt(0, this.chanceItems) == 0) {
-                let randItemID = randInt(0, 4);
+                let randItemID = randInt(0, 5);
                 this.addThing(
                     randInt(TILE_W, this.mapMaxSize.x),
                     randInt(TILE_H, this.mapMaxSize.y),
