@@ -88,16 +88,17 @@ class Inventory {
             }
             
             if(!item.empty && currentThing) {
+                console.log(currentThing.size)
                 //shwo gun sprite in inventory panel
                 image(currentThing.img,
-                    item.x + 15, 
+                    item.x + 10, 
                     item.y + 5, 
                     40, 
                     40,
                     currentThing.imagePos.x,
                     currentThing.imagePos.y,
-                    INVENTORY_THING_SIZE,
-                    INVENTORY_THING_SIZE
+                    currentThing.size.w + 9,
+                    currentThing.size.h + 9
                 );
                 
                 if(currentThing instanceof Weapon) {

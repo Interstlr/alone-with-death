@@ -160,7 +160,10 @@ class Player {
 		if(keyIsDown(53)){
 			this.processingCurrentInventorySbj(4);
 		}	
-
+		//6
+		if(keyIsDown(54)){
+			this.processingCurrentInventorySbj(5);
+		}	
 		//R - recharge
 		if(keyIsDown(82)){
 			if(this.currentWeaponInHand instanceof Weapon){

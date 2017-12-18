@@ -67,7 +67,6 @@ class Generation {
         const item = JSON.parse(JSON.stringify(this.jsonItems.contents[randItemID]));
         item.pos.x = posX;
         item.pos.y = posY;
-
         this.items.push(new Thing(item));
     }
 

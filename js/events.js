@@ -7,7 +7,7 @@ $(document).ready(function(){
 
 $('.startBtn').click(function(){
     $('.startMenu').hide();
-    gameIsPaused = false;
+    gameStart = true;
 });
 
 $('.resumeBtn').click(function(){
@@ -23,7 +23,11 @@ $('.restartBtn').click(function(){
 
 
 $(this).keydown(function(e){
-    // alert(e.keyCode);
+    
+    if(!gameStart) {
+        return;
+    }
+
     if(e.keyCode == 27) {
         gameIsPaused = gameIsPaused ? false : true;
         $('.pauseMenu').toggle();
