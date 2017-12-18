@@ -12,7 +12,7 @@ class Animation {
         this.spritesMoveLength = this.imagesSet.length;
     }
 
-    renderMove(x, y, playerPos) {
+    renderZombieMove(x, y, playerPos) {
         push();
         imageMode(CENTER);
         // angleMode(DEGREES);

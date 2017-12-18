@@ -17,8 +17,6 @@ class Enemy {
 
     update(playerPos, map) {
 
-       
-
         let moveX = 0;
         let moveY = 0;
        
@@ -30,6 +28,7 @@ class Enemy {
 
         let dx = playerPos.x - this.pos.x;
         let dy = playerPos.y - this.pos.y;
+
         if(this.pos.x <= 400 || playerPos.x <= 400 ||  (Math.abs(dx) <= 100)) {
             if(dx > 0) {    
                 this.pos.x += 1;
@@ -104,7 +103,7 @@ class Enemy {
         this.checkCollidingWalls(map);
 
         if(this.isOnScreen) {
-            this.animation.renderMove(this.pos.x, this.pos.y, playerPos);
+            this.animation.renderZombieMove(this.pos.x, this.pos.y, playerPos);
             //this.render();
 
             if(this.isIntersects(playerPos)) {
