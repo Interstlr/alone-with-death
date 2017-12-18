@@ -49,11 +49,12 @@ function checkCollisionEnemies(enemies) {
     }
 }
 
+// it doesn't work
 function restart() {
     enemies.lenght = 0;
     map.createMap(jsonMap);
     itemsGenerator = new Generation(map.map, jsonItems, jsonWeapon, player, enemies, zimbieSprites[0]);
-    
+
 }
 /*
 function copyObject(initialObject) {
