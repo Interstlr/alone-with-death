@@ -1,13 +1,7 @@
 $(document).ready(function(){
     $('.pauseMenu').hide();
     $('.pauseIndicator').hide();
-    $('.startMenu').show();
     $('.gameOverMenu').hide();
-});
-
-$('.startBtn').click(function(){
-    $('.startMenu').hide();
-    gameStart = true;
 });
 
 $('.resumeBtn').click(function(){
@@ -21,13 +15,8 @@ $('.restartBtn').click(function(){
     window.location.reload();
 });
 
-
 $(this).keydown(function(e){
     
-    if(!gameStart) {
-        return;
-    }
-
     if(e.keyCode == 27) {
         gameIsPaused = gameIsPaused ? false : true;
         $('.pauseMenu').toggle();

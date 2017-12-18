@@ -22,7 +22,6 @@ let soundsQueue = [];
 
 let things = [];    //things as medicine kit, ammo, weapons, etc. on the map
 
-let gameStart = false;
 let gameOver = false;
 let gameIsPaused = false;
 let keyIsPressed = false;
@@ -34,7 +33,6 @@ let ammoFont;
 let fpsValue;
 
 function preload() {
-
     jsonMap = loadJSON(MAP_JSON_PATH);
     jsonItems = loadJSON(ITEMS_JSON_PATH);
     jsonWeapon = loadJSON(WEAPON_JSON_PATH);
