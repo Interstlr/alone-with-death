@@ -82,12 +82,15 @@ html {
 
 .titleGameOver {
     width: 100%;
-    font-size: 60px;
-    color: rgb(255, 0, 0);
-    text-shadow: 1px 2px 20px rgb(0, 0, 0);
+    height: 300px;
+    font-size: 70px;
+    font-weight: 400;
+    color: rgb(165, 4, 4);
     display: flex;
     justify-content: center;
     align-items: center;
+    background: url('../img/game-over.jpg');
+    font-family: "DeadKansas", Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
 .gameScore {
