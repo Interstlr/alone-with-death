@@ -102,11 +102,11 @@ class Inventory {
                 
                 if(currentThing instanceof Weapon) {
                     fill('#fff');
-                    textFont(ammoFont);
+                    textFont(font);
                     text(currentThing.bulletAmount + currentThing.bulletCurrentMagazine, item.x + 25, item.y + 55);
                 }else {
                     fill('#fff');
-                    textFont(ammoFont);
+                    textFont(font);
                     text(currentThing.count, item.x + 25, item.y + 55);
                 }
             }
@@ -114,7 +114,7 @@ class Inventory {
         if(player.currentWeaponInHand instanceof Weapon) {
             fill('#fff');
             textSize(30);
-            textFont(ammoFont);
+            textFont(font);
             text(player.currentWeaponInHand.bulletCurrentMagazine + '/' + player.currentWeaponInHand.bulletAmount, WIN_WIDTH_HALF/2 + 80,WIN_HEIGHT_HALF - 120);
         }
 
