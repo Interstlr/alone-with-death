@@ -3,7 +3,6 @@ class Enemy {
         this.r = r;
         this.pos = createVector(x, y);
         this.moveSpeed = 2;
-        this.move = createVector(x, y);
         this.color = color(255);
         this.animation = new Animation(spritesMove);
 
@@ -14,17 +13,16 @@ class Enemy {
         this.moveQueue = [];
 
         this.isOnScreen = false;
-        this.setMovement(playerPos);
     }
 
     update(playerPos, map) {
 
-        this.moveEnemy();
+        this.moveEnemy(playerPos);
        
         this.checkCollidingWalls(map);
 
         if(this.isOnScreen) {
-            this.animation.renderZombieMove(this.pos.x, this.pos.y, playerPos);
+            this.animation.renderZombieMove(this.pos, playerPos);
             //this.render();
 
             /*
@@ -103,26 +101,13 @@ class Enemy {
         }
     }
 
-    setMovement(playerPos) {
+    moveEnemy(playerPos) {
 
-        setInterval(function() {
+        let dx = playerPos.x - this.pos.x;
+        let dy = playerPos.y - this.pos.y;
 
-            console.log(this);
-
-            let dx = playerPos.x - this.pos.x;
-            let dy = playerPos.y - this.pos.y;
-
-            dx >= 0 ? this.move.x = this.moveSpeed : this.move.x = -this.moveSpeed;
-            dy >= 0 ? this.move.y = this.moveSpeed : this.move.y = -this.moveSpeed;
-
-            console.log('after ' + this.pos);
-
-        }.bind(this), 1000);
-    }
-
-    moveEnemy() {
-        this.pos.x += this.move.x;
-        this.pos.y += this.move.y;
+        dx >= 0 ? this.pos.x += this.moveSpeed : this.pos.x += -this.moveSpeed;
+        dy >= 0 ? this.pos.y += this.moveSpeed : this.pos.y += -this.moveSpeed;
     }
 
     render() {
