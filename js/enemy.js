@@ -25,7 +25,7 @@ class Enemy {
             let dx = playerPos.x - this.pos.x;
             let dy = playerPos.y - this.pos.y;
 
-            if(this.pos.x <= 600 || playerPos.x <= 600 ||  (Math.abs(dx) <= 100)) {
+            // if(this.pos.x <= 600 || playerPos.x <= 600 ||  (Math.abs(dx) <= 100)) {
                 if(dx > 0) {    
                     this.pos.x += 1;
                 } else if(dx < 0) {
@@ -37,58 +37,58 @@ class Enemy {
                 } else{
                     this.pos.y -= 1;
                 }
-            }
+            // }
           
-            if(this.moveQueue.length == 0) {
+            // if(this.moveQueue.length == 0) {
                 
-                let arrX = [this.pos.x, (this.pos.x + playerPos.x)  / 1, playerPos.x];
-                let arrY = [this.pos.y,  (this.pos.y + playerPos.y) / 1, playerPos.y];
+            //     let arrX = [this.pos.x, (this.pos.x + playerPos.x)  / 1, playerPos.x];
+            //     let arrY = [this.pos.y,  (this.pos.y + playerPos.y) / 1, playerPos.y];
     
-                let nPoints = arrX.length;
-                let resultY = 0;
-                let s = 0;
+            //     let nPoints = arrX.length;
+            //     let resultY = 0;
+            //     let s = 0;
     
-                let currentX = this.pos.x;
-                for(let k = 0; k < 15; k++) {
-                    if(currentX < 600 || playerPos.x < 600 || Math.abs( playerPos.x - currentX ) < 100) { 
-                        break;
-                     } else {
-                        resultY = arrY[0];
-                        for(let i = 1; i < nPoints; i++) {
-                            let difference = 0;
-                            for(let j = 0; j <= i; j++) {
-                                s = 1;
-                                for(let m = 0; m <= i; m++) {
-                                    if(m != j) {
-                                        s *= arrX[j] - arrX[m];
-                                    }
-                                }
-                                if(s != 0) {
-                                    difference += arrY[j] / s;
-                                }
-                            }
-                            for(let m = 0; m < i; m++) {
-                                let findX = currentX;
-                                difference *= (findX - arrX[m]);
-                            }
-                            resultY += difference;
-                        }
+            //     let currentX = this.pos.x;
+            //     for(let k = 0; k < 15; k++) {
+            //         if(currentX < 600 || playerPos.x < 600 || Math.abs( playerPos.x - currentX ) < 100) { 
+            //             break;
+            //          } else {
+            //             resultY = arrY[0];
+            //             for(let i = 1; i < nPoints; i++) {
+            //                 let difference = 0;
+            //                 for(let j = 0; j <= i; j++) {
+            //                     s = 1;
+            //                     for(let m = 0; m <= i; m++) {
+            //                         if(m != j) {
+            //                             s *= arrX[j] - arrX[m];
+            //                         }
+            //                     }
+            //                     if(s != 0) {
+            //                         difference += arrY[j] / s;
+            //                     }
+            //                 }
+            //                 for(let m = 0; m < i; m++) {
+            //                     let findX = currentX;
+            //                     difference *= (findX - arrX[m]);
+            //                 }
+            //                 resultY += difference;
+            //             }
         
-                        this.moveQueue.push(createVector(currentX,resultY));
+            //             this.moveQueue.push(createVector(currentX,resultY));
         
-                        if(dx > 0) {    
-                            currentX += 1;//this.moveSpeed;
-                        } else if(dx <= 0) {
-                            currentX -= 1;//this.moveSpeed;
-                        }
-                     }
-                }
-                // console.log(this.moveQueue);
-            } else {
-                this.pos.x = this.moveQueue[0].x;
-                this.pos.y = this.moveQueue[0].y;
-                this.moveQueue.splice(0, 1);
-            }
+            //             if(dx > 0) {    
+            //                 currentX += 1;//this.moveSpeed;
+            //             } else if(dx <= 0) {
+            //                 currentX -= 1;//this.moveSpeed;
+            //             }
+            //          }
+            //     }
+            //     // console.log(this.moveQueue);
+            // } else {
+            //     this.pos.x = this.moveQueue[0].x;
+            //     this.pos.y = this.moveQueue[0].y;
+            //     this.moveQueue.splice(0, 1);
+            // }
 
             if(this.isIntersects(playerPos)) {
                 this.damage = 0.5;
