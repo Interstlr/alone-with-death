@@ -40,11 +40,13 @@ class WaveEnemies {
     update(pos) {
         push();
         translate(pos.x, pos.y);
-        fill('#fff');
+        
         textSize(36);
         textFont(font);
+        fill('#FA3838');
         text('00:' + (60 - this.timeFromStart), -40, -WIN_HEIGHT_HALF + 40);
         textSize(26);
+        fill('#fff');
         text('Wave: ' + this.nWave, -38, -WIN_HEIGHT_HALF + 80);
        
 		pop();
