@@ -155,7 +155,6 @@ class Generation {
 
         this.enemiesOnScreen.length = 0;
 
-        let leng = 0;
 
         let renderBorderUp = playerPos.y - WIN_HEIGHT;
         let renderBorderDown = playerPos.y + WIN_HEIGHT;
@@ -171,14 +170,11 @@ class Generation {
                 renderBorderRight
             )) {
                 enemiesList[i].isOnScreen = true;
-                leng++;
                 this.enemiesOnScreen.push(enemiesList[i]);
             } else {
                 enemiesList[i].isOnScreen = false;
             }
         }
-
-        console.log(leng);
     }
 
     isEnemyOnScreen(enemyPos, renderBorderUp, renderBorderDown, renderBorderLeft, renderBorderRight) {
