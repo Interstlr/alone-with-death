@@ -66,7 +66,7 @@ class Generation {
 
             //generate weapon
             if(randInt(0, this.chanceWeapon) == 0) {
-                let randItemID = randInt(0, 5);
+                let randItemID = randInt(0, 3);
                 let weaponName = JSON.parse(JSON.stringify(this.jsonWeapon.contents[randItemID])).name;
                 if(this.generatedWeaponNames.indexOf(weaponName) >= 0) {
                     return;
