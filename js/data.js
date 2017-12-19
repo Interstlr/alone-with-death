@@ -21,7 +21,8 @@ const REND_MAP_DOWN = ((WIN_HEIGHT_HALF / TILE_H) | 0) + 2;
 //colors
 const PLAYER_COLOR = '#8db0e8';
 const ENEMY_COLOR = '#f73b3b';
-const BGCOLOR = '#686868';
+const BGCOLOR_GRAY = '#686868';
+const BGCOLOR_ALMOSTBLACK = '#080808';
 const GRASS_COLOR = '#2e8c27';
 const HP_BAR_COLOR = '#c01111';
 const HUNGER_BAR_COLOR = '#1fc633';
@@ -41,6 +42,7 @@ const GUN_SPRITE_SHEET = '../img/gunSpriteSheet.png';
 const ITEMS_JSON_PATH = '/js/itemsJSON.json';
 const MAP_JSON_PATH = '/js/mapJSON.json';
 const WEAPON_JSON_PATH = '/js/weaponJSON.json';
+const BUNKER_JSON_PATH = '/js/bunkerJSON.json';
 
 const INVENTORY_THING_SIZE = 100;
 const ITEM_SIZE = 60;

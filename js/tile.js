@@ -13,6 +13,9 @@ class Tile {
                 this.healthValue = 1000;
                 this.solid = true;
                 break;
+            case 5:
+                this.isBunkerEntrance = true;
+                break;
             default:
                 break;
         }
@@ -36,10 +39,5 @@ class Tile {
             TILE_W, 
             TILE_H
         );
-    }
-
-    debugUpdate() {
-        fill(255, 50);
-        rect(this.pos.x, this.pos.y, TILE_W, TILE_H);
     }
 }

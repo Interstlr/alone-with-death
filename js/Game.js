@@ -4,6 +4,7 @@ let techData;
 let enemies;
 
 let jsonMap;
+let jsonBunkerMap;
 let jsonItems;
 let jsonWeapon;
 
@@ -34,6 +35,7 @@ let fpsValue;
 
 function preload() {
     jsonMap = loadJSON(MAP_JSON_PATH);
+    jsonBunkerMap = loadJSON(BUNKER_JSON_PATH);
     jsonItems = loadJSON(ITEMS_JSON_PATH);
     jsonWeapon = loadJSON(WEAPON_JSON_PATH);
 
@@ -92,7 +94,7 @@ function setup() {
 
     blood = new Blood();
 
-    background(BGCOLOR);
+    background(BGCOLOR_GRAY);
 
     sounds.glock17.setVolume(0.3);
     sounds.glock17Reload.setVolume(0.3);
@@ -128,11 +130,7 @@ function draw() {
         return;
     }
 
-    
-
     camera(player.pos.x - WIN_WIDTH_HALF, player.pos.y - WIN_HEIGHT_HALF);
-
-    background(BGCOLOR);
 
     map.update(player.pos);
 

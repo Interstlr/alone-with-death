@@ -99,7 +99,7 @@ class Weapon {
         }
         this.reloadIsNow = false;
         this.reload = 0;
-    }
+    } 
 
     updateRecharge(pos) {
         let iRecharge = Math.PI / this.timeReload * 33;

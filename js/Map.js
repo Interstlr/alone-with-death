@@ -4,10 +4,13 @@ class Map {
         this.origin = {'x': objOrigin.x, 'y': objOrigin.y};
         this.map = null;
         this.imagesSet = null;
-        this.ob
+        this.activeMap = 'arena';
+        this.loaded = false;
     }
 
     createMap(json) {
+        console.log(json);
+        this.map = null;
         let tmpMap = [];
         let tileX = 0;
         let tileY = 0;
@@ -22,28 +25,25 @@ class Map {
 
                 switch(json.layers[0].data[jsonIndex]) {
                     case 1: //grass
-                        imgX = 0;
-                        imgY = 0;
                         break;
                     case 2: 
                         imgX = 100;
-                        imgY = 0;
                         break;
                     case 5: //sand
-                        imgX = 0;
                         imgY = 100;
                         break;
                     case 9: //brick wall 
-                        imgX = 0;
                         imgY = 200;
                         break;
                     case 13: //wooden floor
-                        imgX = 0;
                         imgY = 300;
                         break;
                     case 17: //infinite wall
-                        imgX = 0;
                         imgY = 400;
+                        break;
+                    case 0:
+                        imgY = 500;
+                        break;
                 }
 
                 tmpMap[i][j] = new Tile(tileX, tileY, imgX, imgY, json.layers[0].data[jsonIndex]);
@@ -58,11 +58,12 @@ class Map {
         this.map = tmpMap;
     }
 
-    update(pCoors) {
-        fill(GRASS_COLOR);
+    update(playerPos) {
 
-        let playerTileX = (pCoors.x / TILE_W) | 0;
-        let playerTileY = (pCoors.y / TILE_H) | 0;
+        background(BGCOLOR_ALMOSTBLACK);
+
+        let playerTileX = (playerPos.x / TILE_W) | 0;
+        let playerTileY = (playerPos.y / TILE_H) | 0;
 
         let lW = playerTileX - REND_MAP_LEFT;
         let rW = playerTileX + REND_MAP_RIGHT;

@@ -74,7 +74,8 @@ class Player {
 		
 		this.controller();
 		
-		handleCollisionWalls(this.pos, map.map);
+		const collistionObject = handleCollisionWalls(this.pos, map.map);
+		this.checkActionTile(map, collistionObject);
 
 		if(this.healthBar.w <= 1) {
 			gameOver = true;
@@ -87,6 +88,25 @@ class Player {
 
 	getHealthValue() {
 		return this.healthBar.value;
+	}
+
+	checkActionTile(map, collistionObject) {
+		if(map.map[collistionObject.objTile.objTileY][collistionObject.objTile.objTileX].isBunkerEntrance) {
+			if(map.activeMap === 'arena') {
+				map.activeMap = 'bunker';
+				this.pos.x = 6 * TILE_W;
+				this.pos.y = 17 * TILE_H + 100;
+				map.createMap(jsonBunkerMap);
+				background(BGCOLOR_GRAY);
+				enemies.length = 0;
+				blood.bloodList.length = 0;
+			} else {
+				map.activeMap = 'arena';
+				map.createMap(jsonMap);
+				background(BGCOLOR_ALMOSTBLACK);
+			}
+			
+		}
 	}
 
 	updateStateBars() {
@@ -112,6 +132,7 @@ class Player {
 			}, 3000);
 		}
 	}
+
 
 	controller() {
 		

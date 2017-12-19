@@ -1,5 +1,5 @@
 class Enemy {
-    constructor(x, y, r, spritesMove, playerPos) {
+    constructor(x, y, r, spritesMove) {
         this.r = r;
         this.pos = createVector(x, y);
         this.moveSpeed = 2;
@@ -16,8 +16,6 @@ class Enemy {
     }
 
     update(playerPos, map) {
-       
-        this.checkCollidingWalls(map);
 
         if(this.isOnScreen) {
             this.animation.renderZombieMove(this.pos, playerPos);
@@ -27,15 +25,15 @@ class Enemy {
 
             if(this.pos.x <= 400 || playerPos.x <= 400 ||  (Math.abs(dx) <= 100)) {
                 if(dx > 0) {    
-                    this.pos.x += 1;
+                    this.pos.x += this.moveSpeed;
                 } else if(dx < 0) {
-                    this.pos.x -= 1;
+                    this.pos.x -= this.moveSpeed;
                 }
     
                 if(dy > 0) {
-                    this.pos.y += 1;
+                    this.pos.y += this.moveSpeed;
                 } else{
-                    this.pos.y -= 1;
+                    this.pos.y -= this.moveSpeed;
                 }
             }
           
@@ -77,13 +75,12 @@ class Enemy {
                         this.moveQueue.push(createVector(currentX,resultY));
         
                         if(dx > 0) {    
-                            currentX += 1;//this.moveSpeed;
+                            currentX += this.moveSpeed;
                         } else if(dx <= 0) {
-                            currentX -= 1;//this.moveSpeed;
+                            currentX += -this.moveSpeed;
                         }
                      }
                 }
-                // console.log(this.moveQueue);
             } else {
                 this.pos.x = this.moveQueue[0].x;
                 this.pos.y = this.moveQueue[0].y;
@@ -99,6 +96,8 @@ class Enemy {
         } else {
             this.moveEnemy(playerPos);
         }
+
+        handleCollisionWalls(this.pos, map, 20);
     }
 
     moveEnemy(playerPos) {

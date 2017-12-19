@@ -85,7 +85,6 @@ class Generation {
             randInt(TILE_H, MAP_SIZE_Y * TILE_H - TILE_H),
             ENTITY_DIAMETR / 2,
             this.enemySpritesMove,
-            this.player.pos
         ));
     }
 
