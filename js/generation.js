@@ -84,7 +84,8 @@ class Generation {
             randInt(TILE_W, MAP_SIZE_X * TILE_W - TILE_W),
             randInt(TILE_H, MAP_SIZE_Y * TILE_H - TILE_H),
             ENTITY_DIAMETR / 2,
-            this.enemySpritesMove
+            this.enemySpritesMove,
+            this.player.pos
         ));
     }
 
@@ -154,6 +155,8 @@ class Generation {
 
         this.enemiesOnScreen.length = 0;
 
+        let leng = 0;
+
         let renderBorderUp = playerPos.y - WIN_HEIGHT;
         let renderBorderDown = playerPos.y + WIN_HEIGHT;
         let renderBorderLeft = playerPos.x - WIN_WIDTH;
@@ -168,11 +171,14 @@ class Generation {
                 renderBorderRight
             )) {
                 enemiesList[i].isOnScreen = true;
+                leng++;
                 this.enemiesOnScreen.push(enemiesList[i]);
             } else {
                 enemiesList[i].isOnScreen = false;
             }
         }
+
+        console.log(leng);
     }
 
     isEnemyOnScreen(enemyPos, renderBorderUp, renderBorderDown, renderBorderLeft, renderBorderRight) {

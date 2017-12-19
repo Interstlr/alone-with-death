@@ -11,8 +11,9 @@ class Player {
 
 		this.queueBullets = null;
 
-		this.playerSpeed = 7;
-		this.boostedPlayerSpeed = this.playerSpeed * 3;
+		this.playerSpeedNormal = 7;
+		this.playerSpeed = this.playerSpeedNormal;
+		this.playerspeedBoosted = this.playerSpeedNormal * 2;
 
 		this.barsX = 10;
 		this.barsY = 200;
@@ -175,12 +176,12 @@ class Player {
 		if(keyIsDown(16) && !this.blockRunning){
 			if(this.enduranceBar.w > 10) {
 				this.enduranceBar.w -= 0.5;
-				this.playerSpeed = this.boostedPlayerSpeed;
+				this.playerSpeed = this.playerspeedBoosted;
 			} else {
 				this.blockRunning = true;
 			}
 		} else {
-			this.playerSpeed = this.boostedPlayerSpeed / 3;
+			this.playerSpeed = this.playerSpeedNormal;
 		}
 	}
 

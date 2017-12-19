@@ -3,7 +3,7 @@ class Animation {
         this.imagesSet = imagesSet;
         this.spriteIndex = 0;
         this.tickCount = 0;
-        this.ticksPerSprite = 2;
+        this.ticksPerSprite = 1;
         this.ticksPerSpritePlayer = 10;
         
         this.width = 110;
@@ -12,13 +12,13 @@ class Animation {
         this.spritesMoveLength = this.imagesSet.length;
     }
 
-    renderZombieMove(x, y, playerPos) {
+    renderZombieMove(enemyPos, playerPos) {
         push();
         imageMode(CENTER);
         // angleMode(DEGREES);
-        translate(x, y);
+        translate(enemyPos.x, enemyPos.y);
 
-        let angle = atan2(y - playerPos.y, x - playerPos.x);
+        let angle = atan2(enemyPos.y - playerPos.y, enemyPos.x - playerPos.x);
         
         rotate(angle + Math.PI);
         
