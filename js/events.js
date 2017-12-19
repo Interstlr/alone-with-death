@@ -17,7 +17,7 @@ $('.restartBtn').click(function(){
 
 $(this).keydown(function(e){
     
-    if(e.keyCode == 27) {
+    if(e.keyCode == 27 && !gameOver) {
         gameIsPaused = gameIsPaused ? false : true;
         $('.pauseMenu').toggle();
         $('.pauseIndicator').toggle();

@@ -14,7 +14,7 @@ class Generation {
         this.chanceWeapon = 10;
         this.generalChance = 100;
 
-        this.generalChanceZombie = 15;
+        this.generalChanceZombie = 10;
         this.chanceZombieNormal = 3;
         this.chanceFastZombie = 5;
         this.chanceFatZombie = 8;

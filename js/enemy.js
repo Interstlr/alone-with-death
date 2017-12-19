@@ -17,26 +17,15 @@ class Enemy {
 
     update(playerPos, map) {
 
+        this.moveEnemy(playerPos);
+
         if(this.isOnScreen) {
             this.animation.renderZombieMove(this.pos, playerPos);
 
-            let dx = playerPos.x - this.pos.x;
-            let dy = playerPos.y - this.pos.y;
-
-            if(this.pos.x <= 400 || playerPos.x <= 400 ||  (Math.abs(dx) <= 100)) {
-                if(dx > 0) {    
-                    this.pos.x += this.moveSpeed;
-                } else if(dx < 0) {
-                    this.pos.x -= this.moveSpeed;
-                }
-    
-                if(dy > 0) {
-                    this.pos.y += this.moveSpeed;
-                } else{
-                    this.pos.y -= this.moveSpeed;
-                }
+            /*
+            if(this.pos.x <= 600 || playerPos.x <= 600 ||  (Math.abs(dx) <= 100)) {
+                
             }
-          
             if(this.moveQueue.length == 0) {
                 
                 let arrX = [this.pos.x, (this.pos.x + playerPos.x)  / 1, playerPos.x];
@@ -48,7 +37,7 @@ class Enemy {
     
                 let currentX = this.pos.x;
                 for(let k = 0; k < 15; k++) {
-                    if(currentX < 400 || playerPos.x < 400 || Math.abs( playerPos.x - currentX ) < 100) { 
+                    if(currentX < 600 || playerPos.x < 600 || Math.abs( playerPos.x - currentX ) < 100) { 
                         break;
                      } else {
                         resultY = arrY[0];
@@ -75,17 +64,19 @@ class Enemy {
                         this.moveQueue.push(createVector(currentX,resultY));
         
                         if(dx > 0) {    
-                            currentX += this.moveSpeed;
+                            currentX += 1;//this.moveSpeed;
                         } else if(dx <= 0) {
-                            currentX += -this.moveSpeed;
+                            currentX -= 1;//this.moveSpeed;
                         }
                      }
                 }
+                // console.log(this.moveQueue);
             } else {
                 this.pos.x = this.moveQueue[0].x;
                 this.pos.y = this.moveQueue[0].y;
                 this.moveQueue.splice(0, 1);
             }
+            */
 
             if(this.isIntersects(playerPos)) {
                 this.damage = 0.5;
@@ -93,8 +84,6 @@ class Enemy {
                 this.damage = 0;
             }
 
-        } else {
-            this.moveEnemy(playerPos);
         }
 
         handleCollisionWalls(this.pos, map, 20);

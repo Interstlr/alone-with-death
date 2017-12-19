@@ -27,9 +27,9 @@ let gameOver = false;
 let gameIsPaused = false;
 let keyIsPressed = false;
 
-let scoreFont;
-let ammoFont;
+let font;
 
+let wavesEnemies;
 
 let fpsValue;
 
@@ -39,9 +39,8 @@ function preload() {
     jsonItems = loadJSON(ITEMS_JSON_PATH);
     jsonWeapon = loadJSON(WEAPON_JSON_PATH);
 
-    scoreFont = loadFont('../fonts/SquadaOne-Regular.ttf');
-    ammoFont = loadFont('../fonts/SquadaOne-Regular.ttf');
-
+    font = loadFont('../fonts/SquadaOne-Regular.ttf');
+    
     images = loadImage('../img/terrainSet.png');
     spritesBlood = loadImage('../img/blood_spot.png');
     gunSpriteSheet = loadImage('../img/gunSpriteSheet.png');
@@ -87,10 +86,15 @@ function setup() {
     map.imagesSet = images;
     map.createMap(jsonMap);
 
+    
+
     itemsGenerator = new Generation(map.map, jsonItems, jsonWeapon, player, enemies, zimbieSprites[0]);
     setInterval(function() {
         itemsGenerator.findEnemiesOnScreen(enemies, player.pos);
     }.bind(this), 2000);
+
+    wavesEnemies = new WaveEnemies();
+    wavesEnemies.launchNewWaves();
 
     blood = new Blood();
 
@@ -118,6 +122,8 @@ function setup() {
     itemsGenerator.addThing(500, 200, 0);
     itemsGenerator.addThing(600, 200, 1);
     
+
+   
 }
 
 function draw() {
@@ -141,6 +147,8 @@ function draw() {
 
     itemsGenerator.generateEnemy();
     itemsGenerator.updateEnemies(map.map, player);
+
+    wavesEnemies.update(player.pos);
 
     printTechData( {
         'xPlayer': player.pos.x, 
