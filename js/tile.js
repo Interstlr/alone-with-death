@@ -3,20 +3,27 @@ class Tile {
         this.pos = {'x': x, 'y': y};
         this.imgPos = {'x': imgX, 'y': imgY};
         this.spriteID = spriteID;
+        this.isWalkable = true;
 
         switch(spriteID) {
+            case 0:
+                this.isWalkable = false;
+                break;
             case 17: 
                 this.healthValue = Infinity;
                 this.solid = true;
+                this.isWalkable = false;
                 break;
             case 9: 
                 this.healthValue = 1000;
                 this.solid = true;
+                this.isWalkable = false;
+                break;
+            case 21:
+                this.isWalkable = false;
                 break;
             case 5:
                 this.isBunkerEntrance = true;
-                break;
-            default:
                 break;
         }
     }

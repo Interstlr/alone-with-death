@@ -2,15 +2,14 @@ class Map {
     constructor(objOrigin, objMapSize) {
         this.name = name;
         this.origin = {'x': objOrigin.x, 'y': objOrigin.y};
-        this.map = null;
+        this.map = [];
         this.imagesSet = null;
         this.activeMap = 'arena';
         this.loaded = false;
     }
 
     createMap(json) {
-        console.log(json);
-        this.map = null;
+        this.map.length = 0;
         let tmpMap = [];
         let tileX = 0;
         let tileY = 0;

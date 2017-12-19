@@ -86,9 +86,10 @@ function setup() {
     map.imagesSet = images;
     map.createMap(jsonMap);
 
-    
 
     itemsGenerator = new Generation(map.map, jsonItems, jsonWeapon, player, enemies, zimbieSprites[0]);
+    console.log(map.map);
+    itemsGenerator.createGenerationArea(map.map);
     setInterval(function() {
         itemsGenerator.findEnemiesOnScreen(enemies, player.pos);
     }.bind(this), 2000);

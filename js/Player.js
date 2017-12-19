@@ -91,21 +91,24 @@ class Player {
 	}
 
 	checkActionTile(map, collistionObject) {
-		if(map.map[collistionObject.objTile.objTileY][collistionObject.objTile.objTileX].isBunkerEntrance) {
-			if(map.activeMap === 'arena') {
-				map.activeMap = 'bunker';
-				this.pos.x = 6 * TILE_W;
-				this.pos.y = 17 * TILE_H + 100;
-				map.createMap(jsonBunkerMap);
-				background(BGCOLOR_GRAY);
-				enemies.length = 0;
-				blood.bloodList.length = 0;
-			} else {
-				map.activeMap = 'arena';
-				map.createMap(jsonMap);
-				background(BGCOLOR_ALMOSTBLACK);
+		if(map.map[collistionObject.objTile.objTileY][collistionObject.objTile.objTileX]) {
+			if(map.map[collistionObject.objTile.objTileY][collistionObject.objTile.objTileX].isBunkerEntrance) {
+				if(map.activeMap === 'arena') {
+					map.activeMap = 'bunker';
+					this.pos.x = 6 * TILE_W;
+					this.pos.y = 17 * TILE_H + 100;
+					map.createMap(jsonBunkerMap);
+					itemsGenerator.createGenerationArea(map.map);
+					background(BGCOLOR_GRAY);
+					enemies.length = 0;
+					blood.bloodList.length = 0;
+				} else {
+					map.activeMap = 'arena';
+					map.createMap(jsonMap);
+					itemsGenerator.createGenerationArea(map.map);
+					background(BGCOLOR_ALMOSTBLACK);
+				}	
 			}
-			
 		}
 	}
 

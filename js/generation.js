@@ -1,6 +1,7 @@
 class Generation {
     constructor(map, jsonItems, jsonWeapon, player, enemies, enemySpritesMove) {
         this.map = map;
+        this.generationArea = [];
         this.jsonItems = jsonItems;
         this.jsonWeapon = jsonWeapon;
         this.items = [];
@@ -22,6 +23,25 @@ class Generation {
         this.enemiesOnScreen = [];
     }
 
+    createGenerationArea(mapArray) {
+        this.generationArea.length = 0;
+
+        let lenY = mapArray.length;
+        let lenX = mapArray[0].length;
+
+
+        console.log(mapArray);
+        for(let i = 0; i < lenY; i++) {
+            for(let j = 0; j < lenX; j++) {
+                if(mapArray[i][j]) {
+                    if(mapArray[i][j].isWalkable == true) {
+                        this.generationArea.push(mapArray[i][j].pos);
+                    }
+                }
+            }
+        }
+    }
+
     generateEnemy() {
         if(randInt(0, this.generalChanceZombie) == 0) {
             if(randInt(0, this.chanceZombieNormal) == 0) {
@@ -36,25 +56,27 @@ class Generation {
             //generate ammo, aid kit,
             if(randInt(0, this.chanceItems) == 0) {
                 let randItemID = randInt(0, 5);
+                let randItemPosID = randInt(0, this.generationArea.length - 1);
                 this.addThing(
-                    randInt(TILE_W, this.mapMaxSize.x),
-                    randInt(TILE_H, this.mapMaxSize.y),
+                    this.generationArea[randItemPosID].x + 50,
+                    this.generationArea[randItemPosID].y + 50,
                     randItemID
                 );
             }
 
             //generate weapon
             if(randInt(0, this.chanceWeapon) == 0) {
-                let randItemID = randInt(0, 3);
+                let randItemID = randInt(0, 5);
                 let weaponName = JSON.parse(JSON.stringify(this.jsonWeapon.contents[randItemID])).name;
                 if(this.generatedWeaponNames.indexOf(weaponName) >= 0) {
                     return;
                 } else {
                     this.generatedWeaponNames.push(weaponName);
-
+                    let randItemID = randInt(0, 3);
+                    let randItemPosID = randInt(0, this.generationArea.length - 1);
                     this.addWeapon(
-                        randInt(TILE_W, this.mapMaxSize.x),
-                        randInt(TILE_H, this.mapMaxSize.y),
+                        this.generationArea[randItemPosID].x + 50,
+                        this.generationArea[randItemPosID].y + 50,
                         randItemID
                     );
                 }
@@ -80,9 +102,10 @@ class Generation {
     }
 
     addEnemy() {
+        let randItemPosID = randInt(0, this.generationArea.length - 1);
         this.enemies.push(new Enemy(
-            randInt(TILE_W, MAP_SIZE_X * TILE_W - TILE_W),
-            randInt(TILE_H, MAP_SIZE_Y * TILE_H - TILE_H),
+            this.generationArea[randItemPosID].x + 50,
+            this.generationArea[randItemPosID].y + 50,
             ENTITY_DIAMETR / 2,
             this.enemySpritesMove,
         ));
