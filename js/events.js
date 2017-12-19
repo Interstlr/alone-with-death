@@ -2,6 +2,7 @@ $(document).ready(function(){
     $('.pauseMenu').hide();
     $('.pauseIndicator').hide();
     $('.gameOverMenu').hide();
+    $('.finishMenu').hide();
 });
 
 $('.resumeBtn').click(function(){
@@ -17,7 +18,7 @@ $('.restartBtn').click(function(){
 
 $(this).keydown(function(e){
     
-    if(e.keyCode == 27 && !gameOver) {
+    if(e.keyCode == 27 && !gameOver && !gameIsWon) {
         gameIsPaused = gameIsPaused ? false : true;
         $('.pauseMenu').toggle();
         $('.pauseIndicator').toggle();
@@ -25,3 +26,9 @@ $(this).keydown(function(e){
 });
 
 $("html,body").on("contextmenu", false);
+
+$('.resumeFinishBtn').click(function(){
+    $('.finishMenu').hide();
+    gameIsPaused = false;
+    gameIsWon = false;
+});

@@ -9,9 +9,9 @@ class WaveEnemies {
 
     launchNewWaves() {
         setInterval(function(){
+           
             if(!this.timeForRest && !gameIsPaused) {
                 this.timeFromStart += 1;
-                console.log(itemsGenerator.generalChanceZombie)
             }
             if(this.timeFromStart == this.timeWaveS) {
                 this.timeForRest = true;
@@ -22,7 +22,12 @@ class WaveEnemies {
         }.bind(this), 1000);
     }
 
-    launchRest() {
+    launchRest() { 
+        if(this.nWave == 5) {
+            $('.finishMenu').show();
+            gameIsWon = true;
+            gameIsPaused = true;
+        }
         itemsGenerator.generalChanceZombie = Infinity;
         setTimeout(function(){
             this.timeForRest = false;
