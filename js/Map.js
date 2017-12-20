@@ -48,6 +48,10 @@ class Map {
                     case 43: //water
                         imgY = 700;
                         break;
+                    case 44: //water
+                        imgX = 100;
+                        imgY = 700;
+                        break;
                     case 0: //black tile
                         imgY = 600;
                         break;
