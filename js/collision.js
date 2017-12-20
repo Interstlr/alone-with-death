@@ -1,6 +1,6 @@
 function handleCollisionWalls(objPos, map, maxDistArg) {
     const objTile = determineObjectTilePos(objPos, map);
-    const isCollide = handleCollision(
+    const isCollideObj = handleCollision(
         objPos, 
         map, 
         objTile.objTileX, 
@@ -13,7 +13,7 @@ function handleCollisionWalls(objPos, map, maxDistArg) {
     );
 
     const returnObject = {
-        isCollide: isCollide,
+        isCollideObj: isCollideObj,
         objTile
     }
     return returnObject;

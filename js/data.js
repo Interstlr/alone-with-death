@@ -7,8 +7,8 @@ const TEXTSIZE_TECHDATA = 14;
 const ENTITY_DIAMETR = 100;
 
 //map
-const MAP_SIZE_X = 80;
-const MAP_SIZE_Y = 80;
+const MAP_SIZE_X = 40;
+const MAP_SIZE_Y = 40;
 
 const TILE_W = 100; 
 const TILE_H = 100; 
@@ -40,7 +40,7 @@ const AMMO_HEIGHT = 60;
 const ITEMS_SPRITE = '../img/itemsSheet.png'; 
 const GUN_SPRITE_SHEET = '../img/gunSpriteSheet.png';
 const ITEMS_JSON_PATH = '/js/itemsJSON.json';
-const MAP_JSON_PATH = '/js/mapJSON.json';
+const ARCADE_MAP_JSON_PATH = '/js/arcadeModeMAP.json';
 const WEAPON_JSON_PATH = '/js/weaponJSON.json';
 const BUNKER_JSON_PATH = '/js/bunkerJSON.json';
 

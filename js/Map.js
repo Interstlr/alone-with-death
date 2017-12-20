@@ -31,6 +31,9 @@ class Map {
                     case 5: //sand
                         imgY = 100;
                         break;
+                    case 10: //ruined brick wall
+                        imgX = 100;
+                        imgY = 200;
                     case 9: //brick wall 
                         imgY = 200;
                         break;

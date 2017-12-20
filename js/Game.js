@@ -35,8 +35,7 @@ let wavesEnemies;
 let fpsValue;
 
 function preload() {
-    jsonMap = loadJSON(MAP_JSON_PATH);
-    jsonBunkerMap = loadJSON(BUNKER_JSON_PATH);
+    jsonMap = loadJSON(ARCADE_MAP_JSON_PATH);
     jsonItems = loadJSON(ITEMS_JSON_PATH);
     jsonWeapon = loadJSON(WEAPON_JSON_PATH);
 
@@ -82,7 +81,7 @@ function setup() {
     frameRate(60);
     createCanvas(WIN_WIDTH, WIN_HEIGHT);
 
-    player = new Player(ENTITY_DIAMETR / 2, {'x': 2500, 'y': 1700}, playerSprites);
+    player = new Player(ENTITY_DIAMETR / 2, {'x': 3400, 'y': 2400}, playerSprites);
     map = new Map({
         'x': 0,
         'y': 0

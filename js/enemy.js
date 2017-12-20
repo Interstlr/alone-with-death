@@ -8,7 +8,7 @@ class Enemy {
 
         this.hp = 100;
         this.damage = 0;
-        this.damageToWall = 2;
+        this.damageToWall = 3;
 
         this.moveQueue = [];
 
@@ -96,7 +96,7 @@ class Enemy {
             */
 
         }
-        handleCollisionWalls(this.pos, map, 20);
+       this.checkCollidingWalls(this.pos, map, 20);
     }
 
     moveEnemy(playerPos) {
@@ -108,11 +108,11 @@ class Enemy {
         dy >= 0 ? this.pos.y += this.moveSpeed : this.pos.y += -this.moveSpeed;
     }
 
-    checkCollidingWalls(map) {
-        let collTile = handleCollisionWalls(this.pos, map, 25);
+    checkCollidingWalls(enemyPos, map, dist) {
+        let collTile = handleCollisionWalls(enemyPos, map, dist);
         
-        if(collTile.isCollide) {
-            map[collTile.tileY][collTile.tileX].healthValue -= this.damageToWall;
+        if(collTile.isCollideObj.isCollide) {
+            map[collTile.isCollideObj.tileY][collTile.isCollideObj.tileX].healthValue -= this.damageToWall;
         }
     }
 
