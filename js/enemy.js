@@ -100,12 +100,39 @@ class Enemy {
     }
 
     moveEnemy(playerPos) {
+        
+        // let angle = atan2( playerPos.y  - this.pos.y, playerPos.x  - this.pos.x);
+        
+        // let tmp = Math.abs(cos(angle) % 0.707);
+        // console.log(tmp)
+        // playerPos.x  >= this.pos.x ? this.pos.x += this.moveSpeed * tmp : this.pos.x += -this.moveSpeed*tmp;
+        // playerPos.y >= this.pos.y ? this.pos.y += this.moveSpeed * tmp: this.pos.y += -this.moveSpeed*tmp;
+
 
         let dx = playerPos.x - this.pos.x;
         let dy = playerPos.y - this.pos.y;
 
-        dx >= 0 ? this.pos.x += this.moveSpeed : this.pos.x += -this.moveSpeed;
-        dy >= 0 ? this.pos.y += this.moveSpeed : this.pos.y += -this.moveSpeed;
+        // if(tmp < 0.2 || tmp > 0.7) tmp = 1;
+        // else{
+        //     tmp *= 2;
+        // }
+
+        let x1 = this.pos.x,
+            y1 = this.pos.y;
+
+        if(dx >= 0) {
+            this.pos.x += this.moveSpeed;
+        } else {
+            this.pos.x += -this.moveSpeed
+        }
+        if(dy != 0 && Math.abs(dx) > 100) {
+            this.pos.y = (this.pos.x-x1)*(playerPos.y-y1)/(playerPos.x-x1) + y1;
+        } else {
+            dy > 0 ? this.pos.y += this.moveSpeed : this.pos.y += -this.moveSpeed;
+        }
+
+        // dx > 0 ? this.pos.x += this.moveSpeed : this.pos.x += -this.moveSpeed;
+        // dy > 0 ? this.pos.y += this.moveSpeed : this.pos.y += -this.moveSpeed;
     }
 
     checkCollidingWalls(enemyPos, map, dist) {
