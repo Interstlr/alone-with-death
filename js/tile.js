@@ -6,23 +6,20 @@ class Tile {
         this.isWalkable = true;
 
         switch(spriteID) {
-            case 0:
+            case 0: //black tile
                 this.isWalkable = false;
                 break;
-            case 17: 
+            case 25: //infinite wall
                 this.healthValue = Infinity;
                 this.solid = true;
                 this.isWalkable = false;
                 break;
-            case 9: 
+            case 13: //brick wall
                 this.healthValue = 1000;
                 this.solid = true;
                 this.isWalkable = false;
                 break;
-            case 21:
-                this.isWalkable = false;
-                break;
-            case 5:
+            case 31: //bunker entrance
                 this.isBunkerEntrance = true;
                 break;
         }

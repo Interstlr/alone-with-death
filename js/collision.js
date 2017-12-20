@@ -29,9 +29,9 @@ function handleCollision(objPos, map, objTileX, objTileY, lW, rW, uH, dH, maxDis
     
     //ckeck if out of map borders
     if(objTileY < 0 ||
-        objTileY >= MAP_SIZE_Y - 1 ||
+        objTileY >= map.mapSize.y - 1 ||
         objTileX < 0 ||
-        objTileX >= MAP_SIZE_X - 1
+        objTileX >= map.mapSize.x - 1
     ) {
         return collidingTile;
     }
@@ -45,36 +45,36 @@ function handleCollision(objPos, map, objTileX, objTileY, lW, rW, uH, dH, maxDis
     }
     
     //up
-    if(map[uH][objTileX].hasOwnProperty('solid')) {
-        if(objPos.y <= map[uH][objTileX].pos.y + TILE_H + maxDist) {
-            objPos.y = map[uH][objTileX].pos.y + TILE_H + maxDist;
+    if(map.map[uH][objTileX].hasOwnProperty('solid')) {
+        if(objPos.y <= map.map[uH][objTileX].pos.y + TILE_H + maxDist) {
+            objPos.y = map.map[uH][objTileX].pos.y + TILE_H + maxDist;
             collidingTile.isCollide = true;
             collidingTile.tileX = objTileX;
             collidingTile.tileY = uH;
         }
     }
     //right
-    if(map[objTileY][rW].hasOwnProperty('solid')) {
-        if(objPos.x >= map[objTileY][rW].pos.x - maxDist) {
-            objPos.x = map[objTileY][rW].pos.x - maxDist;
+    if(map.map[objTileY][rW].hasOwnProperty('solid')) {
+        if(objPos.x >= map.map[objTileY][rW].pos.x - maxDist) {
+            objPos.x = map.map[objTileY][rW].pos.x - maxDist;
             collidingTile.isCollide = true;
             collidingTile.tileX = rW;
             collidingTile.tileY = objTileY;
         }
     }
     //down
-    if(map[dH][objTileX].hasOwnProperty('solid')) {
-        if(objPos.y >= map[dH][objTileX].pos.y - maxDist) {
-            objPos.y = map[dH][objTileX].pos.y - maxDist;
+    if(map.map[dH][objTileX].hasOwnProperty('solid')) {
+        if(objPos.y >= map.map[dH][objTileX].pos.y - maxDist) {
+            objPos.y = map.map[dH][objTileX].pos.y - maxDist;
             collidingTile.isCollide = true;
             collidingTile.tileX = objTileX;
             collidingTile.tileY = dH;
         }
     }
     //left
-    if(map[objTileY][lW].hasOwnProperty('solid')) {
-        if(objPos.x <= map[objTileY][lW].pos.x + TILE_W + maxDist) {
-            objPos.x = map[objTileY][lW].pos.x + TILE_W + maxDist;
+    if(map.map[objTileY][lW].hasOwnProperty('solid')) {
+        if(objPos.x <= map.map[objTileY][lW].pos.x + TILE_W + maxDist) {
+            objPos.x = map.map[objTileY][lW].pos.x + TILE_W + maxDist;
             collidingTile.isCollide = true;
             collidingTile.tileX = lW;
             collidingTile.tileY = objTileY;
@@ -96,23 +96,23 @@ function determineObjectTilePos(objPos, map) {
     let uH = objTileY - 1;
     let dH = objTileY + 1;
 
-    if(objTileX < map[0].length / 2){
+    if(objTileX < map.map[0].length / 2){
         if(lW < 0){
             lW = 0;
         }
     } else {
-        if(rW > map[0].length){
-            rW = map[0].length;
+        if(rW > map.map[0].length){
+            rW = map.map[0].length;
         }
     }
 
-    if(objTileY < map.length / 2){
+    if(objTileY < map.map.length / 2){
         if(uH < 0){
             uH = 0;
         }
     } else {
-        if(dH > map.length){
-            dH = map.length;
+        if(dH > map.map.length){
+            dH = map.map.length;
         }
     }
 

@@ -1,11 +1,12 @@
 class Map {
-    constructor(objOrigin, objMapSize) {
+    constructor(objOrigin, mapSize) {
         this.name = name;
         this.origin = {'x': objOrigin.x, 'y': objOrigin.y};
         this.map = [];
         this.imagesSet = null;
         this.activeMap = 'arena';
         this.loaded = false;
+        this.mapSize = mapSize;
     }
 
     createMap(json) {
@@ -17,34 +18,38 @@ class Map {
 
         let jsonIndex = 0;
         let imgID = 0;
-        for(let i = 0; i < MAP_SIZE_Y; i++) {
+        for(let i = 0; i < this.mapSize.y; i++) {
             tmpMap[i] = [];
-            for(let j = 0; j < MAP_SIZE_X; j++) {
+            for(let j = 0; j < this.mapSize.x; j++) {
                 let imgX = 0, imgY = 0;
 
                 switch(json.layers[0].data[jsonIndex]) {
                     case 1: //grass
                         break;
-                    case 2: 
+                    case 2: //dry ground
                         imgX = 100;
                         break;
-                    case 5: //sand
+                    case 7: //sand
                         imgY = 100;
                         break;
-                    case 10: //ruined brick wall
+                    case 13: //brick wall 
+                        imgY = 200;
+                        break;
+                    case 14: //ruined brick wall
                         imgX = 100;
                         imgY = 200;
-                    case 9: //brick wall 
-                        imgY = 200;
                         break;
-                    case 13: //wooden floor
+                    case 19: //wooden floor
                         imgY = 300;
                         break;
-                    case 17: //infinite wall
+                    case 25: //infinite wall
                         imgY = 400;
                         break;
-                    case 0:
-                        imgY = 500;
+                    case 43: //water
+                        imgY = 700;
+                        break;
+                    case 0: //black tile
+                        imgY = 600;
                         break;
                 }
 

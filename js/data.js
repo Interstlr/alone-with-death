@@ -7,8 +7,10 @@ const TEXTSIZE_TECHDATA = 14;
 const ENTITY_DIAMETR = 100;
 
 //map
-const MAP_SIZE_X = 40;
-const MAP_SIZE_Y = 40;
+const MAP_SHOOTER_X = 40;
+const MAP_SHOOTER_Y = 40;
+const MAP_OPEN_WORLD_X = 320;
+const MAP_OPEN_WORLD_Y = 320;
 
 const TILE_W = 100; 
 const TILE_H = 100; 
@@ -26,6 +28,7 @@ const BGCOLOR_ALMOSTBLACK = '#080808';
 const GRASS_COLOR = '#2e8c27';
 const HP_BAR_COLOR = '#c01111';
 const HUNGER_BAR_COLOR = '#1fc633';
+const THIRST_BAR_COLOR = '#3b80ef';
 const COLD_BAR_COLOR = '#1295d8';
 const ENDURANCE_BAR_COLOR = '#b3ced6';
 const BULLET_COLOR = '#fffb2d';
@@ -37,10 +40,11 @@ const AMMO_WIDTH = 60;
 const AMMO_HEIGHT = 60;
 
 //paths
+const SHOOTER_MAP_JSON_PATH = '/js/shooterModeMAP.json';
+const SURVIVAL_MAP_JSON_PATH = '/js/survivalModeMAP.json';
 const ITEMS_SPRITE = '../img/itemsSheet.png'; 
 const GUN_SPRITE_SHEET = '../img/gunSpriteSheet.png';
 const ITEMS_JSON_PATH = '/js/itemsJSON.json';
-const ARCADE_MAP_JSON_PATH = '/js/arcadeModeMAP.json';
 const WEAPON_JSON_PATH = '/js/weaponJSON.json';
 const BUNKER_JSON_PATH = '/js/bunkerJSON.json';
 

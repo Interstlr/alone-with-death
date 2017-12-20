@@ -22,11 +22,11 @@ class Bullet {
 
             //check if bullet flies upon wall sprite
             //bullet coll. with a wall
-            if(map[objTile.objTileY]){  
-                if(map[objTile.objTileY][objTile.objTileX]) {
-                    if(map[objTile.objTileY][objTile.objTileX].hasOwnProperty('solid')) {
+            if(map.map[objTile.objTileY]){  
+                if(map.map[objTile.objTileY][objTile.objTileX]) {
+                    if(map.map[objTile.objTileY][objTile.objTileX].hasOwnProperty('solid')) {
                         bulletsList.splice(index, 1);
-                        map[objTile.objTileY][objTile.objTileX].healthValue -= player.currentWeaponInHand.damage;
+                        map.map[objTile.objTileY][objTile.objTileX].healthValue -= player.currentWeaponInHand.damage;
                     } else {
                         item.x += item.vx * dt;
                         item.y += item.vy * dt;

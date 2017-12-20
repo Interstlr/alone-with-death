@@ -35,7 +35,8 @@ let wavesEnemies;
 let fpsValue;
 
 function preload() {
-    jsonMap = loadJSON(ARCADE_MAP_JSON_PATH);
+    jsonMap = loadJSON(SHOOTER_MAP_JSON_PATH);
+    jsonBunkerMap = loadJSON(BUNKER_JSON_PATH);
     jsonItems = loadJSON(ITEMS_JSON_PATH);
     jsonWeapon = loadJSON(WEAPON_JSON_PATH);
 
@@ -81,14 +82,20 @@ function setup() {
     frameRate(60);
     createCanvas(WIN_WIDTH, WIN_HEIGHT);
 
-    player = new Player(ENTITY_DIAMETR / 2, {'x': 3400, 'y': 2400}, playerSprites);
-    map = new Map({
-        'x': 0,
-        'y': 0
-    });
+    player = new Player(ENTITY_DIAMETR / 2, {'x': 2500, 'y': 1700}, playerSprites);
+    map = new Map(
+        {
+            'x': 0,
+            'y': 0
+        },
+        {
+            'x': MAP_SHOOTER_X,
+            'y': MAP_SHOOTER_Y
+        }
+    );
 
     map.imagesSet = images;
-    map.createMap(jsonMap);
+    map.createMap(jsonMap, MAP_SHOOTER_X, MAP_SHOOTER_Y);
 
 
     itemsGenerator = new Generation(map.map, jsonItems, jsonWeapon, player, enemies, zimbieSprites);
@@ -148,7 +155,7 @@ function draw() {
     itemsGenerator.updateItems();
 
     itemsGenerator.generateEnemy();
-    itemsGenerator.updateEnemies(map.map, player);
+    itemsGenerator.updateEnemies(map, player);
 
     wavesEnemies.update(player.pos);
 
