@@ -1,5 +1,5 @@
 class Generation {
-    constructor(map, jsonItems, jsonWeapon, player, enemies, enemySpritesMove) {
+    constructor(map, jsonItems, jsonWeapon, player, enemies, enemySpriteSet) {
         this.map = map;
         this.generationArea = [];
         this.jsonItems = jsonItems;
@@ -9,7 +9,7 @@ class Generation {
         this.enemies = enemies;
         this.mapMaxSize = {x: MAP_SIZE_X * TILE_W - 100, y: MAP_SIZE_Y * TILE_W - 100};
         this.generatedWeaponNames = [];
-        this.enemySpritesMove = enemySpritesMove;
+        this.enemySpriteSet = enemySpriteSet;
 
         this.chanceItems = 2; //larger value lower chance
         this.chanceWeapon = 10;
@@ -108,7 +108,7 @@ class Generation {
             this.generationArea[randItemPosID].x + 50,
             this.generationArea[randItemPosID].y + 50,
             ENTITY_DIAMETR / 2,
-            this.enemySpritesMove,
+            this.enemySpriteSet,
         ));
     }
 
@@ -128,7 +128,7 @@ class Generation {
 
         for(let i = 0, len = this.enemies.length; i < len; i++) {
 
-            this.enemies[i].update(player.pos, map);
+            this.enemies[i].update(player, map);
 
             const damage = this.enemies[i].damage;
             player.healthBar.value -= damage;

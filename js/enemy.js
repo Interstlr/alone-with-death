@@ -1,10 +1,10 @@
 class Enemy {
-    constructor(x, y, r, spritesMove) {
+    constructor(x, y, r, spriteSet) {
         this.r = r;
         this.pos = createVector(x, y);
         this.moveSpeed = 2;
         this.color = color(255);
-        this.animation = new Animation(spritesMove);
+        this.animation = new Animation(spriteSet);
 
         this.hp = 100;
         this.damage = 0;
@@ -15,12 +15,29 @@ class Enemy {
         this.isOnScreen = false;
     }
 
-    update(playerPos, map) {
+    update(player, map) {
 
-        this.moveEnemy(playerPos);
+        if(this.animation.isMoving) this.moveEnemy(player.pos);
 
         if(this.isOnScreen) {
-            this.animation.renderZombieMove(this.pos, playerPos);
+
+            if(this.isIntersects(player.pos)) {
+                this.animation.isMoving = false;
+
+                player.makeBlood();
+                setTimeout(function() {
+                    this.damage = 0.5;
+                }.bind(this), 500);
+                this.animation.renderZombieAnim(this.pos, player.pos);
+
+                this.damage = 0.5;
+
+            } else {
+                this.animation.isMoving = true;
+                this.animation.renderZombieAnim(this.pos, player.pos);
+                this.damage = 0;
+                
+            }
 
             /*
             if(this.pos.x <= 600 || playerPos.x <= 600 ||  (Math.abs(dx) <= 100)) {
@@ -78,14 +95,7 @@ class Enemy {
             }
             */
 
-            if(this.isIntersects(playerPos)) {
-                this.damage = 0.5;
-            } else {
-                this.damage = 0;
-            }
-
         }
-
         handleCollisionWalls(this.pos, map, 20);
     }
 

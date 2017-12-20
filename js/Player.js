@@ -30,6 +30,8 @@ class Player {
 		this.bodySpriteCurrentWidth = 115;
 		this.bodySpriteCurrentX = 0;
 
+		this.bloodIntervalCounter = 0; 
+
 		//this.animationIdle = new Animation(playerSprites); 
 		//this.currentWeaponNumber = 0;
 	}
@@ -84,6 +86,14 @@ class Player {
 
 	focusCamera() {
 		camera(this.pos.x - this.windowDimBy2.x, this.pos.y - this.windowDimBy2.y);
+	}
+
+	makeBlood() {
+		this.bloodIntervalCounter++;
+		if(this.bloodIntervalCounter > 50) {
+			blood.createBloodSpot(this.pos.x, this.pos.y);
+			this.bloodIntervalCounter = 0;
+		}
 	}
 
 	getHealthValue() {

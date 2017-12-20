@@ -62,8 +62,12 @@ function preload() {
     //sounds.music.track2 = loadSound('../audio/Resident_Evil_Corp_Umbrella.mp3');
 
     zimbieSprites[0] = [];
-    for(let i = 0; i < 16; i++) {
+    for(let i = 0; i < 17; i++) {
         zimbieSprites[0][i] = loadImage('../img/enemy/zombieNormal/skeleton-move_' + i + '.png');
+    }
+    zimbieSprites[1] = [];
+    for(let i = 0; i < 9; i++) {
+        zimbieSprites[1][i] = loadImage('../img/enemy/zombieNormal/skeleton-attack_' + i + '.png');
     }
 
     playerSprites[0] = loadImage('../img/player/survivor-glock.png');
@@ -88,8 +92,7 @@ function setup() {
     map.createMap(jsonMap);
 
 
-    itemsGenerator = new Generation(map.map, jsonItems, jsonWeapon, player, enemies, zimbieSprites[0]);
-    console.log(map.map);
+    itemsGenerator = new Generation(map.map, jsonItems, jsonWeapon, player, enemies, zimbieSprites);
     itemsGenerator.createGenerationArea(map.map);
     setInterval(function() {
         itemsGenerator.findEnemiesOnScreen(enemies, player.pos);

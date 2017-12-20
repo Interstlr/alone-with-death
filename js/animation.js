@@ -1,36 +1,56 @@
 class Animation {
     constructor(imagesSet) {
         this.imagesSet = imagesSet;
-        this.spriteIndex = 0;
+        this.moveSpriteIndex = 0;
+        this.attackSpriteIndex = 0;
         this.tickCount = 0;
         this.ticksPerSprite = 1;
-        this.ticksPerSpritePlayer = 10;
         
         this.width = 110;
         this.height = 130;
 
-        this.spritesMoveLength = this.imagesSet.length;
+        this.spritesMoveLength = this.imagesSet[0].length;
+        this.spritesAttackLength = this.imagesSet[1].length;
+
+        this.isMoving = true;
+        this.isAttacking = false;
     }
 
-    renderZombieMove(enemyPos, playerPos) {
+    resetParams() {
+        this.moveSpriteIndex = 0;
+        this.tickCount = 0;
+    }
+
+    renderZombieAnim(enemyPos, playerPos) {
+
         push();
         imageMode(CENTER);
-        // angleMode(DEGREES);
         translate(enemyPos.x, enemyPos.y);
 
         let angle = atan2(enemyPos.y - playerPos.y, enemyPos.x - playerPos.x);
         
         rotate(angle + Math.PI);
-        
-        image(this.imagesSet[this.spriteIndex], 0, 0, this.width, this.height);
-        pop();
 
         this.tickCount++;
-        if(this.tickCount > this.ticksPerSprite) {
-            this.spriteIndex++;
-            if(this.spriteIndex >= this.spritesMoveLength) this.spriteIndex = 0;
-            this.tickCount = 0;
+        
+        if(this.isMoving) {
+            image(this.imagesSet[0][this.moveSpriteIndex], 0, 0, this.width, this.height);
+
+            if(this.tickCount > this.ticksPerSprite) {
+                this.moveSpriteIndex++;
+                if(this.moveSpriteIndex >= this.spritesMoveLength) this.moveSpriteIndex = 0;
+                this.tickCount = 0;
+            }
+        } else {
+            image(this.imagesSet[1][this.attackSpriteIndex], 0, 0, this.width, this.height);
+
+            if(this.tickCount > this.ticksPerSprite) {
+                this.attackSpriteIndex++;
+                if(this.attackSpriteIndex >= this.spritesAttackLength) this.attackSpriteIndex = 0;
+                this.tickCount = 0;
+            }
         }
+        pop();
     }
 
     renderPlayer(curWeapon, playerPos, bodySpriteCurX, bodySpriteCurY, bodySpriteCurW, bodySpriteCurH) {
