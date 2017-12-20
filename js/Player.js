@@ -1,5 +1,5 @@
 class Player {
-    constructor(radius, windowDimentions, playerSprites) {
+    constructor(radius, windowDimentions, playerSprites, mapSize) {
 		this.r = radius;
 		this.rHand = (radius / 4) | 0;
 		this.pos = {'x': windowDimentions.x / 2, 'y': windowDimentions.y / 2};
@@ -11,18 +11,19 @@ class Player {
 
 		this.queueBullets = null;
 
-		this.playerSpeedNormal = 7;
+		this.playerSpeedNormal = 10;
 		this.playerSpeed = this.playerSpeedNormal;
-		this.playerspeedBoosted = this.playerSpeedNormal * 2;
+		this.playerspeedBoosted = this.playerSpeedNormal * 3;
 
 		this.barsX = 10;
 		this.barsY = 200;
 		this.healthBar = new HealthBar(HP_BAR_COLOR);
-		//this.hungerBar = new HungerBar(HUNGER_BAR_COLOR);
-		//this.coldBar = new ColdBar(COLD_BAR_COLOR);
+		this.hungerBar = new HungerBar(HUNGER_BAR_COLOR);
+		this.thirstBar = new ThirstBar(THIRST_BAR_COLOR);
 		this.enduranceBar = new EnduranceBar(ENDURANCE_BAR_COLOR);
 
 		this.score = new Score();
+		this.mapSize = mapSize;
 
 		this.playerSprites = playerSprites;
 		this.currentSprite = playerSprites[0];
@@ -31,6 +32,7 @@ class Player {
 		this.bodySpriteCurrentX = 0;
 
 		this.bloodIntervalCounter = 0; 
+		
 
 		//this.animationIdle = new Animation(playerSprites); 
 		//this.currentWeaponNumber = 0;
@@ -59,7 +61,7 @@ class Player {
 
 		if(this.queueBullets){
 			//render and update bullets in queue
-			this.queueBullets.update(0.02, map.map);
+			this.queueBullets.update(0.02, map);
 			this.queueBullets.render();
 		}
 
@@ -76,7 +78,7 @@ class Player {
 		
 		this.controller();
 		
-		const collistionObject = handleCollisionWalls(this.pos, map.map);
+		const collistionObject = handleCollisionWalls(this.pos, map);
 		this.checkActionTile(map, collistionObject);
 
 		if(this.healthBar.w <= 1) {
@@ -209,7 +211,7 @@ class Player {
 		//shift(boosted movement)
 		if(keyIsDown(16) && !this.blockRunning){
 			if(this.enduranceBar.w > 10) {
-				this.enduranceBar.w -= 0.5;
+				this.enduranceBar.w -= 0;
 				this.playerSpeed = this.playerspeedBoosted;
 			} else {
 				this.blockRunning = true;

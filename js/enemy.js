@@ -112,7 +112,7 @@ class Enemy {
         let collTile = handleCollisionWalls(enemyPos, map, dist);
         
         if(collTile.isCollideObj.isCollide) {
-            map[collTile.isCollideObj.tileY][collTile.isCollideObj.tileX].healthValue -= this.damageToWall;
+            map.map[collTile.isCollideObj.tileY][collTile.isCollideObj.tileX].healthValue -= this.damageToWall;
         }
     }
 

@@ -40,10 +40,10 @@ class EnduranceBar extends Bar {
     }
 }
 
-class ColdBar extends Bar {
+class ThirstBar extends Bar {
     constructor(color) {
         super();
         this.col = color;
-        this.strokeCol = '#0f79af';
+        this.strokeCol = '#1c407a';
     }
 }

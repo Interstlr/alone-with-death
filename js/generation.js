@@ -1,5 +1,5 @@
 class Generation {
-    constructor(map, jsonItems, jsonWeapon, player, enemies, enemySpriteSet) {
+    constructor(map, jsonItems, jsonWeapon, player, enemies, enemySpriteSet, map_x, map_y) {
         this.map = map;
         this.generationArea = [];
         this.jsonItems = jsonItems;
@@ -7,7 +7,7 @@ class Generation {
         this.items = [];
         this.player = player;
         this.enemies = enemies;
-        this.mapMaxSize = {x: MAP_SIZE_X * TILE_W - 100, y: MAP_SIZE_Y * TILE_W - 100};
+        this.mapMaxSize = {x: map_x * TILE_W - 100, y: map_y * TILE_W - 100};
         this.generatedWeaponNames = [];
         this.enemySpriteSet = enemySpriteSet;
 
@@ -28,7 +28,6 @@ class Generation {
 
         let lenY = mapArray.length;
         let lenX = mapArray[0].length;
-
 
         console.log(mapArray);
         for(let i = 0; i < lenY; i++) {
