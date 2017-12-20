@@ -9,9 +9,9 @@ class WaveEnemies {
 
     launchNewWaves() {
         setInterval(function(){
+           
             if(!this.timeForRest && !gameIsPaused) {
                 this.timeFromStart += 1;
-                console.log(itemsGenerator.generalChanceZombie)
             }
             if(this.timeFromStart == this.timeWaveS) {
                 this.timeForRest = true;
@@ -22,7 +22,12 @@ class WaveEnemies {
         }.bind(this), 1000);
     }
 
-    launchRest() {
+    launchRest() { 
+        if(this.nWave == 5) {
+            $('.finishMenu').show();
+            gameIsWon = true;
+            gameIsPaused = true;
+        }
         itemsGenerator.generalChanceZombie = Infinity;
         setTimeout(function(){
             this.timeForRest = false;
@@ -40,10 +45,15 @@ class WaveEnemies {
     update(pos) {
         push();
         translate(pos.x, pos.y);
-        fill('#fff');
-        textSize(26);
+        
+        textSize(36);
         textFont(font);
-        text('Wave: ' + this.nWave, -40, -WIN_HEIGHT_HALF + 40);
+        fill('#FA3838');
+        text('00:' + (60 - this.timeFromStart), -40, -WIN_HEIGHT_HALF + 40);
+        textSize(26);
+        fill('#fff');
+        text('Wave: ' + this.nWave, -38, -WIN_HEIGHT_HALF + 80);
+       
 		pop();
     }
 }

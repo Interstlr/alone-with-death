@@ -25,6 +25,7 @@ let things = [];    //things as medicine kit, ammo, weapons, etc. on the map
 
 let gameOver = false;
 let gameIsPaused = false;
+let gameIsWon = false;
 let keyIsPressed = false;
 
 let font;
