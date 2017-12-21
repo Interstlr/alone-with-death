@@ -13,7 +13,7 @@ class Generation {
 
         this.chanceItems = 2; //larger value lower chance
         this.chanceWeapon = 10;
-        this.generalChance = 100;
+        this.generalChance = 50;
 
         this.generalChanceZombie = 10;
         this.chanceZombieNormal = 3;
@@ -23,18 +23,17 @@ class Generation {
         this.enemiesOnScreen = [];
     }
 
-    createGenerationArea(mapArray) {
+    createGenerationArea(map) {
         this.generationArea.length = 0;
+        let lenY = map.map.length;
+        console.log(map);
+        let lenX = map.map[0].length;
 
-        let lenY = mapArray.length;
-        let lenX = mapArray[0].length;
-
-        console.log(mapArray);
         for(let i = 0; i < lenY; i++) {
             for(let j = 0; j < lenX; j++) {
-                if(mapArray[i][j]) {
-                    if(mapArray[i][j].isWalkable == true) {
-                        this.generationArea.push(mapArray[i][j].pos);
+                if(map.map[i][j]) {
+                    if(map.map[i][j].isWalkable) {
+                        this.generationArea.push(map.map[i][j].pos);
                     }
                 }
             }

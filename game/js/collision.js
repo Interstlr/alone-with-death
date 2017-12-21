@@ -39,7 +39,7 @@ function handleCollision(objPos, map, objTileX, objTileY, lW, rW, uH, dH, maxDis
     //collision logic
     let maxDist;
     if(maxDistArg == undefined) {
-        maxDist = 35;
+        maxDist = 33;
     } else {
         maxDist = maxDistArg
     }

@@ -42,6 +42,12 @@ const AMMO_HEIGHT = 60;
 //paths
 const SHOOTER_MAP_JSON_PATH = '../game/js/shooterModeMAP.json';
 const SURVIVAL_MAP_JSON_PATH = '../game/js/survivalModeMAP.json';
+const HOUSE1_JSON_PATH = '../game/js/json/house1.json';
+const HOUSE2_JSON_PATH = '../game/js/json/house2.json';
+const HOUSE3_JSON_PATH = '../game/js/json/house3.json';
+const HOUSE4_JSON_PATH = '../game/js/json/house4.json';
+const HOUSE5_JSON_PATH = '../game/js/json/house5.json';
+
 const ITEMS_SPRITE = '../game/img/itemsSheet.png'; 
 const GUN_SPRITE_SHEET = '../game/img/gunSpriteSheet.png';
 const ITEMS_JSON_PATH = '../game/js/itemsJSON.json';
