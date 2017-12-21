@@ -20,6 +20,7 @@ class Tile {
                 break;
             case 3: //house entrance
                 this.isHouseEntrance = true;
+                this.isWalkable = false;
                 break;
             case 21: //brick wall
                 if(activeMap === 'world') {
