@@ -138,11 +138,11 @@ function setup() {
         fpsValue = frameRate().toFixed(0);
     }.bind(this), 500);
 
-    itemsGenerator.addWeapon(200, 200, 1);
-    itemsGenerator.addWeapon(300, 200, 2);
-    itemsGenerator.addWeapon(400, 200, 3);
-    itemsGenerator.addThing(500, 200, 0);
-    itemsGenerator.addThing(600, 200, 1);
+    //itemsGenerator.addWeapon(200, 200, 1);
+    //itemsGenerator.addWeapon(300, 200, 2);
+    //itemsGenerator.addWeapon(400, 200, 3);
+    //itemsGenerator.addThing(500, 200, 0);
+    //itemsGenerator.addThing(600, 200, 1);
 
 }
 
@@ -155,6 +155,8 @@ function draw() {
     if(gameIsPaused) {
         return;
     }
+
+    background(BGCOLOR_ALMOSTBLACK);
 
     camera(player.pos.x - WIN_WIDTH_HALF, player.pos.y - WIN_HEIGHT_HALF);
 

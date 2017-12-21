@@ -26,7 +26,6 @@ class Generation {
     createGenerationArea(map) {
         this.generationArea.length = 0;
         let lenY = map.map.length;
-        console.log(map);
         let lenX = map.map[0].length;
 
         for(let i = 0; i < lenY; i++) {

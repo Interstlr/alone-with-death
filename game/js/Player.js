@@ -3,7 +3,9 @@ class Player {
 		this.r = radius;
 		this.rHand = (radius / 4) | 0;
 		this.pos = {'x': windowDimentions.x / 2, 'y': windowDimentions.y / 2};
-		this.savedPos = {};
+		this.savedPosX;
+		this.savedPosY;
+
 		this.windowDimBy2 = this.pos;
 		this.isblockRunning = false;
 
@@ -81,7 +83,6 @@ class Player {
 		this.controller();
 		
 		const collistionObject = handleCollisionWalls(this.pos, map);
-		console.log(collistionObject);
 		this.checkEntranceTile(map, collistionObject);
 
 		if(this.healthBar.w <= 1) {
@@ -106,9 +107,10 @@ class Player {
 	}
 
 	checkEntranceTile(map, collistionObject) {
-		if(map.map[collistionObject.objTile.objTileY][collistionObject.objTile.objTileX] && this.entrancePause) {
+		if(map.map[collistionObject.objTile.objTileY][collistionObject.objTile.objTileX]) {
 
-			if(map.map[collistionObject.objTile.objTileY][collistionObject.objTile.objTileX].isBunkerEntrance) {
+			/*
+			if(map.map[collistionObject.objTile.objTileY][collistionObject.objTile.objTileX].hasOwnProperty('isBunkerEntrance')) {
 				if(map.activeMap === 'world') {
 					map.activeMap = 'bunker';
 					this.pos.x = 6 * TILE_W;
@@ -125,28 +127,34 @@ class Player {
 					background(BGCOLOR_ALMOSTBLACK);
 				}
 			}
+			*/
 
-			if(map.map[collistionObject.objTile.objTileY][collistionObject.objTile.objTileX].isHouseEntrance) {
+			if(map.map[collistionObject.objTile.objTileY][collistionObject.objTile.objTileX].hasOwnProperty('isHouseEntrance')) {
 				if(map.activeMap === 'world') {
-					this.entrancePause = false;
+					//this.entrancePause = false;
+
 					map.activeMap = 'house';
 					let randHouseNumber = randInt(0, map.locationsHouses.length - 1);
 					let playerPos = map.locationsHouses[randHouseNumber].properties;
 					let houseMap = map.locationsHouses[randHouseNumber];
-					map.createMap(houseMap, houseMap.width, houseMap.height);
+					
+					this.savedPosX = this.pos.x;
+					this.savedPosY = this.pos.y;
+					map.createMap(houseMap);
 					itemsGenerator.createGenerationArea(map);
 
-					this.savedPos = this.pos;
 					this.pos.x = playerPos.playerStartX;
 					this.pos.y = playerPos.playerStartY;
 					
 					enemies.length = 0;
 					blood.bloodList.length = 0;
 
-				} else {
+				} else if(map.activeMap === 'house') {
 					map.activeMap = 'world';
 					map.activeMap = jsonMap;
-					map.createMap(jsonMap, jsonMap.width, jsonMap.height);
+					map.createMap(jsonMap);
+					this.pos.x = this.savedPosX;
+					this.pos.y = this.savedPosY + 100;
 					itemsGenerator.createGenerationArea(map);
 				}
 			}

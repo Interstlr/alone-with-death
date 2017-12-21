@@ -12,7 +12,7 @@ class Map {
         this.generatedHouses = [];
     }
 
-    createMap(json, mapSizeX, mapSizeY) {
+    createMap(json) {
 
         this.mapSize.x = json.width;
         this.mapSize.y = json.height;
@@ -25,9 +25,9 @@ class Map {
 
         let jsonIndex = 0;
         let imgID = 0;
-        for(let i = 0; i < mapSizeY; i++) {
+        for(let i = 0; i < this.mapSize.y; i++) {
             tmpMap[i] = [];
-            for(let j = 0; j < mapSizeX; j++) {
+            for(let j = 0; j < this.mapSize.x; j++) {
                 let imgX = 0, imgY = 0;
 
                 switch(json.layers[0].data[jsonIndex]) {
@@ -36,7 +36,7 @@ class Map {
                     case 2: //dry ground
                         imgX = 100;
                         break;
-                    case 3: //house entance
+                    case 3: //house entrance
                         imgX = 200;
                         break;
                     case 4: //green roof
@@ -80,8 +80,6 @@ class Map {
 
     update(playerPos) {
 
-        background(BGCOLOR_ALMOSTBLACK);
-
         let playerTileX = (playerPos.x / TILE_W) | 0;
         let playerTileY = (playerPos.y / TILE_H) | 0;
 
@@ -109,10 +107,14 @@ class Map {
                 dH = this.map.length;
             }
         }
-
+        
         for(let i = lW; i < rW; i++) {
             for(let j = uH; j < dH; j++) {
-                this.map[j][i].update();
+                if(!this.map[j][i]) {
+
+                } else {
+                    this.map[j][i].update();
+                } 
             }
         }
     }
