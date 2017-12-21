@@ -27,7 +27,7 @@ class Thing {
         pop();
     }
 
-    addThing() {
+    incThing() {
         this.count++;
     }
 }

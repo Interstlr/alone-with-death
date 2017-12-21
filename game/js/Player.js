@@ -8,6 +8,7 @@ class Player {
 		this.isblockRunning = false;
 
 		this.inventory = new Inventory();
+		this.backpack = new Backpack();
 
 		this.queueBullets = null;
 
@@ -70,6 +71,10 @@ class Player {
 			'currentThingInHand':this.currentWeaponInHand,
 			'pos': this.pos
 		});
+
+		this.backpack.update(this.pos);
+
+		this.handlingItems();
 
 		this.score.update(this.pos);
 
@@ -208,6 +213,15 @@ class Player {
 			}
 		}
 
+		//backpack
+		if(keyIsDown(84)){
+			if(keyIsPressed){
+				this.backpack.show = this.backpack.show ? false : true;
+				keyIsPressed = false;
+			}
+			
+		}	
+
 		//shift(boosted movement)
 		if(keyIsDown(16) && !this.blockRunning){
 			if(this.enduranceBar.w > 10) {
@@ -263,7 +277,6 @@ class Player {
 		if(this.currentWeaponInHand) {
 			this.changePlayerSkin(this.currentWeaponInHand.name);
 			if(this.currentWeaponInHand.itemType == 'aid') {
-				console.log((this.healthBar.w + this.currentWeaponInHand.value))
 				if(keyIsPressed){
 				if((this.healthBar.w + this.currentWeaponInHand.value) < 150) {
 					this.healthBar.w = (this.healthBar.w + this.currentWeaponInHand.value) % 150;
@@ -282,5 +295,91 @@ class Player {
 
 			}		
 		}
+	}
+
+	handlingItems() {
+
+		if(this.backpack.mouseOverItem(this.pos)) {
+			if(mouseIsPressed && !this.backpack.rollAndDrop && !this.inventory.rollAndDrop) {
+				this.backpack.chooseItem();
+			}
+		}
+		else if(this.inventory.mouseOverItem()) {
+			if(mouseIsPressed && !this.backpack.rollAndDrop && !this.inventory.rollAndDrop) {
+				 this.inventory.chooseItemUnderMouse();
+			}
+		}  
+		if(!this.backpack.mouseOverItem(this.pos)){
+			if(mouseIsPressed && !this.backpack.rollAndDrop) {
+				// this.backpack.processItem = false;
+			}
+		}
+		if(this.backpack.processItem) {
+			if(mouseIsPressed) {
+				this.backpack.rollAndDrop = true;
+				this.backpack.handlingBackpackItem(this.pos);
+				this.inventory.processItem = false;
+			}
+			else {
+				this.backpack.rollAndDrop = false;
+				if(!this.inventory.processItem && !this.inventory.rollAndDrop) {
+					let currentItemInInventory
+					if(this.inventory.mouseOverItem()) {
+						currentItemInInventory = this.inventory.chooseItemUnderMouse();
+					}
+					let move = false;
+					
+					if(currentItemInInventory instanceof Weapon && this.backpack.processItem instanceof Thing) {
+						if(currentItemInInventory.bulletType == this.backpack.processItem.name) {
+							currentItemInInventory.bulletAmount += this.backpack.processItem.count * this.backpack.processItem.value;
+							move = true;
+							this.backpack.removeItem();
+						}
+					}
+					else if(currentItemInInventory instanceof Thing && this.backpack.processItem instanceof Thing) {
+						if(currentItemInInventory.name == this.backpack.processItem.name)
+						currentItemInInventory.count += this.backpack.processItem.count;
+						move = true;
+						this.backpack.removeItem();
+					}
+					if(!currentItemInInventory && this.backpack.processItem instanceof Weapon || this.backpack.processItem.itemType != 'ammo') {
+						this.inventory.pushItem(this.backpack.processItem);
+						move = true;
+						this.backpack.removeItem();
+					}
+					if(move) {
+						this.inventory.processItem = false;
+						this.backpack.processItem = false;
+						this.backpack.rollAndDrop = false;
+						return;
+					}
+				}
+			}
+			
+				//this.backpack.processItem = false;
+		}
+		else if(this.inventory.processItem) {
+
+			if(mouseIsPressed) {
+				this.inventory.rollAndDrop = true;
+				this.backpack.rollAndDrop = false;
+				this.inventory.handlingInventoryItem(this.pos);
+				this.backpack.processItem = false;
+			}
+			else {
+				if(this.backpack.pushItemInReqPos(this.inventory.processItem)) {
+					this.inventory.removeItemThrougnObject();
+				}
+				this.inventory.processItem = false;
+				this.backpack.processItem = false;
+				this.inventory.rollAndDrop = false;
+				this.backpack.rollAndDrop = false;
+			}
+		}
+
+		if(this.backpack.rollAndDrop || this.inventory.rollAndDrop) {
+			$('html').css('cursor','pointer');
+		}
+		
 	}
 }

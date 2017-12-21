@@ -13,10 +13,10 @@ class Generation {
 
         this.chanceItems = 2; //larger value lower chance
         this.chanceWeapon = 10;
-        this.generalChance = 100;
+        this.generalChance = 10;
 
         this.generalChanceZombie = 10;
-        this.chanceZombieNormal = 3;
+        this.chanceZombieNormal = 300;
         this.chanceFastZombie = 5;
         this.chanceFatZombie = 8;
 
@@ -116,9 +116,16 @@ class Generation {
             this.items[i].update();
 
             if(this.isIntersects(this.player.pos, this.items[i].pos)) {
-                this.player.putThingInInventory(this.items[i]);
-                this.items.splice(i, 1);
-                len--;
+                if(this.player.putThingInInventory(this.items[i])) {
+                    this.items.splice(i, 1);
+                    len--;
+                }
+                else if(this.items[i] instanceof Thing) {
+                    //add bullets in backpack
+                    this.player.backpack.pushItem(this.items[i]);
+                    this.items.splice(i, 1);
+                    len--;
+                }
             }
         }
     }
@@ -174,9 +181,7 @@ class Generation {
     }
 
     findEnemiesOnScreen(enemiesList, playerPos) {
-
         this.enemiesOnScreen.length = 0;
-
 
         let renderBorderUp = playerPos.y - WIN_HEIGHT;
         let renderBorderDown = playerPos.y + WIN_HEIGHT;

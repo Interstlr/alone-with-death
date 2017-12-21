@@ -1,15 +1,17 @@
 class Inventory {
     constructor() {
-        this.inventoryThings = [];
+        // this.inventoryThings = [];
         this.inventoryCeil = [
-            {x: -150, y: WIN_HEIGHT_HALF - 150, empty: true},
-            {x: -90, y: WIN_HEIGHT_HALF - 150, empty: true},
-            {x: -30, y: WIN_HEIGHT_HALF - 150, empty: true},
-            {x: 30, y: WIN_HEIGHT_HALF - 150, empty: true},
-            {x: 90, y: WIN_HEIGHT_HALF - 150, empty: true},
-            {x: 150, y: WIN_HEIGHT_HALF - 150, empty: true}
+            {x: -150, y: WIN_HEIGHT_HALF - 150, thing: false},
+            {x: -90, y: WIN_HEIGHT_HALF - 150, thing: false},
+            {x: -30, y: WIN_HEIGHT_HALF - 150, thing: false},
+            {x: 30, y: WIN_HEIGHT_HALF - 150, thing: false},
+            {x: 90, y: WIN_HEIGHT_HALF - 150, thing: false},
+            {x: 150, y: WIN_HEIGHT_HALF - 150, thing: false}
         ];
         this.ceilSize = 60;
+        this.processItem = false;
+        this.rollAndDrop = false;
     }
 
     pushItem(itemToAdd) {
@@ -19,27 +21,26 @@ class Inventory {
             if(added || addGunToGun){
                 return;
             }
-            if(!item.empty){
-                if(this.inventoryThings[index] instanceof Weapon && itemToAdd instanceof Thing) {
-                    if(itemToAdd.name == this.inventoryThings[index].bulletType){
-                        this.inventoryThings[index].bulletAmount += itemToAdd.value;
+            if(item.thing){
+                if(item.thing instanceof Weapon && itemToAdd instanceof Thing) {
+                    if(itemToAdd.name == item.thing.bulletType){
+                        item.thing.bulletAmount += itemToAdd.value;
                         added = true;
                     }
-                }else if(this.inventoryThings[index] instanceof Thing && itemToAdd instanceof Thing) {
-                    if(itemToAdd.name == this.inventoryThings[index].name){
-                        this.inventoryThings[index].addThing();
+                }else if(item.thing instanceof Thing && itemToAdd instanceof Thing) {
+                    if(itemToAdd.name == item.thing.name){
+                        item.thing.incThing();
                         added = true;
                     }
-                }else if(this.inventoryThings[index] instanceof Weapon && itemToAdd instanceof Weapon){
-                    if(itemToAdd.name == this.inventoryThings[index].name){
+                }else if(item.thing instanceof Weapon && itemToAdd instanceof Weapon){
+                    if(itemToAdd.name == item.thing.name){
                         added = false;
                         addGunToGun = true;
                     }
                 }
             }else {
                 if(itemToAdd.itemType == 'aid' || itemToAdd instanceof Weapon ){
-                    this.inventoryThings[index] = itemToAdd;
-                    this.inventoryCeil[index].empty = false;
+                    item.thing = itemToAdd;
                     added = true;
                 }
             }
@@ -51,19 +52,25 @@ class Inventory {
     }
 
     getItem(id) {
-        return  id < this.inventoryThings.length ? this.inventoryThings[id] : 0;
+        return  id < this.inventoryCeil.length ? this.inventoryCeil[id].thing : 0;
     }
 
     removeItem(id) {
-       
-        if (id < this.inventoryThings.length) {
-            this.inventoryThings.splice(id, 1);
-            
+        if (id < this.inventoryCeil.length) {
             for(let i = this.inventoryCeil.length - 1; i >= 0; i--) {
-                if(!this.inventoryCeil[i].empty) {
-                    this.inventoryCeil[i].empty = true;
+                if(i == id) {
+                    this.inventoryCeil[i].thing = false;
                     break;
                 }
+            }
+        }
+    }
+
+    removeItemThrougnObject() {
+        for(let i = 0; i < this.inventoryCeil.length; i++) {
+            if(this.processItem.name == this.inventoryCeil[i].thing.name) {
+                this.inventoryCeil[i].thing = false;
+                break;
             }
         }
     }
@@ -78,7 +85,7 @@ class Inventory {
         fill(50, 0.5); 
 
         this.inventoryCeil.forEach(function(item, index, object) {
-            let currentThing = this.inventoryThings[index];
+            let currentThing = item.thing;
             if(obj.currentThingInHand == currentThing && currentThing) {
                 fill(60, 0.7);
                 rect(item.x,item.y,this.ceilSize,this.ceilSize);
@@ -87,7 +94,7 @@ class Inventory {
                 rect(item.x,item.y,this.ceilSize,this.ceilSize);
             }
             
-            if(!item.empty && currentThing) {
+            if(currentThing) {
                 //shwo gun sprite in inventory panel
                 image(currentThing.img,
                     item.x + 10, 
@@ -124,5 +131,58 @@ class Inventory {
     clearCellStrokeWidth() {
         
     }
+    mouseOverItem() {
+        let mousePosX = (mouseX - WIN_WIDTH_HALF);
+        let mousePosY = (mouseY - WIN_HEIGHT_HALF);
+        let nCeil = this.inventoryCeil.length;
+        for(let i = 0; i < nCeil; i++) {
+         
+            if(mousePosX >= this.inventoryCeil[i].x && mousePosX <= this.inventoryCeil[i].x + this.ceilSize) {
+                if(mousePosY >= this.inventoryCeil[i].y && mousePosY <= this.inventoryCeil[i].y + this.ceilSize && this.inventoryCeil[i].thing) {
+                    $('html').css('cursor','pointer'); 
+                    return true;
+                }
+            }else {
+                $('html').css('cursor',' url("../game/img/player/crosshair.cur"), crosshair');
+            }
+        }
+        return false;
+    }
 
+    chooseItemUnderMouse() {
+        // if(this.processItem) {
+        //     return;
+        // }
+        
+        let mousePosX = (mouseX - WIN_WIDTH_HALF);
+        let mousePosY = (mouseY - WIN_HEIGHT_HALF);
+        let nCeil = this.inventoryCeil.length;
+        for(let i = 0; i < nCeil; i++) {
+
+            if(mousePosX >= this.inventoryCeil[i].x && mousePosX <= this.inventoryCeil[i].x + this.ceilSize) {
+                if(mousePosY >= this.inventoryCeil[i].y && mousePosY <= this.inventoryCeil[i].y + this.ceilSize && this.inventoryCeil[i].thing) {
+                    this.processItem = this.inventoryCeil[i].thing;
+                    return this.processItem;
+                }
+            }
+        }
+    }
+
+    handlingInventoryItem(pos) {
+        let mousePosX = (mouseX - WIN_WIDTH_HALF);
+        let mousePosY = (mouseY - WIN_HEIGHT_HALF);
+        push();
+        translate(pos.x,pos.y);
+        image(this.processItem.img,
+            mousePosX-20, 
+            mousePosY-20, 
+            40, 
+            40,
+            this.processItem.imagePos.x,
+            this.processItem.imagePos.y,
+            this.processItem.size.w + 9,
+            this.processItem.size.h + 9
+        );
+        pop();
+    }
 }

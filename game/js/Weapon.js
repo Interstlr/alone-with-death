@@ -1,6 +1,7 @@
 class Weapon {
     constructor(weapon) {
-        this.name = weapon.name;
+        this.name = weapon.name; 
+        this.itemType = weapon.itemType;
         this.bulletType = weapon.bulletType;
         this.damage = weapon.damage;
         this.img = loadImage(GUN_SPRITE_SHEET);
