@@ -1,15 +1,22 @@
 class Map {
-    constructor(objOrigin, mapSize) {
+    constructor(objOrigin) {
         this.name = name;
         this.origin = {'x': objOrigin.x, 'y': objOrigin.y};
         this.map = [];
         this.imagesSet = null;
-        this.activeMap = 'arena';
+        this.activeMap = 'world';
         this.loaded = false;
-        this.mapSize = mapSize;
+        this.mapSize = {};
+
+        this.locationsHouses = [];
+        this.generatedHouses = [];
     }
 
     createMap(json) {
+
+        this.mapSize.x = json.width;
+        this.mapSize.y = json.height;
+
         this.map.length = 0;
         let tmpMap = [];
         let tileX = 0;
@@ -29,27 +36,29 @@ class Map {
                     case 2: //dry ground
                         imgX = 100;
                         break;
-                    case 7: //sand
+                    case 3: //house entrance
+                        imgX = 200;
+                        break;
+                    case 4: //green roof
+                        imgX = 300;
+                        break;
+                    case 11: //sand
                         imgY = 100;
                         break;
-                    case 13: //brick wall 
+                    case 21: //brick wall 
                         imgY = 200;
                         break;
-                    case 14: //ruined brick wall
+                    case 22: //ruined brick wall
                         imgX = 100;
                         imgY = 200;
                         break;
-                    case 19: //wooden floor
+                    case 31: //wooden floor
                         imgY = 300;
                         break;
-                    case 25: //infinite wall
+                    case 41: //infinite wall
                         imgY = 400;
                         break;
-                    case 43: //water
-                        imgY = 700;
-                        break;
-                    case 44: //water
-                        imgX = 100;
+                    case 17: //water
                         imgY = 700;
                         break;
                     case 0: //black tile
@@ -57,7 +66,7 @@ class Map {
                         break;
                 }
 
-                tmpMap[i][j] = new Tile(tileX, tileY, imgX, imgY, json.layers[0].data[jsonIndex]);
+                tmpMap[i][j] = new Tile(tileX, tileY, imgX, imgY, json.layers[0].data[jsonIndex], map.activeMap);
 
                 jsonIndex++;
                 tileX += TILE_H;
@@ -70,8 +79,6 @@ class Map {
     }
 
     update(playerPos) {
-
-        background(BGCOLOR_ALMOSTBLACK);
 
         let playerTileX = (playerPos.x / TILE_W) | 0;
         let playerTileY = (playerPos.y / TILE_H) | 0;
@@ -100,10 +107,14 @@ class Map {
                 dH = this.map.length;
             }
         }
-
+        
         for(let i = lW; i < rW; i++) {
             for(let j = uH; j < dH; j++) {
-                this.map[j][i].update();
+                if(!this.map[j][i]) {
+
+                } else {
+                    this.map[j][i].update();
+                } 
             }
         }
     }

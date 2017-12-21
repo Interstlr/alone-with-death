@@ -1,5 +1,5 @@
 class Tile {
-    constructor(x, y, imgX, imgY, spriteID) {
+    constructor(x, y, imgX, imgY, spriteID, activeMap) {
         this.pos = {'x': x, 'y': y};
         this.imgPos = {'x': imgX, 'y': imgY};
         this.spriteID = spriteID;
@@ -9,13 +9,24 @@ class Tile {
             case 0: //black tile
                 this.isWalkable = false;
                 break;
-            case 25: //infinite wall
+            case 41: //infinite wall
                 this.healthValue = Infinity;
                 this.solid = true;
                 this.isWalkable = false;
                 break;
-            case 13: //brick wall
-                this.healthValue = 1000;
+            case 4: //green roof
+                this.solid = true;
+                this.isWalkable = false;
+                break;
+            case 3: //house entrance
+                this.isHouseEntrance = true;
+                break;
+            case 21: //brick wall
+                if(activeMap === 'world') {
+                    this.healthValue = 1000;
+                } else {
+                    this.healthValue = Infinity;
+                }
                 this.solid = true;
                 this.isWalkable = false;
                 break;

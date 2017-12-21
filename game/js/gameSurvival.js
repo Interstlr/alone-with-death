@@ -5,6 +5,13 @@ let enemies;
 
 let jsonMap;
 let jsonBunkerMap;
+let jsonHouse1;
+let jsonHouse2;
+let jsonHouse3;
+let jsonHouse4;
+let jsonHouse5;
+
+
 let jsonItems;
 let jsonWeapon;
 
@@ -36,6 +43,12 @@ let fpsValue;
 
 function preload() {
     jsonMap = loadJSON(SURVIVAL_MAP_JSON_PATH);
+    jsonHouse1 = loadJSON(HOUSE1_JSON_PATH);
+    jsonHouse2 = loadJSON(HOUSE2_JSON_PATH);
+    jsonHouse3 = loadJSON(HOUSE3_JSON_PATH);
+    jsonHouse4 = loadJSON(HOUSE4_JSON_PATH);
+    jsonHouse5 = loadJSON(HOUSE5_JSON_PATH);
+
     jsonBunkerMap = loadJSON(BUNKER_JSON_PATH);
     jsonItems = loadJSON(ITEMS_JSON_PATH);
     jsonWeapon = loadJSON(WEAPON_JSON_PATH);
@@ -87,19 +100,20 @@ function setup() {
         {
             'x': 0,
             'y': 0
-        },
-        {
-            'x': MAP_OPEN_WORLD_X,
-            'y': MAP_OPEN_WORLD_Y
         }
     );
 
     map.imagesSet = images;
-    map.createMap(jsonMap, MAP_OPEN_WORLD_X, MAP_OPEN_WORLD_Y);
+    map.createMap(jsonMap, jsonMap.width, jsonMap.height);
 
+    map.locationsHouses.push(jsonHouse1);
+    map.locationsHouses.push(jsonHouse2);
+    map.locationsHouses.push(jsonHouse3);
+    map.locationsHouses.push(jsonHouse4);
+    map.locationsHouses.push(jsonHouse5);
 
     itemsGenerator = new Generation(map.map, jsonItems, jsonWeapon, player, enemies, zimbieSprites);
-    itemsGenerator.createGenerationArea(map.map);
+    itemsGenerator.createGenerationArea(map, );
     setInterval(function() {
         itemsGenerator.findEnemiesOnScreen(enemies, player.pos);
     }.bind(this), 2000);
@@ -124,11 +138,11 @@ function setup() {
         fpsValue = frameRate().toFixed(0);
     }.bind(this), 500);
 
-    itemsGenerator.addWeapon(200, 200, 1);
-    itemsGenerator.addWeapon(300, 200, 2);
-    itemsGenerator.addWeapon(400, 200, 3);
-    itemsGenerator.addThing(500, 200, 0);
-    itemsGenerator.addThing(600, 200, 1);
+    //itemsGenerator.addWeapon(200, 200, 1);
+    //itemsGenerator.addWeapon(300, 200, 2);
+    //itemsGenerator.addWeapon(400, 200, 3);
+    //itemsGenerator.addThing(500, 200, 0);
+    //itemsGenerator.addThing(600, 200, 1);
 
 }
 
@@ -142,6 +156,8 @@ function draw() {
         return;
     }
 
+    background(BGCOLOR_ALMOSTBLACK);
+
     camera(player.pos.x - WIN_WIDTH_HALF, player.pos.y - WIN_HEIGHT_HALF);
 
     map.update(player.pos);
@@ -151,8 +167,8 @@ function draw() {
     itemsGenerator.generateItem();
     itemsGenerator.updateItems();
 
-    itemsGenerator.generateEnemy();
-    itemsGenerator.updateEnemies(map, player);
+    //itemsGenerator.generateEnemy();
+    //itemsGenerator.updateEnemies(map, player);
 
     printTechData( {
         'xPlayer': player.pos.x, 

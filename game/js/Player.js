@@ -3,8 +3,10 @@ class Player {
 		this.r = radius;
 		this.rHand = (radius / 4) | 0;
 		this.pos = {'x': windowDimentions.x / 2, 'y': windowDimentions.y / 2};
+		this.savedPosX;
+		this.savedPosY;
+
 		this.windowDimBy2 = this.pos;
-		this.dirMove = [false, false, false, false]; //WASD
 		this.isblockRunning = false;
 
 		this.inventory = new Inventory();
@@ -32,7 +34,9 @@ class Player {
 		this.bodySpriteCurrentWidth = 115;
 		this.bodySpriteCurrentX = 0;
 
-		this.bloodIntervalCounter = 0; 
+		this.bloodIntervalCounter = 0;
+		
+		this.entrancePause = true;
 		
 
 		//this.animationIdle = new Animation(playerSprites); 
@@ -84,7 +88,7 @@ class Player {
 		this.controller();
 		
 		const collistionObject = handleCollisionWalls(this.pos, map);
-		this.checkActionTile(map, collistionObject);
+		this.checkEntranceTile(map, collistionObject);
 
 		if(this.healthBar.w <= 1) {
 			gameOver = true;
@@ -107,24 +111,57 @@ class Player {
 		return this.healthBar.value;
 	}
 
-	checkActionTile(map, collistionObject) {
+	checkEntranceTile(map, collistionObject) {
 		if(map.map[collistionObject.objTile.objTileY][collistionObject.objTile.objTileX]) {
-			if(map.map[collistionObject.objTile.objTileY][collistionObject.objTile.objTileX].isBunkerEntrance) {
-				if(map.activeMap === 'arena') {
+
+			/*
+			if(map.map[collistionObject.objTile.objTileY][collistionObject.objTile.objTileX].hasOwnProperty('isBunkerEntrance')) {
+				if(map.activeMap === 'world') {
 					map.activeMap = 'bunker';
 					this.pos.x = 6 * TILE_W;
 					this.pos.y = 17 * TILE_H + 100;
 					map.createMap(jsonBunkerMap);
-					itemsGenerator.createGenerationArea(map.map);
+					itemsGenerator.createGenerationArea(map);
 					background(BGCOLOR_GRAY);
 					enemies.length = 0;
 					blood.bloodList.length = 0;
 				} else {
-					map.activeMap = 'arena';
-					map.createMap(jsonMap);
-					itemsGenerator.createGenerationArea(map.map);
+					map.activeMap = 'world';
+					map.createMap(jsonMap, jsonMap.width, jsonMap.height);
+					itemsGenerator.createGenerationArea(map);
 					background(BGCOLOR_ALMOSTBLACK);
-				}	
+				}
+			}
+			*/
+
+			if(map.map[collistionObject.objTile.objTileY][collistionObject.objTile.objTileX].hasOwnProperty('isHouseEntrance')) {
+				if(map.activeMap === 'world') {
+					//this.entrancePause = false;
+
+					map.activeMap = 'house';
+					let randHouseNumber = randInt(0, map.locationsHouses.length - 1);
+					let playerPos = map.locationsHouses[randHouseNumber].properties;
+					let houseMap = map.locationsHouses[randHouseNumber];
+					
+					this.savedPosX = this.pos.x;
+					this.savedPosY = this.pos.y;
+					map.createMap(houseMap);
+					itemsGenerator.createGenerationArea(map);
+
+					this.pos.x = playerPos.playerStartX;
+					this.pos.y = playerPos.playerStartY;
+					
+					enemies.length = 0;
+					blood.bloodList.length = 0;
+
+				} else if(map.activeMap === 'house') {
+					map.activeMap = 'world';
+					map.activeMap = jsonMap;
+					map.createMap(jsonMap);
+					this.pos.x = this.savedPosX;
+					this.pos.y = this.savedPosY + 100;
+					itemsGenerator.createGenerationArea(map);
+				}
 			}
 		}
 	}
@@ -157,19 +194,19 @@ class Player {
 	controller() {
 		
 		//w
-		if(keyIsDown(87) && !this.dirMove[0]){
+		if(keyIsDown(87)){
 			player.pos.y -= this.playerSpeed;
 		}
 		//a
-		if(keyIsDown(65) && !this.dirMove[1]){
+		if(keyIsDown(65)){
 			player.pos.x -= this.playerSpeed;
 		}
 		//s
-		if(keyIsDown(83) && !this.dirMove[2]){
+		if(keyIsDown(83)){
 			player.pos.y += this.playerSpeed;
 		}
 		//d
-		if(keyIsDown(68) && !this.dirMove[3]){
+		if(keyIsDown(68)){
 			player.pos.x += this.playerSpeed;
 		}
 
@@ -260,7 +297,7 @@ class Player {
 			case 'awp':
 				this.currentSprite = this.playerSprites[3];
 				this.bodySpriteCurrentWidth = 167;
-				this.bodySpriteCurrentX = 29;
+				this.bodySpriteCurrentX = 45;
 				this.currentSprite = playerSprites[3];
 				break;
 			default:
