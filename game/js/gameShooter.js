@@ -82,7 +82,13 @@ function setup() {
     frameRate(60);
     createCanvas(WIN_WIDTH, WIN_HEIGHT);
 
-    player = new Player(ENTITY_DIAMETR / 2, {'x': 3500, 'y': 2000}, playerSprites);
+    player = new Player(
+        ENTITY_DIAMETR / 2,
+        {
+            'x': 3500,
+            'y': 2000},
+            playerSprites
+    );
     map = new Map(
         {
             'x': 0,

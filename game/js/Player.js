@@ -79,7 +79,9 @@ class Player {
 			'pos': this.pos
 		});
 
-		this.minimap.update(this.pos);
+		if(this.minimap.mapImg) {
+			this.minimap.update(this.pos);
+		}
 
 		this.backpack.update(this.pos);
 
