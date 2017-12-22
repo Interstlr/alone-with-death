@@ -12,7 +12,7 @@ class Generation {
         this.enemySpriteSet = enemySpriteSet;
 
         this.chanceItems = 4; //larger value lower chance
-        this.chanceWeapon = 30;
+        this.chanceWeapon = 15;
         this.generalChance = 20;
         this.chanceZombie = 30;
         this.generItemsTryNumber = 10; 

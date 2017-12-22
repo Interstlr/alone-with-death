@@ -129,7 +129,6 @@ function setup() {
     setInterval(function() {
         fpsValue = frameRate().toFixed(0);
     }.bind(this), 500);
-
 }
 
 function draw() {

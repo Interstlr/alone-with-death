@@ -36,7 +36,7 @@ class WaveEnemies {
             this.timeForRest = false;
             this.nWave += 1;
             if((10 - this.nWave) > 0 && this.nWave < 5) {
-                itemsGenerator.chanceZombie = 10 - this.nWave * 2;
+                itemsGenerator.chanceZombie = 20 - this.nWave * 2;
             } else {
                 itemsGenerator.chanceZombie = 1;
             }

@@ -18,7 +18,7 @@ class Player {
 
 		this.playerSpeedNormal = 10;
 		this.playerSpeed = this.playerSpeedNormal;
-		this.playerspeedBoosted = this.playerSpeedNormal * 3;
+		this.playerspeedBoosted = this.playerSpeedNormal * 1.5;
 
 		this.barsX = 10;
 		this.barsY = 200;
