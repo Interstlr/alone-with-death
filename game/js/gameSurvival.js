@@ -231,9 +231,3 @@ function keyReleased() {
         }
     }
 }
-
-function keyTyped() {
-    if(player.backpack.show) {
-        
-    }
-}

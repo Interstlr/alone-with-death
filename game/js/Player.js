@@ -390,7 +390,6 @@ class Player {
 					}
 					keyIsPressed = false;
 				}
-
 			}		
 		}
 	}
