@@ -235,6 +235,10 @@ class Map {
                         imgY = 600;
                         imgX = 100;
                         break;
+                    case 92: //black tile
+                        imgY = 900;
+                        imgX = 100;
+                        break;
                 }
 
                 tmpMap[i][j] = new Tile(tileX, tileY, imgX, imgY, json.layers[0].data[jsonIndex], map.activeMap);
