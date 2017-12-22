@@ -20,6 +20,7 @@ class Tile {
                 break;
             case 72: //building entrance
                 this.isWalkable = false;
+                this.solid = true;
                 break;
             case 71: //brick wall
                 this.healthValue = 1000;
@@ -73,6 +74,9 @@ class Tile {
             case 62:
                 this.isWalkable = false;
                 this.isHouseEntrance = true;
+            case 92:
+                this.isWalkable = false;
+                this.isBunkerEntrance = true;
         }
     }
 
