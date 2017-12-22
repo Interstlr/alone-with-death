@@ -161,7 +161,16 @@ function setup() {
 function draw() {
     if(gameOver) {
         gameIsPaused = true;
-        $('.gameOverMenu').show();
+        if(gameIsWon) {
+            $('.titleFinishMenu p').text('YOU SURVIVED');
+            $('.titleFinishMenu').css('background','url(../game/img/win.jpg)');
+            $('.resumeFinishBtn').text('RESUME');
+        } else {
+            $('.titleFinishMenu p').text('GAME OVER');
+            $('.titleFinishMenu').css('background','url(../game/img/game-over.jpg)');
+            $('.resumeFinishBtn').text('RESTART');
+        }
+        $('.finishMenu').show();
         // $('.gameScore').text('score:' + player.score.value);
     }
     if(gameIsPaused) {

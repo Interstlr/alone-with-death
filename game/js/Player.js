@@ -103,6 +103,7 @@ class Player {
 
 		if(this.healthBar.w <= 1) {
 			gameOver = true;
+			$('.message').text('YOU DIED OF ZOMBIES');
 		}
 	}
 
@@ -172,9 +173,11 @@ class Player {
 		}
 
 		if(this.hungerBar.w <= 1) {
+			$('.message').text('YOU DIED OF HUNGER');
 			gameOver = true;
 		}
 		if(this.thirstBar.w <= 1) {
+			$('.message').text('YOU DIED OF THIRST');
 			gameOver = true;
 		}
 	}

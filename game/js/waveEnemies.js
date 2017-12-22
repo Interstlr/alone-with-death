@@ -26,6 +26,7 @@ class WaveEnemies {
 
         //if game is finished show congratulations
         if(this.nWave == 5) {
+			$('.message').text('');
             $('.finishMenu').show();
             gameIsWon = true;
             gameIsPaused = true;

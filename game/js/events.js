@@ -1,7 +1,7 @@
 $(document).ready(function(){
     $('.pauseMenu').hide();
     $('.pauseIndicator').hide();
-    $('.gameOverMenu').hide();
+    // $('.gameOverMenu').hide();
     $('.finishMenu').hide();
 });
 
@@ -11,10 +11,10 @@ $('.resumeBtn').click(function(){
     gameIsPaused = false;
 });
 
-$('.restartBtn').click(function(){
-    $('.gameOverMenu').hide();
-    window.location.reload();
-});
+// $('.restartBtn').click(function(){
+//     $('.gameOverMenu').hide();
+//     window.location.reload();
+// });
 
 $(this).keydown(function(e){
     if(e.keyCode == 27 && !gameOver && !gameIsWon) {
@@ -28,6 +28,9 @@ $("html,body").on("contextmenu", false);
 
 $('.resumeFinishBtn').click(function(){
     $('.finishMenu').hide();
+    if(!gameIsWon) {
+        window.location.reload();
+    }
     gameIsPaused = false;
     gameIsWon = false;
 });
