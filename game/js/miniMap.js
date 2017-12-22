@@ -10,7 +10,6 @@ class Minimap {
         this.playerPoint = null;
 
         this.mapScale = 160;
-
     }
 
     update(playerPos) {
