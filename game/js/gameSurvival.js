@@ -153,12 +153,24 @@ function setup() {
     itemsGenerator.addThing(2300, 2000, 0);
     itemsGenerator.addThing(2400, 2000, 1);
 
+
+    player.minimap = new Minimap(minimapImage);
+    player.backpack = new Backpack();
 }
 
 function draw() {
     if(gameOver) {
         gameIsPaused = true;
-        $('.gameOverMenu').show();
+        if(gameIsWon) {
+            $('.titleFinishMenu p').text('YOU SURVIVED');
+            $('.titleFinishMenu').css('background','url(../game/img/win.jpg)');
+            $('.resumeFinishBtn').text('RESUME');
+        } else {
+            $('.titleFinishMenu p').text('GAME OVER');
+            $('.titleFinishMenu').css('background','url(../game/img/game-over.jpg)');
+            $('.resumeFinishBtn').text('RESTART');
+        }
+        $('.finishMenu').show();
         // $('.gameScore').text('score:' + player.score.value);
     }
     if(gameIsPaused) {
@@ -226,11 +238,5 @@ function keyReleased() {
         } else {
             player.minimap.show = true;
         }
-    }
-}
-
-function keyTyped() {
-    if(player.backpack.show) {
-        
     }
 }

@@ -31,8 +31,6 @@ class Backpack {
         this.processItem = false;
         this.rollAndDrop = false;
         this.show = false;
-
-        this.isOpened = false;
     }
 
     update(pos) {
@@ -99,11 +97,7 @@ class Backpack {
             }
             if(item.thing){
                if(item.thing instanceof Thing && itemToAdd instanceof Thing) {
-                    if(itemToAdd.name == item.thing.name && itemToAdd.itemType == 'aid'){
-                        item.thing.count += itemToAdd.count;
-                        added = true;
-                    }
-                    if(itemToAdd.name == item.thing.name && itemToAdd.itemType == 'ammo'){
+                    if(itemToAdd.name == item.thing.name){
                         item.thing.count += itemToAdd.count;
                         added = true;
                     }
@@ -125,15 +119,22 @@ class Backpack {
         let mousePosX = (mouseX - WIN_WIDTH_HALF);
         let mousePosY = (mouseY - WIN_HEIGHT_HALF);
         let added = false;
+        if(mousePosX < -150 || mousePosX > 210) {
+			if(mousePosY < -this.ceilSize || mousePosY > this.ceilSize * 2 + this.ceilSize) {
+                return added;
+            }
+        }
 
         this.backpacksCeil.forEach(function(item, index, obj) {
-            if(mousePosX >= item.x && mousePosX <= item.x + this.ceilSize) {
+            if(mousePosX >= item.x && mousePosX <= item.x + this.ceilSize && mousePosX ) {
                 if(mousePosY >= item.y && mousePosY <= item.y + this.ceilSize) {
                     if(item.thing){
                         if(item.thing instanceof Thing && itemToAdd instanceof Thing) {
                             if(itemToAdd.name == item.thing.name){
-                                item.thing.count += itemToAdd.count;
-                                added = true;
+                                if(itemToAdd != item.thing) {
+                                    item.thing.count += itemToAdd.count;
+                                    added = true;
+                                }
                             }
                         }
                      }else {
@@ -145,21 +146,19 @@ class Backpack {
                 }
             }
         }.bind(this));
-        if(added){
-            return true;
-        }
-        return false;
+        return added;
     }
 
     getItem(id) {
         return  id < this.backpacksThings.length ? this.backpacksThings[id] : 0;
     }
 
-    removeItem() {
+    removeProcessingItem() {
         for(let i = 0; i < this.backpacksCeil.length; i++) {
-            if(this.backpacksCeil[i].thing && this.processItem.name == this.backpacksCeil[i].thing.name) {
-                this.backpacksCeil[i].thing = false;
-                break;
+            if(this.processItem.x >= this.backpacksCeil[i].x && this.processItem.x < this.backpacksCeil[i].x + this.ceilSize) {
+                if(this.processItem.y >= this.backpacksCeil[i].y && this.processItem.y < this.backpacksCeil[i].y + this.ceilSize) {
+                    this.backpacksCeil[i].thing = false;
+                }
             }
         }
     }  
@@ -193,7 +192,8 @@ class Backpack {
             if(mousePosX >= this.backpacksCeil[i].x && mousePosX <= this.backpacksCeil[i].x + this.ceilSize) {
                 if(mousePosY >= this.backpacksCeil[i].y && mousePosY <= this.backpacksCeil[i].y + this.ceilSize && this.backpacksCeil[i].thing) {
                     this.processItem = this.backpacksCeil[i].thing;
-                   
+                    this.processItem.x = this.backpacksCeil[i].x;
+                    this.processItem.y = this.backpacksCeil[i].y;
                     return this.processItem;
                 }
             }
@@ -201,7 +201,6 @@ class Backpack {
     }
 
     handlingBackpackItem(pos,thing) {
-
         let mousePosX = (mouseX - WIN_WIDTH_HALF);
         let mousePosY = (mouseY - WIN_HEIGHT_HALF);
         push();
@@ -220,7 +219,6 @@ class Backpack {
     }
 
     processItemInfo(pos,thing) {
-
         push();
         translate(pos.x,pos.y);
         fill(30);
@@ -230,14 +228,20 @@ class Backpack {
         textFont(font);
 
         text(thing.name, -300, -68);
-
         textSize(20);
-        text('count: ' + thing.count, -280, -40);
-        text('amount: ' + thing.count * thing.value, -280, -10);
+
+        if(thing instanceof Thing) {
+            text('count: ' + thing.count, -280, -40);
+            text('amount: ' + thing.count * thing.value, -280, -10);
+        } 
+        else if (thing instanceof Weapon) {
+            text('bullets: ' + (+thing.bulletAmount+thing.bulletCurrentMagazine), -280, -40);
+            text('damage: ' + thing.damage, -280, -10);
+        }
+       
         colorMode(HSL);
         fill(50, 0.5); 
         rect(-350,-90,this.ceilSize * 3 + 1, 90);
-
         image(thing.img,
             -350, 
             -60, 

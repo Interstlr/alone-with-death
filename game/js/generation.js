@@ -175,7 +175,7 @@ class Generation {
                     this.items.splice(i, 1);
                     len--;
                 }
-                else if(this.items[i] instanceof Thing) {
+                else if(player.backpack && this.items[i] instanceof Thing) {
                     //add bullets in backpack
                     this.player.backpack.pushItem(this.items[i]);
                     this.items.splice(i, 1);
