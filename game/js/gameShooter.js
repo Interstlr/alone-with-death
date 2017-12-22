@@ -26,6 +26,7 @@ let things = [];    //things as medicine kit, ammo, weapons, etc. on the map
 let gameOver = false;
 let gameIsPaused = false;
 let gameIsWon = false;
+
 let keyIsPressed = false;
 
 let font;
@@ -132,10 +133,14 @@ function draw() {
             $('.titleFinishMenu p').text('YOU SURVIVED');
             $('.titleFinishMenu').css('background','url(../game/img/win.jpg)');
             $('.resumeFinishBtn').text('RESUME');
+            $('.titleFinishMenu').addClass('gameWon');
+            $('.titleFinishMenu').removeClass('gameOver');
         } else {
             $('.titleFinishMenu p').text('GAME OVER');
             $('.titleFinishMenu').css('background','url(../game/img/game-over.jpg)');
             $('.resumeFinishBtn').text('RESTART');
+            $('.titleFinishMenu').addClass('gameOver');
+            $('.titleFinishMenu').removeClass('gameWon');
         }
         $('.finishMenu').show();
         // $('.gameScore').text('score:' + player.score.value);
@@ -143,7 +148,6 @@ function draw() {
     if(gameIsPaused) {
         return;
     }
-
     background(BGCOLOR_ALMOSTBLACK);
 
     camera(player.pos.x - WIN_WIDTH_HALF, player.pos.y - WIN_HEIGHT_HALF);

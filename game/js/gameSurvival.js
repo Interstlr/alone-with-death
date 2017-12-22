@@ -165,13 +165,17 @@ function draw() {
             $('.titleFinishMenu p').text('YOU SURVIVED');
             $('.titleFinishMenu').css('background','url(../game/img/win.jpg)');
             $('.resumeFinishBtn').text('RESUME');
+            $('.titleFinishMenu').addClass('gameWon');
+            $('.titleFinishMenu').removeClass('gameOver');
         } else {
             $('.titleFinishMenu p').text('GAME OVER');
             $('.titleFinishMenu').css('background','url(../game/img/game-over.jpg)');
             $('.resumeFinishBtn').text('RESTART');
+            $('.titleFinishMenu').addClass('gameOver');
+            $('.titleFinishMenu').removeClass('gameWon');
         }
+      
         $('.finishMenu').show();
-        // $('.gameScore').text('score:' + player.score.value);
     }
     if(gameIsPaused) {
         return;

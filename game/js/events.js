@@ -31,6 +31,7 @@ $('.resumeFinishBtn').click(function(){
     if(!gameIsWon) {
         window.location.reload();
     }
+    gameOver = false;
     gameIsPaused = false;
     gameIsWon = false;
 });
