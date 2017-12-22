@@ -43,6 +43,3 @@ class Minimap {
         pop();
     }
 }
-
-//PlayerPos.x + WIN_WIDTH_HALF - 400,
-//PlayerPos.y - 100,

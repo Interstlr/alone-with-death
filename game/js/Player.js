@@ -228,7 +228,7 @@ class Player {
 					itemsGenerator.enemies.length = 0;
 					blood.bloodList.length = 0;
 
-					itemsGenerator.generateEnemyAmount(randInt(0, 5));
+					//itemsGenerator.generateEnemyAmount(randInt(0, 5));
 					
 					return;
 

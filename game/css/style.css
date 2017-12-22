@@ -124,3 +124,8 @@ html {
     background: rgba(73, 72, 72, 0.8);
     font-family: Arial, Helvetica, sans-serif;
 }
+
+.screens {
+    display: flex;
+    justify-content: space-between;
+}
