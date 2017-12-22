@@ -51,6 +51,39 @@ class Inventory {
         return false;
     }
 
+    pushItemInReqPos(itemToAdd) {
+        let mousePosX = (mouseX - WIN_WIDTH_HALF);
+        let mousePosY = (mouseY - WIN_HEIGHT_HALF);
+        let added = false;
+
+        //if we put thing in inventory
+		if(mousePosX < -150 || mousePosX > 150 + this.ceilSize) {
+			if(mousePosY < WIN_HEIGHT_HALF - 150 || mousePosY > WIN_HEIGHT_HALF - 150 + this.ceilSize) {
+                return added;
+            }
+        }
+        this.inventoryCeil.forEach(function(item, index, obj) {
+            if(mousePosX >= item.x && mousePosX <= item.x + this.ceilSize) {
+                if(mousePosY >= item.y && mousePosY <= item.y + this.ceilSize) {
+                    if(item.thing){
+                        if(item.thing instanceof Thing && itemToAdd instanceof Thing) {
+                            if(itemToAdd.name == item.thing.name){
+                                item.thing.count += itemToAdd.count;
+                                added = true;
+                            }
+                        }
+                     }else {
+                         if(itemToAdd instanceof Thing || itemToAdd instanceof Weapon ){
+                            item.thing = itemToAdd;
+                            added = true;
+                         }
+                     }
+                }
+            }
+        }.bind(this));
+        return added;
+    }
+
     getItem(id) {
         return  id < this.inventoryCeil.length ? this.inventoryCeil[id].thing : 0;
     }
@@ -66,14 +99,15 @@ class Inventory {
         }
     }
 
-    removeItemThrougnObject() {
+    removeProcessingItem() {
         for(let i = 0; i < this.inventoryCeil.length; i++) {
-            if(this.processItem.name == this.inventoryCeil[i].thing.name) {
-                this.inventoryCeil[i].thing = false;
-                break;
+            if(this.processItem.x >= this.inventoryCeil[i].x && this.processItem.x < this.inventoryCeil[i].x + this.ceilSize) {
+                if(this.processItem.y >= this.inventoryCeil[i].y && this.processItem.y < this.inventoryCeil[i].y + this.ceilSize) {
+                    this.inventoryCeil[i].thing = false;
+                }
             }
         }
-    }
+    }  
 
     update(obj) {
 		push();
@@ -162,6 +196,8 @@ class Inventory {
             if(mousePosX >= this.inventoryCeil[i].x && mousePosX <= this.inventoryCeil[i].x + this.ceilSize) {
                 if(mousePosY >= this.inventoryCeil[i].y && mousePosY <= this.inventoryCeil[i].y + this.ceilSize && this.inventoryCeil[i].thing) {
                     this.processItem = this.inventoryCeil[i].thing;
+                    this.processItem.x = this.inventoryCeil[i].x;
+                    this.processItem.y = this.inventoryCeil[i].y;
                     return this.processItem;
                 }
             }

@@ -153,6 +153,9 @@ function setup() {
     itemsGenerator.addThing(2300, 2000, 0);
     itemsGenerator.addThing(2400, 2000, 1);
 
+
+    player.minimap = new Minimap(minimapImage);
+    player.backpack = new Backpack();
 }
 
 function draw() {

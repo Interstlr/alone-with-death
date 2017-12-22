@@ -1,5 +1,5 @@
 class Player {
-    constructor(radius, windowDimentions, playerSprites, minimapImg) {
+    constructor(radius, windowDimentions, playerSprites) {
 		this.r = radius;
 		this.rHand = (radius / 4) | 0;
 		this.pos = {'x': windowDimentions.x / 2, 'y': windowDimentions.y / 2};
@@ -10,9 +10,9 @@ class Player {
 		this.isblockRunning = false;
 
 		this.inventory = new Inventory();
-		this.backpack = new Backpack();
+		this.backpack;
 
-		this.minimap = new Minimap(minimapImg);
+		this.minimap;
 
 		this.queueBullets = null;
 
@@ -79,11 +79,16 @@ class Player {
 			'pos': this.pos
 		});
 
-		this.minimap.update(this.pos);
+		if(this.minimap) {
+			this.minimap.update(this.pos);
+		}
 
-		this.backpack.update(this.pos);
-
-		this.handlingItems();
+		if(this.backpack) {
+			this.backpack.update(this.pos);
+			if(this.backpack.show) {
+				this.handlingItems();
+			}
+		}
 
 		this.score.update(this.pos);
 		
@@ -264,9 +269,12 @@ class Player {
 		}
 
 		//fire
-		if((keyIsDown(32) || mouseIsPressed) && !this.backpack.show) {
+		if((keyIsDown(32) || mouseIsPressed)) {
 			if(this.currentWeaponInHand instanceof Weapon){
-				this.currentWeaponInHand.makeShot(this);
+				if(!this.backpack || (this.backpack && !this.backpack.show)) {
+					this.currentWeaponInHand.makeShot(this);
+				}
+				
 			}
 		}
 
@@ -305,11 +313,12 @@ class Player {
 
 		//backpack
 		if(keyIsDown(84)){
-			if(keyIsPressed){
-				this.backpack.show = this.backpack.show ? false : true;
-				keyIsPressed = false;
+			if(this.backpack) {
+				if(keyIsPressed){
+					this.backpack.show = this.backpack.show ? false : true;
+					keyIsPressed = false;
+				}
 			}
-			
 		}	
 
 		//shift(boosted movement)
@@ -387,7 +396,6 @@ class Player {
 	}
 
 	handlingItems() {
-
 		if(this.backpack.mouseOverItem(this.pos)) {
 			if(mouseIsPressed && !this.backpack.rollAndDrop && !this.inventory.rollAndDrop) {
 				this.backpack.chooseItem();
@@ -398,57 +406,30 @@ class Player {
 				 this.inventory.chooseItemUnderMouse();
 			}
 		}  
-		if(!this.backpack.mouseOverItem(this.pos)){
-			if(mouseIsPressed && !this.backpack.rollAndDrop) {
-				// this.backpack.processItem = false;
-			}
-		}
+
+		let mousePosX = (mouseX - WIN_WIDTH_HALF);
+		let mousePosY = (mouseY - WIN_HEIGHT_HALF);
+		
 		if(this.backpack.processItem) {
+
 			if(mouseIsPressed) {
 				this.backpack.rollAndDrop = true;
-				this.backpack.handlingBackpackItem(this.pos);
 				this.inventory.processItem = false;
+				this.backpack.handlingBackpackItem(this.pos);
 			}
 			else {
 				this.backpack.rollAndDrop = false;
 				if(!this.inventory.processItem && !this.inventory.rollAndDrop) {
-					let currentItemInInventory
-					if(this.inventory.mouseOverItem()) {
-						currentItemInInventory = this.inventory.chooseItemUnderMouse();
+					if(this.inventory.pushItemInReqPos(this.backpack.processItem) || this.backpack.pushItemInReqPos(this.backpack.processItem)) {
+						this.backpack.removeProcessingItem();
 					}
-					let move = false;
-					
-					if(currentItemInInventory instanceof Weapon && this.backpack.processItem instanceof Thing) {
-						if(currentItemInInventory.bulletType == this.backpack.processItem.name) {
-							currentItemInInventory.bulletAmount += this.backpack.processItem.count * this.backpack.processItem.value;
-							move = true;
-							this.backpack.removeItem();
-						}
-					}
-					else if(currentItemInInventory instanceof Thing && this.backpack.processItem instanceof Thing) {
-						if(currentItemInInventory.name == this.backpack.processItem.name)
-						currentItemInInventory.count += this.backpack.processItem.count;
-						move = true;
-						this.backpack.removeItem();
-					}
-					if(!currentItemInInventory && this.backpack.processItem instanceof Weapon || this.backpack.processItem.itemType != 'ammo') {
-						this.inventory.pushItem(this.backpack.processItem);
-						move = true;
-						this.backpack.removeItem();
-					}
-					if(move) {
-						this.inventory.processItem = false;
-						this.backpack.processItem = false;
-						this.backpack.rollAndDrop = false;
-						return;
-					}
+					this.inventory.processItem = false;
+					this.backpack.processItem = false;
+					this.backpack.rollAndDrop = false;
 				}
 			}
-			
-				//this.backpack.processItem = false;
 		}
 		else if(this.inventory.processItem) {
-
 			if(mouseIsPressed) {
 				this.inventory.rollAndDrop = true;
 				this.backpack.rollAndDrop = false;
@@ -456,8 +437,11 @@ class Player {
 				this.backpack.processItem = false;
 			}
 			else {
-				if(this.backpack.pushItemInReqPos(this.inventory.processItem)) {
-					this.inventory.removeItemThrougnObject();
+				if(this.inventory.pushItemInReqPos(this.inventory.processItem) || this.backpack.pushItemInReqPos(this.inventory.processItem)) {
+					if(this.currentWeaponInHand == this.inventory.processItem) {
+						this.currentWeaponInHand = 0;
+					}
+					this.inventory.removeProcessingItem();
 				}
 				this.inventory.processItem = false;
 				this.backpack.processItem = false;
