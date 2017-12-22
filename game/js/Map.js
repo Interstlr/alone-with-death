@@ -169,7 +169,7 @@ class Map {
                     case 71: //brick wall 
                         imgY = 700;
                         break;
-                    case 71: //infinite brick wall 
+                    case 72: //infinite brick wall 
                         imgY = 700;
                         imgX = 100;
                         break;
