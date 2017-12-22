@@ -31,6 +31,8 @@ class Backpack {
         this.processItem = false;
         this.rollAndDrop = false;
         this.show = false;
+
+        this.isOpened = false;
     }
 
     update(pos) {

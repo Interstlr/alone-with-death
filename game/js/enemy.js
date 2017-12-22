@@ -1,8 +1,8 @@
 class Enemy {
-    constructor(x, y, r, spriteSet) {
+    constructor(x, y, r, spriteSet, moveSpeed) {
         this.r = r;
         this.pos = createVector(x, y);
-        this.moveSpeed = 2;
+        this.moveSpeed = moveSpeed || 2;
         this.color = color(255);
         this.animation = new Animation(spriteSet);
 

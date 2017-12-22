@@ -8,11 +8,12 @@ class Bar {
         this.strokeCol = null;
     }
 
-    update(barsX, barsY) {
+    render(barsX, barsY) {
         fill(this.col);
         stroke(this.strokeCol);
         rect(barsX, barsY, this.w, this.h, this.cornerRad);
     }
+
 }
 
 class HealthBar extends Bar {
@@ -28,8 +29,14 @@ class HungerBar extends Bar {
     constructor(color) {
         super();
         this.col = color;
-        this.strokeCol = '#18a329';
+        this.strokeCol = '#138221';
     }
+
+    update() {
+        this.w -= 0.015;
+        this.value -= 0.015;
+    }
+
 }
 
 class EnduranceBar extends Bar {
@@ -45,5 +52,10 @@ class ThirstBar extends Bar {
         super();
         this.col = color;
         this.strokeCol = '#1c407a';
+    }
+
+    update() {
+        this.w -= 0.01;
+        this.value -= 0.02;
     }
 }

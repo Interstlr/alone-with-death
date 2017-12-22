@@ -82,24 +82,20 @@ function setup() {
     frameRate(60);
     createCanvas(WIN_WIDTH, WIN_HEIGHT);
 
-    player = new Player(ENTITY_DIAMETR / 2, {'x': 2500, 'y': 1700}, playerSprites);
+    player = new Player(ENTITY_DIAMETR / 2, {'x': 3500, 'y': 2000}, playerSprites);
     map = new Map(
         {
             'x': 0,
             'y': 0
         },
-        {
-            'x': MAP_SHOOTER_X,
-            'y': MAP_SHOOTER_Y
-        }
     );
 
     map.imagesSet = images;
-    map.createMap(jsonMap, MAP_SHOOTER_X, MAP_SHOOTER_Y);
+    map.createMap(jsonMap);
 
 
     itemsGenerator = new Generation(map.map, jsonItems, jsonWeapon, player, enemies, zimbieSprites);
-    itemsGenerator.createGenerationArea(map.map);
+    itemsGenerator.createGenerationArea(map);
     setInterval(function() {
         itemsGenerator.findEnemiesOnScreen(enemies, player.pos);
     }.bind(this), 2000);
@@ -127,12 +123,6 @@ function setup() {
         fpsValue = frameRate().toFixed(0);
     }.bind(this), 500);
 
-    itemsGenerator.addWeapon(200, 200, 1);
-    itemsGenerator.addWeapon(300, 200, 2);
-    itemsGenerator.addWeapon(400, 200, 3);
-    itemsGenerator.addThing(500, 200, 0);
-    itemsGenerator.addThing(600, 200, 1);
-
 }
 
 function draw() {
@@ -145,13 +135,15 @@ function draw() {
         return;
     }
 
+    background(BGCOLOR_ALMOSTBLACK);
+
     camera(player.pos.x - WIN_WIDTH_HALF, player.pos.y - WIN_HEIGHT_HALF);
 
     map.update(player.pos);
 
     blood.update();
 
-    itemsGenerator.generateItem();
+    itemsGenerator.generateItems();
     itemsGenerator.updateItems();
 
     itemsGenerator.generateEnemy();
@@ -166,7 +158,9 @@ function draw() {
         'enemiesNum': enemies.length
     });
 
+    player.updateStateBarsArcadeMode();
     player.update(map);
+    
 }
 
 function setStandartPlayerKit() {

@@ -31,38 +31,209 @@ class Map {
                 let imgX = 0, imgY = 0;
 
                 switch(json.layers[0].data[jsonIndex]) {
-                    case 1: //grass
+                    case 0: //black tile
+                        imgY = 900;
                         break;
-                    case 2: //dry ground
+                    case 1: //grass top-left
+                        break;
+                    case 2: //grass top
                         imgX = 100;
                         break;
-                    case 3: //house entrance
+                    case 3: //grass top-right
                         imgX = 200;
                         break;
-                    case 4: //green roof
-                        imgX = 300;
-                        break;
-                    case 11: //sand
+                    case 11: //grass left
                         imgY = 100;
                         break;
-                    case 21: //brick wall 
+                    case 12: //grass center
+                        imgX = 100;
+                        imgY = 100;
+                        break;
+                    case 13: //grass right
+                        imgX = 200;
+                        imgY = 100;
+                        break;
+                    case 21: //grass down-left
                         imgY = 200;
                         break;
-                    case 22: //ruined brick wall
+                    case 22: //grass down
                         imgX = 100;
                         imgY = 200;
                         break;
-                    case 31: //wooden floor
+                    case 23: //grass down-right
+                        imgX = 200;
+                        imgY = 200;
+                        break;
+
+                    case 4: //ground top-left
+                        imgX = 300;
+                        break;
+                    case 5: //ground top
+                        imgX = 400;
+                        break;
+                    case 6: //ground top-right
+                        imgX = 500;
+                        break;
+                    case 14: //ground left
+                        imgX = 300;
+                        imgY = 100;
+                        break;
+                    case 15: //ground center
+                        imgX = 400;
+                        imgY = 100;
+                        break;
+                    case 16: //ground right
+                        imgX = 500;
+                        imgY = 100;
+                        break;
+                    case 24: //ground down-left
+                        imgX = 300;
+                        imgY = 200;
+                        break;
+                    case 25: //ground down
+                        imgX = 400;
+                        imgY = 200;
+                        break;
+                    case 26: //ground down-right
+                        imgX = 500;
+                        imgY = 200;
+                        break;
+                    case 4: //ground top-left
+                        imgX = 300;
+                        break;
+                    case 5: //ground top
+                        imgX = 400;
+                        break;
+                    case 6: //ground top-right
+                        imgX = 500;
+                        break;
+                    case 14: //ground left
+                        imgX = 300;
+                        imgY = 100;
+                        break;
+                    case 15: //ground center
+                        imgX = 400;
+                        imgY = 100;
+                        break;
+                    case 16: //ground right
+                        imgX = 500;
+                        imgY = 100;
+                        break;
+                    case 24: //ground down-left
+                        imgX = 300;
+                        imgY = 200;
+                        break;
+                    case 25: //ground down
+                        imgX = 400;
+                        imgY = 200;
+                        break;
+                    case 26: //ground down-right
+                        imgX = 500;
+                        imgY = 200;
+                        break;
+
+                    case 31: //water top-left
                         imgY = 300;
                         break;
-                    case 41: //infinite wall
+                    case 32: //water top
+                        imgY = 300;
+                        imgX = 100;
+                        break;
+                    case 33: //water top-right
+                        imgY = 300;
+                        imgX = 200;
+                        break;
+                    case 41: //water left
                         imgY = 400;
                         break;
-                    case 17: //water
+                    case 42: //water center
+                        imgX = 100;
+                        imgY = 400;
+                        break;
+                    case 43: //water right
+                        imgY = 400;
+                        imgX = 200;
+                        break;
+                    case 51: //water down-left
+                        imgY = 500;
+                        break;
+                    case 52: //water down
+                        imgX = 100;
+                        imgY = 500;
+                        break;
+                    case 53: //water down-right
+                        imgX = 200;
+                        imgY = 500;
+                        break;
+
+                    case 71: //brick wall 
                         imgY = 700;
                         break;
-                    case 0: //black tile
+                    case 71: //infinite brick wall 
+                        imgY = 700;
+                        imgX = 100;
+                        break;
+                    case 63: //ruined brick wall | gray
+                        imgX = 200;
                         imgY = 600;
+                        break;
+                    case 64: //ruined brick wall | grass
+                        imgX = 300;
+                        imgY = 600;
+                        break;
+                    case 81: //concrete wall
+                        imgY = 800;
+                        break;
+                    case 82: //infinite wall
+                        imgX = 100;
+                        imgY = 800;
+                        break;
+                    case 83: //wooden floor
+                        imgY = 800;
+                        imgX = 200;
+                        break;
+                    case 73: //gray roof
+                        imgX = 200;
+                        imgY = 700;
+                        break;
+
+                    //roads
+                    case 7:
+                        imgX = 600;
+                        break;
+                    case 8:
+                        imgX = 700;
+                        break;
+                    case 9: //zebra vert
+                        imgX = 800;
+                        break;
+                    case 17:
+                        imgX = 600;
+                        imgY = 100;
+                        break;
+                    case 18:
+                        imgX = 700;
+                        imgY = 100;
+                        break;
+                    case 19: //zebra vert
+                        imgX = 800;
+                        imgY = 100;
+                        break;
+                    case 27:
+                        imgX = 600;
+                        imgY = 200;
+                        break;
+                    case 28:
+                        imgX = 700;
+                        imgY = 200;
+                        break;
+
+                    case 61: //sidewalk 
+                        imgY = 600;
+                        break;
+                    case 62: //building entrance 
+                        imgY = 600;
+                        imgX = 100;
                         break;
                 }
 
@@ -107,7 +278,7 @@ class Map {
                 dH = this.map.length;
             }
         }
-        
+
         for(let i = lW; i < rW; i++) {
             for(let j = uH; j < dH; j++) {
                 if(!this.map[j][i]) {

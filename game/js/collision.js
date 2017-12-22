@@ -126,3 +126,30 @@ function determineObjectTilePos(objPos, map) {
 
     return obj;
 }
+
+function handleCollisionBorders(playerPos, mapSize) {
+    let mapFullX = mapSize.x  * TILE_H;
+    let mapFullY = mapSize.y  * TILE_H;
+
+    let dist = 20;
+
+    //down
+    if(playerPos.y >= mapFullY - dist) {
+        playerPos.y = mapFullY - dist;
+    }
+
+    //up
+    if(playerPos.y <= dist) {
+        playerPos.y = dist;
+    }
+
+    //right
+    if(playerPos.x >= mapFullX - dist) {
+        playerPos.x = mapFullX - dist;
+    }
+
+    //left
+    if(playerPos.x <= dist) {
+        playerPos.x = dist;
+    }
+}

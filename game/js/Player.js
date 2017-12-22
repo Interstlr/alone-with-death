@@ -1,5 +1,5 @@
 class Player {
-    constructor(radius, windowDimentions, playerSprites, mapSize) {
+    constructor(radius, windowDimentions, playerSprites, minimapImg) {
 		this.r = radius;
 		this.rHand = (radius / 4) | 0;
 		this.pos = {'x': windowDimentions.x / 2, 'y': windowDimentions.y / 2};
@@ -11,6 +11,8 @@ class Player {
 
 		this.inventory = new Inventory();
 		this.backpack = new Backpack();
+
+		this.minimap = new Minimap(minimapImg);
 
 		this.queueBullets = null;
 
@@ -26,7 +28,6 @@ class Player {
 		this.enduranceBar = new EnduranceBar(ENDURANCE_BAR_COLOR);
 
 		this.score = new Score();
-		this.mapSize = mapSize;
 
 		this.playerSprites = playerSprites;
 		this.currentSprite = playerSprites[0];
@@ -38,12 +39,14 @@ class Player {
 		
 		this.entrancePause = true;
 		
+		this.actionKeyPressed = false;
+		
 
 		//this.animationIdle = new Animation(playerSprites); 
 		//this.currentWeaponNumber = 0;
 	}
 
-	update(map) {
+	update(map, itemsGenerator) {
 		
 		push();
 
@@ -76,19 +79,22 @@ class Player {
 			'pos': this.pos
 		});
 
+		this.minimap.update(this.pos);
+
 		this.backpack.update(this.pos);
 
 		this.handlingItems();
 
 		this.score.update(this.pos);
-
-		//state bars
-		this.updateStateBars();
 		
 		this.controller();
+	
+		if(map.activeMap !== 'world') {
+			handleCollisionBorders(this.pos, map.mapSize);
+		}
 		
 		const collistionObject = handleCollisionWalls(this.pos, map);
-		this.checkEntranceTile(map, collistionObject);
+		this.checkEntranceTile(map, collistionObject, itemsGenerator);
 
 		if(this.healthBar.w <= 1) {
 			gameOver = true;
@@ -111,7 +117,65 @@ class Player {
 		return this.healthBar.value;
 	}
 
-	checkEntranceTile(map, collistionObject) {
+	updateStateBarsArcadeMode() {
+		push();
+		strokeWeight(2);
+
+		this.barsX = this.pos.x - WIN_WIDTH_HALF + 10;
+		this.barsY = this.pos.y + 225;
+
+		this.healthBar.render(this.barsX, this.barsY);
+		this.enduranceBar.render(this.barsX, this.barsY + 25);
+
+		pop();
+
+		if(this.enduranceBar.w < 150 && !this.blockRunning) {
+			this.enduranceBar.w += 0.1;
+		}
+		if(this.blockRunning) {
+			setTimeout(() => {
+				this.blockRunning = false;
+			}, 3000);
+		}
+	}
+
+	updateStateBarsSurvivalMove() {
+		push();
+		strokeWeight(2);
+
+		this.hungerBar.w -= 0.01;
+		this.thirstBar.w -= 0.02;
+
+		this.barsX = this.pos.x - WIN_WIDTH_HALF + 10;
+		this.barsY = this.pos.y + 100;
+
+		this.healthBar.render(this.barsX, this.barsY);
+		this.hungerBar.render(this.barsX, this.barsY + 25);
+		this.thirstBar.render(this.barsX, this.barsY + 50);
+		this.enduranceBar.render(this.barsX, this.barsY + 75);
+		pop();
+
+		
+		//check status bars
+		if(this.enduranceBar.w < 150 && !this.blockRunning) {
+			this.enduranceBar.w += 0.1;
+		}
+		if(this.blockRunning) {
+			setTimeout(() => {
+				this.blockRunning = false;
+			}, 3000);
+		}
+
+		if(this.hungerBar.w <= 1) {
+			gameOver = true;
+		}
+		if(this.thirstBar.w <= 1) {
+			gameOver = true;
+		}
+	}
+
+	checkEntranceTile(map, collistionObject, itemsGenerator) {
+
 		if(map.map[collistionObject.objTile.objTileY][collistionObject.objTile.objTileX]) {
 
 			/*
@@ -134,59 +198,48 @@ class Player {
 			}
 			*/
 
-			if(map.map[collistionObject.objTile.objTileY][collistionObject.objTile.objTileX].hasOwnProperty('isHouseEntrance')) {
+			if(map.map[collistionObject.objTile.objTileY][collistionObject.objTile.objTileX].hasOwnProperty('isHouseEntrance') && this.actionKeyPressed) {
+				this.actionKeyPressed = false;
 				if(map.activeMap === 'world') {
-					//this.entrancePause = false;
 
 					map.activeMap = 'house';
+
 					let randHouseNumber = randInt(0, map.locationsHouses.length - 1);
 					let playerPos = map.locationsHouses[randHouseNumber].properties;
 					let houseMap = map.locationsHouses[randHouseNumber];
 					
 					this.savedPosX = this.pos.x;
 					this.savedPosY = this.pos.y;
+
 					map.createMap(houseMap);
 					itemsGenerator.createGenerationArea(map);
 
 					this.pos.x = playerPos.playerStartX;
 					this.pos.y = playerPos.playerStartY;
 					
-					enemies.length = 0;
+					itemsGenerator.enemies.length = 0;
 					blood.bloodList.length = 0;
 
-				} else if(map.activeMap === 'house') {
+					itemsGenerator.generateEnemyAmount(randInt(0, 5));
+					
+					return;
+
+				}
+				if(map.activeMap === 'house') {
+
 					map.activeMap = 'world';
-					map.activeMap = jsonMap;
 					map.createMap(jsonMap);
+					itemsGenerator.enemies.length = 0;
+					blood.bloodList.length = 0;
+
 					this.pos.x = this.savedPosX;
-					this.pos.y = this.savedPosY + 100;
+					this.pos.y = this.savedPosY + 50;
+
 					itemsGenerator.createGenerationArea(map);
+
+					return;
 				}
 			}
-		}
-	}
-
-	updateStateBars() {
-		push();
-		strokeWeight(2);
-		//this.hungerBar.w -= 0.01;
-
-		this.barsX = this.pos.x - WIN_WIDTH_HALF + 10;
-		this.barsY = this.pos.y + 225;
-		this.healthBar.update(this.barsX, this.barsY);
-		
-		//this.hungerBar.update(this.barsX, this.barsY + 25);
-		//this.coldBar.update(this.barsX, this.barsY + 25);
-		this.enduranceBar.update(this.barsX, this.barsY + 25);
-		pop();
-
-		if(this.enduranceBar.w < 150 && !this.blockRunning) {
-			this.enduranceBar.w += 0.1;
-		}
-		if(this.blockRunning) {
-			setTimeout(() => {
-				this.blockRunning = false;
-			}, 3000);
 		}
 	}
 
@@ -211,7 +264,7 @@ class Player {
 		}
 
 		//fire
-		if(keyIsDown(32) || mouseIsPressed) {
+		if((keyIsDown(32) || mouseIsPressed) && !this.backpack.show) {
 			if(this.currentWeaponInHand instanceof Weapon){
 				this.currentWeaponInHand.makeShot(this);
 			}
@@ -306,7 +359,6 @@ class Player {
 				this.currentSprite = playerSprites[0];
 				break;
 		}
-	
 	}
 
 	processingCurrentInventorySbj(index) {

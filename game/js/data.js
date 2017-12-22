@@ -24,6 +24,8 @@ const REND_MAP_DOWN = ((WIN_HEIGHT_HALF / TILE_H) | 0) + 2;
 const PLAYER_COLOR = '#8db0e8';
 const ENEMY_COLOR = '#f73b3b';
 const BGCOLOR_GRAY = '#686868';
+const BGCOLOR_BLACK = '#000000';
+const BGCOLOR_BLUE = '#5abcd8';
 const BGCOLOR_ALMOSTBLACK = '#080808';
 const GRASS_COLOR = '#2e8c27';
 const HP_BAR_COLOR = '#c01111';
@@ -40,7 +42,7 @@ const AMMO_WIDTH = 60;
 const AMMO_HEIGHT = 60;
 
 //paths
-const SHOOTER_MAP_JSON_PATH = '../game/js/shooterModeMAP.json';
+const SHOOTER_MAP_JSON_PATH = '../game/js/arcadeModeMAP.json';
 const SURVIVAL_MAP_JSON_PATH = '../game/js/survivalModeMAP.json';
 const HOUSE1_JSON_PATH = '../game/js/json/house1.json';
 const HOUSE2_JSON_PATH = '../game/js/json/house2.json';

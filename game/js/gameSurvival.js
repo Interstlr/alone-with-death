@@ -37,7 +37,7 @@ let keyIsPressed = false;
 
 let font;
 
-let wavesEnemies;
+let minimapImage;
 
 let fpsValue;
 
@@ -52,6 +52,8 @@ function preload() {
     jsonBunkerMap = loadJSON(BUNKER_JSON_PATH);
     jsonItems = loadJSON(ITEMS_JSON_PATH);
     jsonWeapon = loadJSON(WEAPON_JSON_PATH);
+
+    minimapImage = loadImage('../game/img/minimap.png');
 
     font = loadFont('../game/fonts/SquadaOne-Regular.ttf');
     
@@ -95,7 +97,16 @@ function setup() {
     frameRate(60);
     createCanvas(WIN_WIDTH, WIN_HEIGHT);
 
-    player = new Player(ENTITY_DIAMETR / 2, {'x': 2500, 'y': 1700}, playerSprites);
+    player = new Player(
+        ENTITY_DIAMETR / 2,
+        {
+            'x': 2500,
+            'y': 1700
+        },
+        playerSprites,
+        minimapImage
+    );
+    
     map = new Map(
         {
             'x': 0,
@@ -113,14 +124,12 @@ function setup() {
     map.locationsHouses.push(jsonHouse5);
 
     itemsGenerator = new Generation(map.map, jsonItems, jsonWeapon, player, enemies, zimbieSprites);
-    itemsGenerator.createGenerationArea(map, );
+    itemsGenerator.createGenerationArea(map);
     setInterval(function() {
         itemsGenerator.findEnemiesOnScreen(enemies, player.pos);
     }.bind(this), 2000);
 
     blood = new Blood();
-
-    background(BGCOLOR_GRAY);
 
     sounds.glock17.setVolume(0.3);
     sounds.glock17Reload.setVolume(0.3);
@@ -138,11 +147,11 @@ function setup() {
         fpsValue = frameRate().toFixed(0);
     }.bind(this), 500);
 
-    //itemsGenerator.addWeapon(200, 200, 1);
-    //itemsGenerator.addWeapon(300, 200, 2);
-    //itemsGenerator.addWeapon(400, 200, 3);
-    //itemsGenerator.addThing(500, 200, 0);
-    //itemsGenerator.addThing(600, 200, 1);
+    itemsGenerator.addWeapon(2000, 2000, 1);
+    itemsGenerator.addWeapon(2100, 2000, 2);
+    itemsGenerator.addWeapon(2200, 2000, 3);
+    itemsGenerator.addThing(2300, 2000, 0);
+    itemsGenerator.addThing(2400, 2000, 1);
 
 }
 
@@ -156,7 +165,11 @@ function draw() {
         return;
     }
 
-    background(BGCOLOR_ALMOSTBLACK);
+    if(map.activeMap === 'world') {
+        background(BGCOLOR_BLUE);
+    } else {
+        background(BGCOLOR_BLACK);
+    }
 
     camera(player.pos.x - WIN_WIDTH_HALF, player.pos.y - WIN_HEIGHT_HALF);
 
@@ -164,11 +177,11 @@ function draw() {
 
     blood.update();
 
-    itemsGenerator.generateItem();
+    itemsGenerator.generateItems();
     itemsGenerator.updateItems();
 
     //itemsGenerator.generateEnemy();
-    //itemsGenerator.updateEnemies(map, player);
+    itemsGenerator.updateEnemiesSurvivalMode(map, player);
 
     printTechData( {
         'xPlayer': player.pos.x, 
@@ -177,7 +190,9 @@ function draw() {
         'enemiesNum': enemies.length
     });
 
-    player.update(map);
+    player.updateStateBarsSurvivalMove();
+    player.update(map, itemsGenerator);
+    
 }
 
 function setStandartPlayerKit() {
@@ -188,14 +203,34 @@ function setStandartPlayerKit() {
     item.pos.y = 0;
     player.putThingInInventory(new Weapon(item));
     player.currentWeaponInHand = player.inventory.getItem(0);
-
     itemsGenerator.generatedWeaponNames.push(item.name);
+    //
 }
 
 function keyPressed() {
     keyIsPressed = true;
+    if(keyCode == 70) {
+        player.actionKeyPressed = true;
+    }
 }
 
 function keyReleased() {
     keyIsPressed = false;
+    if(keyCode == 70) {
+        player.actionKeyPressed = false;
+    }
+
+    if(keyCode == 77) {
+        if(player.minimap.show) {
+            player.minimap.show = false;
+        } else {
+            player.minimap.show = true;
+        }
+    }
+}
+
+function keyTyped() {
+    if(player.backpack.show) {
+        
+    }
 }
