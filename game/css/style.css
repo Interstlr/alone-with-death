@@ -117,7 +117,6 @@ html {
     background: url('../img/game-over.jpg') center center no-repeat;
     background-size: 100%;
     font-family: "DeadKansas", Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-<<<<<<< HEAD
 }
 
 .finishMenu {
@@ -128,6 +127,4 @@ html {
 .screens {
     display: flex;
     justify-content: space-between;
-=======
->>>>>>> 0998f188f390bc880fce502b2c15b6ef944dbfb0
 }
